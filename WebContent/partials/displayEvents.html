@@ -1,0 +1,21 @@
+
+
+
+<div ng-controller="eventCtrl">
+
+
+
+	<uib-accordion>
+	<div ng-repeat="e in events">
+		<div uib-accordion-group class="panel-info" heading="{{e.eventName}}">
+			<p>{{e.details}}</p>
+			<p>{{e.gender}}</p>
+
+			<button class="btn btn-success"
+				ng-click="registerForEvent(e.eventId)">Register for event</button>
+			<button class="btn btn-warning" ng-click="applyAsReferee(e.eventId)">Apply
+				as referee</button>
+		</div>
+	</div>
+	</uib-accordion>
+</div>
