@@ -2,8 +2,6 @@ package com.dto.vesit;
 
 import java.util.List;
 
-import com.project.vesit.Team;
-
 public class Event {
 
 	private int eventId;
@@ -12,8 +10,12 @@ public class Event {
 	private String gender;
 	private int parallelMatches;
 	private String details;
+	private List<Game> games;
+	private int maxPlayers;
+	private int maxTeams;
 
-	public Event(int eventId, String eventName, List<Team> teams, String gender, int parallelMatches, String details) {
+	public Event(int eventId, String eventName, List<Team> teams, String gender, int parallelMatches, String details,
+			List<Game> games, int maxPlayers, int maxTeams) {
 		super();
 		this.eventId = eventId;
 		this.eventName = eventName;
@@ -21,6 +23,9 @@ public class Event {
 		this.gender = gender;
 		this.parallelMatches = parallelMatches;
 		this.details = details;
+		this.games = games;
+		this.maxPlayers = maxPlayers;
+		this.maxTeams = maxTeams;
 	}
 
 	public Event(int eventId, String eventName, String gender, int parallelMatches, String details) {
@@ -94,6 +99,30 @@ public class Event {
 
 	public void setDetails(String details) {
 		this.details = details;
+	}
+
+	public List<Game> getGames() {
+		return games;
+	}
+
+	public void setGames(List<Game> games) {
+		this.games = games;
+	}
+
+	public int getMaxPlayers() {
+		return maxPlayers;
+	}
+
+	public void setMaxPlayers(int maxPlayers) {
+		this.maxPlayers = maxPlayers;
+	}
+
+	public int getMaxTeams() {
+		return maxTeams;
+	}
+
+	public void setMaxTeams(int maxTeams) {
+		this.maxTeams = maxTeams;
 	}
 
 }
