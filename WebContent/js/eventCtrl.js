@@ -13,21 +13,38 @@ app.controller('eventCtrl', function($scope, $http, $localStorage, $location) {
 	}
 	init();
 
+	function getMaxNumParticipants(eventId) {
+		for (e in $scope.events) {
+			if (e.eventId == eventId) {
+				return e.maxPlayers;
+			}
+		}
+	}
 	$scope.registerForEvent = function(eventId) {
+		if (getMaxNumParticipants() == 1) {
+			$http.get('project/registerForEvent/' + 1 + '/' + eventId).then(
+					function(userdata) {
+						console.log(userdata.data);
 
+<<<<<<< HEAD
 		$http.get('project/registerForIndEvent/' + 1 + '/' + eventId).then(
 				function(userdata) {
 					console.log(userdata.data);
 
 					bootbox.alert("registered");
 					$location.path("/register");
+=======
+						bootbox.alert("registered");
+						$location.path("/register");
+>>>>>>> shubham
 
-				}, function error(userdata) {
-					console.log(userdata);
+					}, function error(userdata) {
+						console.log(userdata);
 
-					bootbox.alert("registered failed");
+						bootbox.alert("registered failed");
 
-				});
+					});
+		}
 
 	};
 	$scope.applyAsReferee = function(eventId) {
@@ -37,9 +54,9 @@ app.controller('eventCtrl', function($scope, $http, $localStorage, $location) {
 				function(response) {
 					console.log(response.data);
 					if (response.data == -1) {
-						bootbox.alert("you have already registered");
+						bootbox.alert("You have already registered");
 					} else {
-						bootbox.alert("registered");
+						bootbox.alert("Registered successfully");
 					}
 
 				}, function error(userdata) {
