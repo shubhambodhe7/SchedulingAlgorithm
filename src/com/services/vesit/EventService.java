@@ -48,4 +48,12 @@ public class EventService {
 			return -1;
 	}
 
+	public int registerForIndEvent(int userId, int eventId) {
+		// TODO Auto-generated method stub
+		// if (!ed.checkIfAlreadyRegisteredForEvent(userId, eventId)) {
+		// return ed.registerForIndEvent(userId, eventId);
+		// } else
+		return 1;
+	}
+
 }

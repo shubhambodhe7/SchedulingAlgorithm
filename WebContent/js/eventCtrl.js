@@ -15,7 +15,7 @@ app.controller('eventCtrl', function($scope, $http, $localStorage, $location) {
 
 	$scope.registerForEvent = function(eventId) {
 
-		$http.get('project/registerForEvent/' + 1 + '/' + eventId).then(
+		$http.get('project/registerForIndEvent/' + 1 + '/' + eventId).then(
 				function(userdata) {
 					console.log(userdata.data);
 
