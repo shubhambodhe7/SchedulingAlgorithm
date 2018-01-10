@@ -25,7 +25,7 @@ app.controller('eventCtrl', function($scope, $http, $localStorage, $location) {
 				}, function error(userdata) {
 					console.log(userdata);
 
-					bootbox.alert("registered failed");
+					bootbox.alert("Registration failed");
 
 				});
 
