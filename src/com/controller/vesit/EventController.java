@@ -34,5 +34,10 @@ public class EventController {
 			throws NoSuchAlgorithmException {
 		return es.registerAsEventHead(userId, eventId);
 	}
+	@RequestMapping(value = "/registerForIndEvent/{userId}/{eventId}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody int registerForIndEvent(@PathVariable int userId, @PathVariable int eventId)
+			throws NoSuchAlgorithmException {
+		return es.registerForIndEvent(userId, eventId);
+	}
 
 }

@@ -27,8 +27,17 @@ app.controller('eventCtrl', function($scope, $http, $localStorage, $location) {
 					function(userdata) {
 						console.log(userdata.data);
 
+<<<<<<< HEAD
+		$http.get('project/registerForIndEvent/' + 1 + '/' + eventId).then(
+				function(userdata) {
+					console.log(userdata.data);
+
+					bootbox.alert("registered");
+					$location.path("/register");
+=======
 						bootbox.alert("registered");
 						$location.path("/register");
+>>>>>>> shubham
 
 					}, function error(userdata) {
 						console.log(userdata);
