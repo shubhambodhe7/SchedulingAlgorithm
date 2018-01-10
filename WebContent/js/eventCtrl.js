@@ -11,7 +11,7 @@ app.controller('eventCtrl', function($scope, $http, $localStorage, $location) {
 		});
 		// $location.path('/register');
 	}
-	
+
 	init();
 
 	function getMaxNumParticipants(eventId) {
@@ -23,26 +23,17 @@ app.controller('eventCtrl', function($scope, $http, $localStorage, $location) {
 	}
 	$scope.registerForEvent = function(eventId) {
 		if (getMaxNumParticipants() == 1) {
-			$http.get('project/registerForEvent/' + 1 + '/' + eventId).then(
+			$http.get('project/registerForIndEvent/' + 1 + '/' + eventId).then(
 					function(userdata) {
 						console.log(userdata.data);
 
-<<<<<<< HEAD
-		$http.get('project/registerForIndEvent/' + 1 + '/' + eventId).then(
-				function(userdata) {
-					console.log(userdata.data);
-
-					bootbox.alert("registered");
-					$location.path("/register");
-=======
 						bootbox.alert("registered");
 						$location.path("/register");
->>>>>>> shubham
 
 					}, function error(userdata) {
 						console.log(userdata);
 
-						bootbox.alert("registered failed");
+						bootbox.alert("Registration failed");
 
 					});
 		}
