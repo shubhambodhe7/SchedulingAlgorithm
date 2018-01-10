@@ -11,6 +11,7 @@ app.controller('eventCtrl', function($scope, $http, $localStorage, $location) {
 		});
 		// $location.path('/register');
 	}
+	
 	init();
 
 	function getMaxNumParticipants(eventId) {
