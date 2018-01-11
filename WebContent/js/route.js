@@ -1,5 +1,9 @@
 var app = angular.module("app", [ "ngRoute", "ngStorage", 'ui.bootstrap',
-		'ngSanitize', 'ngAnimate' ]);
+		'ngSanitize', 'ngAnimate' ,
+        'long2know',
+        'ui.bootstrap',
+        'ui.router',
+        'ui']);
 
 app.service('authenticate', function($http) {
 
@@ -29,6 +33,8 @@ app.config(function($routeProvider) {
 		templateUrl : "partials/login.html"
 	}).when("/displayEvents", {
 		templateUrl : "partials/displayEvents.html"
+	}).when("/teamRegister", {
+		templateUrl : "partials/teamRegister.html"
 	}).otherwise({
 		redirect : '/'
 	});
