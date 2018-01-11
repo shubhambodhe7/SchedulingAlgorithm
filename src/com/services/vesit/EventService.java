@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dao.vesit.EventDao;
 import com.dto.vesit.Event;
+import com.dto.vesit.Team;
 
 @Service
 public class EventService {
@@ -50,9 +51,15 @@ public class EventService {
 
 	public int registerForIndEvent(int userId, int eventId) {
 		// TODO Auto-generated method stub
-		// if (!ed.checkIfAlreadyRegisteredForEvent(userId, eventId)) {
-		// return ed.registerForIndEvent(userId, eventId);
-		// } else
+		/*
+		 * if (!ed.checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
+		 * return ed.registerForIndEvent(userId, eventId); } else
+		 */return 1;
+	}
+
+	public int registerForTeamEvent(Team team) {
+		// TODO Auto-generated method stub
+		//return ed.registerForTeamEvent(team);
 		return 1;
 	}
 

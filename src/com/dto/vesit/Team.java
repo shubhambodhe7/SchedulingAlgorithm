@@ -7,8 +7,10 @@ public class Team {
 	private String teamName;
 	private List<Player> players;
 	private boolean scheduled;
-	private int sportId;
+	private int eventId;
 	private int gameId;
+	private String dept;
+	private int yearOfEng;
 
 	public int getTeamId() {
 		return teamId;
@@ -18,12 +20,14 @@ public class Team {
 		this.teamId = teamId;
 	}
 
-	public int getSportId() {
-		return sportId;
+	
+
+	public int getEventId() {
+		return eventId;
 	}
 
-	public void setSportId(int sportId) {
-		this.sportId = sportId;
+	public void setEventId(int eventId) {
+		this.eventId = eventId;
 	}
 
 	public int getGameId() {
@@ -58,12 +62,29 @@ public class Team {
 		this.players = players;
 	}
 
-	public Team(int teamId, String teamName, boolean scheduled, int sportId, int gameId) {
+	
+	public String getDept() {
+		return dept;
+	}
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+
+	public int getYearOfEng() {
+		return yearOfEng;
+	}
+
+	public void setYearOfEng(int yearOfEng) {
+		this.yearOfEng = yearOfEng;
+	}
+
+	public Team(int teamId, String teamName, boolean scheduled, int eventId, int gameId) {
 		super();
 		this.teamId = teamId;
 		this.teamName = teamName;
 		this.scheduled = scheduled;
-		this.sportId = sportId;
+		this.eventId = eventId;
 		this.gameId = gameId;
 	}
 
@@ -72,7 +93,7 @@ public class Team {
 	@Override
 	public String toString() {
 		return "Team [teamId=" + teamId + ", teamName=" + teamName + ", players=" + players + ", scheduled=" + scheduled
-				+ ", sportId=" + sportId + ", gameId=" + gameId + "]";
+				+ ", eventId=" + eventId + ", gameId=" + gameId + "]";
 	}
 
 }

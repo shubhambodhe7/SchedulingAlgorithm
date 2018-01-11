@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dto.vesit.Event;
+import com.dto.vesit.Team;
 import com.services.vesit.EventService;
 
 @Controller
@@ -34,10 +35,16 @@ public class EventController {
 			throws NoSuchAlgorithmException {
 		return es.registerAsEventHead(userId, eventId);
 	}
+
 	@RequestMapping(value = "/registerForIndEvent/{userId}/{eventId}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody int registerForIndEvent(@PathVariable int userId, @PathVariable int eventId)
 			throws NoSuchAlgorithmException {
 		return es.registerForIndEvent(userId, eventId);
+	}
+
+	@RequestMapping(value = "/registerForTeamEvent", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody int registerForTeamEvent(@RequestBody Team team) throws NoSuchAlgorithmException {
+		return es.registerForTeamEvent(team);
 	}
 
 }
