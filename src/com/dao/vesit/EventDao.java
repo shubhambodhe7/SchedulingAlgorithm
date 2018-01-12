@@ -77,36 +77,35 @@ public class EventDao {
 		}
 		return true;
 	}
-	/*
-	 * public int registerForIndEvent(int userId, int eventId) {
-	 * 
-	 * for (Player p : team.getPlayers()) { jdbcTemplate.update(
-	 * "INSERT INTO public.player( player_id, team_id)    VALUES (?, ?)", new
-	 * Object[] { p.getPlayerId(), team.getTeamId() });
-	 * 
-	 * } int ret = jdbcTemplate.update(
-	 * "INSERT INTO public.team(team_name, dept, year_of_engg, scheduled, event_id)   VALUES ( ?, ?, ?, ?, ?)"
-	 * , new Object[] { team.getTeamName(), team.getDept(), team.getYearOfEng(),
-	 * false, team.getEventId() });
-	 * 
-	 * return ret;
-	 * 
-	 * }
-	 * 
-	 * public int registerForTeamEvent(Team team) {
-	 * 
-	 * for (Player p : team.getPlayers()) { jdbcTemplate.update(
-	 * "INSERT INTO public.player( player_id, team_id)    VALUES (?, ?)", new
-	 * Object[] { p.getPlayerId(), team.getTeamId() });
-	 * 
-	 * } int ret = jdbcTemplate.update(
-	 * "INSERT INTO public.team(team_name, dept, year_of_engg, scheduled, event_id)   VALUES ( ?, ?, ?, ?, ?)"
-	 * , new Object[] { team.getTeamName(), team.getDept(), team.getYearOfEng(),
-	 * false, team.getEventId() });
-	 * 
-	 * return ret;
-	 * 
-	 * }
-	 */
+
+	public int registerForIndEvent(int userId, int eventId) {
+
+		return 1;
+
+	}
+
+	public int registerForTeamEvent(Team team) {
+
+		int ret = jdbcTemplate.update(
+				"INSERT INTO public.team(team_name, dept, year_of_engg, scheduled, event_id)   VALUES ( ?, ?, ?, ?, ?)",
+				new Object[] { team.getTeamName(), team.getDept(), team.getYearOfEng(), false, team.getEventId() });
+
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(
+				"SELECT team_id FROM public.team t,public.player p where p.team_name = ? and t.event_id=?",
+				new Object[] { team.getTeamName(), team.getEventId() });
+
+		System.out.println("list" + list);
+		/*
+		 * if (null == list || list.isEmpty()) { return false; }
+		 * 
+		 * for (Player p : team.getPlayers()) { jdbcTemplate.update(
+		 * "INSERT INTO public.player( player_id, team_id)    VALUES (?, ?)",
+		 * new Object[] { p.getPlayerId(), team.getTeamId() });
+		 * 
+		 * }
+		 */
+		return ret;
+
+	}
 
 }
