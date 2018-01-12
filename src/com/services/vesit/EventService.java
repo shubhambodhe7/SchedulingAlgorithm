@@ -59,8 +59,8 @@ public class EventService {
 
 	public int registerForTeamEvent(Team team) {
 		// TODO Auto-generated method stub
-		//return ed.registerForTeamEvent(team);
-		return 1;
+		return ed.registerForTeamEvent(team);
+		// return 1;
 	}
 
 }
