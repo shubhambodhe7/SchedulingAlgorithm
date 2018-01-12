@@ -12,4 +12,6 @@
 		<servlet-name>Project</servlet-name>
 		<url-pattern>/project/*</url-pattern>
 	</servlet-mapping>
+
+
 </web-app>

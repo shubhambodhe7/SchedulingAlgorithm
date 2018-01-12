@@ -8,7 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="D:/Project/SchedulingAlgorithm/SchedulingAlgorithm/jars/postgresql-42.1.4.jar"/>
 	<classpathentry kind="lib" path="D:/Project/SchedulingAlgorithm/SchedulingAlgorithm/jars/antlr.jar"/>
 	<classpathentry kind="lib" path="D:/Project/SchedulingAlgorithm/SchedulingAlgorithm/jars/aopalliance.jar"/>
 	<classpathentry kind="lib" path="D:/Project/SchedulingAlgorithm/SchedulingAlgorithm/jars/commons-beanutils-1.8.3.jar"/>

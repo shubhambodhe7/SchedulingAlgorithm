@@ -17,7 +17,8 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver"></property>
-		<property name="url" value="postgres://zfntgvvv:r2NI0j7LUb2kbVnz4aTH5HjQg7OUZuiN@baasu.db.elephantsql.com:5432/zfntgvvv"></property>
+		<property name="url"
+			value="jdbc:postgresql://baasu.db.elephantsql.com:5432/zfntgvvv"></property>
 		<property name="username" value="zfntgvvv"></property>
 		<property name="password" value="r2NI0j7LUb2kbVnz4aTH5HjQg7OUZuiN"></property>
 	</bean>
