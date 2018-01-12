@@ -171,9 +171,7 @@ public class MainDBNew {
 		Connection c = null;
 		try {
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection(
-					"jdbc:postgresql://baasu.db.elephantsql.com:5432/zfntgvvv",
-					"zfntgvvv", "r2NI0j7LUb2kbVnz4aTH5HjQg7OUZuiN");
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "root");
 		} catch (Exception e) {
 			e.printStackTrace();
 
