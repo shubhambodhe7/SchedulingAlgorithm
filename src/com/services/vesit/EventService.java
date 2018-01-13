@@ -1,5 +1,6 @@
 package com.services.vesit;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.dao.vesit.EventDao;
 import com.dto.vesit.Event;
+import com.dto.vesit.Player;
 import com.dto.vesit.Team;
+import com.google.gson.Gson;
 
 @Service
 public class EventService {
@@ -61,9 +64,13 @@ public class EventService {
 		 */return 1;
 	}
 
-	public int registerForTeamEvent(Team team) {
+	public int registerForTeamEvent(Team team, String json) {
 		// TODO Auto-generated method stub
-		return ed.registerForTeamEvent(team);
+		Gson gson = new Gson();
+		Player[] playerArray = gson.fromJson(json, Player[].class);
+		List<Player> playerList = Arrays.asList(playerArray);
+		// System.out.println(playerList);
+		return ed.registerForTeamEvent(team, playerList);
 		// return 1;
 	}
 

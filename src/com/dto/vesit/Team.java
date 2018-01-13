@@ -12,6 +12,11 @@ public class Team {
 	private String dept;
 	private int yearOfEng;
 
+	public Team() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getTeamId() {
 		return teamId;
 	}
@@ -19,8 +24,6 @@ public class Team {
 	public void setTeamId(int teamId) {
 		this.teamId = teamId;
 	}
-
-	
 
 	public int getEventId() {
 		return eventId;
@@ -62,7 +65,6 @@ public class Team {
 		this.players = players;
 	}
 
-	
 	public String getDept() {
 		return dept;
 	}
@@ -87,8 +89,6 @@ public class Team {
 		this.eventId = eventId;
 		this.gameId = gameId;
 	}
-
-	
 
 	@Override
 	public String toString() {

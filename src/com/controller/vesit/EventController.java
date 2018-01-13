@@ -1,9 +1,12 @@
 package com.controller.vesit;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dto.vesit.Event;
 import com.dto.vesit.Team;
+import com.google.gson.Gson;
+import com.dto.vesit.Player;
 import com.services.vesit.EventService;
 
 @Controller
@@ -48,11 +53,18 @@ public class EventController {
 		return es.registerForIndEvent(userId, eventId);
 	}
 
-	@RequestMapping(value = "/registerForTeamEvent", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody int registerForTeamEvent(@RequestBody HashMap team) throws NoSuchAlgorithmException {
-
-		// return es.registerForTeamEvent(team.get(0));
-		return 0;
+	@RequestMapping(value = "/registerForTeamEvent/{teamName}/{dept}/{year}/{eventId}/{json}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody int registerForTeamEvent(@PathVariable String teamName, @PathVariable String dept,
+			@PathVariable String year, @PathVariable String eventId, @PathVariable String json)
+			throws NoSuchAlgorithmException {
+		Team t = new Team();
+		t.setTeamName(teamName);
+		t.setDept(dept);
+		t.setEventId(Integer.parseInt(eventId));
+		t.setYearOfEng(Integer.parseInt(year));
+		System.out.println(json);
+		return es.registerForTeamEvent(t, json);
+		// return 1;
 	}
 
 }

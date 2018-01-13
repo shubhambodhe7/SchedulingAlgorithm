@@ -9,6 +9,13 @@ public class Team {
 	private boolean scheduled;
 	private int sportId;
 	private int gameId;
+	
+	
+
+	public Team() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public int getTeamId() {
 		return teamId;

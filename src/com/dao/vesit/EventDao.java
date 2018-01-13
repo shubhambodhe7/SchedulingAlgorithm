@@ -90,26 +90,42 @@ public class EventDao {
 
 	}
 
-	public int registerForTeamEvent(Team team) {
-
+	public int registerForTeamEvent(Team team, List<Player> pList) {
+		List<Map<String, Object>> checklist = jdbcTemplate.queryForList(
+				"SELECT t.team_id FROM public.team t where t.team_name = ? and t.event_id=?",
+				new Object[] { team.getTeamName(), team.getEventId() });
+		System.out.println(checklist);
+		if (null != checklist && !checklist.isEmpty()) {
+			return -2;
+		}
+		for (Player p : pList) {
+			List<Map<String, Object>> checkplayerlist = jdbcTemplate.queryForList(
+					"SELECT p.player_id FROM public.team t ,public.player p where t.team_id = p.team_id and  p.player_id = ? and t.event_id=?",
+					new Object[] { p.getPlayerId(), team.getEventId() });
+			if (null != checkplayerlist && !checkplayerlist.isEmpty()) {
+				return -3;
+			}
+		}
 		int ret = jdbcTemplate.update(
 				"INSERT INTO public.team(team_name, dept, year_of_engg, scheduled, event_id)   VALUES ( ?, ?, ?, ?, ?)",
 				new Object[] { team.getTeamName(), team.getDept(), team.getYearOfEng(), false, team.getEventId() });
 
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(
-				"SELECT team_id FROM public.team t,public.player p where p.team_name = ? and t.event_id=?",
+				"SELECT t.team_id FROM public.team t where t.team_name = ? and t.event_id=?",
 				new Object[] { team.getTeamName(), team.getEventId() });
 
-		System.out.println("list" + list);
-		/*
-		 * if (null == list || list.isEmpty()) { return false; }
-		 * 
-		 * for (Player p : team.getPlayers()) { jdbcTemplate.update(
-		 * "INSERT INTO public.player( player_id, team_id)    VALUES (?, ?)",
-		 * new Object[] { p.getPlayerId(), team.getTeamId() });
-		 * 
-		 * }
-		 */
+		if (null == list || list.isEmpty()) {
+			return -1;
+		}
+		System.out.println("list" + list.get(0).get("team_id"));
+		int teamId = (int) list.get(0).get("team_id");
+
+		for (Player p : pList) {
+			jdbcTemplate.update("INSERT INTO public.player( player_id, team_id)    VALUES (?, ?)",
+					new Object[] { p.getPlayerId(), teamId });
+
+		}
+
 		return ret;
 
 	}
