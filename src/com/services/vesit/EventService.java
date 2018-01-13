@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.dao.vesit.EventDao;
 import com.dto.vesit.Event;
+import com.dto.vesit.Login;
 import com.dto.vesit.Player;
 import com.dto.vesit.Team;
 import com.google.gson.Gson;
@@ -48,6 +49,14 @@ public class EventService {
 		return ed.getEventDetails(eventId);
 	}
 
+	public List<Login> getEligibleEventHeads(int eventId) {
+		return ed.getEligibleEventHeads(eventId);
+	}
+
+	public List<Event> getPendingEventsForRefreeAssignment() {
+		return ed.getPendingEventsForRefreeAssignment();
+	}
+
 	public int registerAsEventHead(int userId, int eventId) {
 		// TODO Auto-generated method stub
 		if (!ed.checkIfAlreadyRegisteredEventHead(userId, eventId)) {
@@ -64,14 +73,25 @@ public class EventService {
 		 */return 1;
 	}
 
-	public int registerForTeamEvent(Team team, String json) {
-		// TODO Auto-generated method stub
+	public int registerForTeamEvent(String teamName, String dept, String year, String eventId, String json) {
+
+		Team t = new Team();
+		t.setTeamName(teamName);
+		t.setDept(dept);
+		t.setEventId(Integer.parseInt(eventId));
+		t.setYearOfEng(Integer.parseInt(year));
+		System.out.println(json);
+
 		Gson gson = new Gson();
 		Player[] playerArray = gson.fromJson(json, Player[].class);
 		List<Player> playerList = Arrays.asList(playerArray);
 		// System.out.println(playerList);
-		return ed.registerForTeamEvent(team, playerList);
+		return ed.registerForTeamEvent(t, playerList);
 		// return 1;
+	}
+
+	public int assignReferee(int eventId, int userId) {
+		return ed.assignReferee(eventId, userId);
 	}
 
 }

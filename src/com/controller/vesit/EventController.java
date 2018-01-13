@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dto.vesit.Event;
+import com.dto.vesit.Login;
 import com.dto.vesit.Team;
 import com.google.gson.Gson;
 import com.dto.vesit.Player;
@@ -41,6 +42,11 @@ public class EventController {
 		return es.getEventDetails(eventId);
 	}
 
+	@RequestMapping(value = "/getPendingEventsForRefreeAssignment", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<Event> getPendingEventsForRefreeAssignment() throws NoSuchAlgorithmException {
+		return es.getPendingEventsForRefreeAssignment();
+	}
+
 	@RequestMapping(value = "/registerAsEventHead/{userId}/{eventId}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody int registerAsEventHead(@PathVariable int userId, @PathVariable int eventId)
 			throws NoSuchAlgorithmException {
@@ -57,14 +63,19 @@ public class EventController {
 	public @ResponseBody int registerForTeamEvent(@PathVariable String teamName, @PathVariable String dept,
 			@PathVariable String year, @PathVariable String eventId, @PathVariable String json)
 			throws NoSuchAlgorithmException {
-		Team t = new Team();
-		t.setTeamName(teamName);
-		t.setDept(dept);
-		t.setEventId(Integer.parseInt(eventId));
-		t.setYearOfEng(Integer.parseInt(year));
-		System.out.println(json);
-		return es.registerForTeamEvent(t, json);
+
+		return es.registerForTeamEvent(teamName, dept, year, eventId, json);
 		// return 1;
 	}
 
+	@RequestMapping(value = "/getEligibleEventHeads", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody List<Login> getEligibleEventHeads(@RequestBody int eventId) throws NoSuchAlgorithmException {
+		return es.getEligibleEventHeads(eventId);
+	}
+
+	@RequestMapping(value = "/assignRefereeForEvent/{userId}/{eventId}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody int assignReferee(@PathVariable int userId, @PathVariable int eventId)
+			throws NoSuchAlgorithmException {
+		return es.assignReferee(eventId, userId);
+	}
 }

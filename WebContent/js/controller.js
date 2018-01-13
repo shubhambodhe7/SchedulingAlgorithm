@@ -8,14 +8,14 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 	$scope.login = function(user) {
 		console.log(user);
 		$localStorage.loggedIn = false;
-		$http.post('project/login', user).then(function(userdata) {
-			console.log(userdata.data);
+		$http.post('project/login', user).then(function(response) {
+			console.log(response.data);
 
 			console.log("Hello User");
 			$location.path("/register");
 
-		}, function error(userdata) {
-			console.log(userdata);
+		}, function error(response) {
+			console.log(response);
 
 			console.log("Login failed");
 
@@ -44,23 +44,31 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 		console.log("Register method");
 		$location.path('/register');
 	};
+	$scope.register = function() {
+		console.log("Events method");
+		$location.path('/displayEvents');
+	};
 
 	$scope.teamRegister = function() {
 		console.log("Team Register method");
 		$location.path('/teamRegister/1');
 	};
+	$scope.assignReferee = function() {
+		console.log("Team Register method");
+		$location.path('/assignReferee');
+	};
 
 	$scope.login = function(user) {
 		console.log(user);
 		$localStorage.loggedIn = false;
-		$http.post('project/login', user).then(function(userdata) {
-			console.log(userdata.data);
+		$http.post('project/login', user).then(function(response) {
+			console.log(response.data);
 
 			console.log("Hello User");
 			$location.path("/register");
 
-		}, function error(userdata) {
-			console.log(userdata);
+		}, function error(response) {
+			console.log(response);
 
 			console.log("Login failed");
 
@@ -70,14 +78,14 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 	$scope.logout = function(user) {
 		console.log(user);
 		$localStorage.loggedIn = false;
-		$http.post('project/logout', user).then(function(userdata) {
-			console.log(userdata.data);
+		$http.post('project/logout', user).then(function(response) {
+			console.log(response.data);
 
 			console.log("User logged out");
 			$location.path("/register");
 
-		}, function error(userdata) {
-			console.log(userdata);
+		}, function error(response) {
+			console.log(response);
 
 			console.log("User logged out failed");
 
@@ -87,11 +95,11 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 
 	$scope.addEvent = function(event) {
 
-		$http.post('project/addEvent', event).then(function(userdata) {
-			console.log(userdata.data);
+		$http.post('project/addEvent', event).then(function(response) {
+			console.log(response.data);
 			bootbox.alert("registered");
-		}, function error(userdata) {
-			console.log(userdata);
+		}, function error(response) {
+			console.log(response);
 
 		});
 	};

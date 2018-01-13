@@ -69,7 +69,7 @@ public class LoginDao {
 
 	public List<Login> getEligiblePlayers(int userId) {
 		// TODO Auto-generated method stub
-		return jdbcTemplate.query("Select * from public.logindetails ", new LoginRowMapper());
+		return jdbcTemplate.query("Select * from public.logindetails l order by l.username", new LoginRowMapper());
 	}
 
 }

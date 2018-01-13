@@ -8,9 +8,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.dto.vesit.Event;
+import com.dto.vesit.Login;
 import com.dto.vesit.Player;
 import com.dto.vesit.Team;
 import com.mapper.vesit.EventRowMapper;
+import com.mapper.vesit.LoginRowMapper;
 
 @Repository
 public class EventDao {
@@ -37,12 +39,25 @@ public class EventDao {
 	}
 
 	public List<Event> getAllEvents() {
-		return jdbcTemplate.query("Select * from public.event", new EventRowMapper());
+		return jdbcTemplate.query("Select * from public.event e order by e.event_name ", new EventRowMapper());
 
 	}
 
 	public List<Event> getEventDetails(int eventId) {
 		return jdbcTemplate.query("Select * from public.event where event_id = ? ", new Object[] { eventId },
+				new EventRowMapper());
+
+	}
+
+	public List<Login> getEligibleEventHeads(int eventId) {
+		return jdbcTemplate.query(
+				"SELECT l.user_id, username, userpassword, rolename, gender, contact, dept,   year_of_engg  FROM public.logindetails l, public.event_head eh where l.user_id = eh.user_id and event_id = ?",
+				new Object[] { eventId }, new LoginRowMapper());
+
+	}
+
+	public List<Event> getPendingEventsForRefreeAssignment() {
+		return jdbcTemplate.query("select * from public.event e  where e.eventhead = -1 order by e.event_name asc ",
 				new EventRowMapper());
 
 	}
@@ -128,6 +143,10 @@ public class EventDao {
 
 		return ret;
 
+	}
+
+	public int assignReferee(int eventId, int userId) {
+		return 0;
 	}
 
 }

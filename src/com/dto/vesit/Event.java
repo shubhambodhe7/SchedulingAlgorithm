@@ -13,6 +13,7 @@ public class Event {
 	private List<Game> games;
 	private int maxPlayers;
 	private int maxTeams;
+	private int eventHead;
 
 	private int teamsInOneMatch;
 
@@ -134,5 +135,14 @@ public class Event {
 	public void setMaxTeams(int maxTeams) {
 		this.maxTeams = maxTeams;
 	}
+
+	public int getEventHead() {
+		return eventHead;
+	}
+
+	public void setEventHead(int eventHead) {
+		this.eventHead = eventHead;
+	}
+	
 
 }

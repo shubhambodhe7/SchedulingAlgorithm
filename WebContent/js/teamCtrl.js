@@ -22,9 +22,6 @@ app
 											console.log(empdata.data);
 											$scope.yearOfEng = empdata.data[0].yearOfEng;
 											$scope.dept = empdata.data[0].dept;
-											// console.log(empdata.data.length);
-											// $scope.options = empdata.data;
-											// $scope.events = empdata.data;
 
 											for (var i = 0; i < empdata.data.length; i++) { //
 												$scope.options
@@ -34,11 +31,10 @@ app
 														});
 											}
 
-											// console.log($scope.options);
-
 										},
 										function myError(response) {
-											$scope.myWelcome = response.statusText;
+											bootbox
+													.alert("Error occurred while fetching participants list!");
 										});
 
 					}
@@ -72,15 +68,15 @@ app
 												+ $scope.eventId + '/'
 												+ JSON.stringify(temp))
 								.then(
-										function(userdata) {
-											console.log(userdata.data);
-											if (userdata.data == -3) {
+										function(response) {
+											console.log(response.data);
+											if (response.data == -3) {
 												bootbox
 														.alert("One of the participant has already registered for this event!");
-											} else if (userdata.data == -2) {
+											} else if (response.data == -2) {
 												bootbox
 														.alert("Team with same name for this event already exists!");
-											} else if (userdata.data == -1) {
+											} else if (response.data == -1) {
 												bootbox
 														.alert("Registration failed!");
 											} else {
@@ -89,8 +85,8 @@ app
 											}
 
 										},
-										function error(userdata) {
-											console.log(userdata);
+										function error(response) {
+											console.log(response);
 											bootbox
 													.alert("Registration failed!");
 
