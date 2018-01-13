@@ -29,7 +29,7 @@ public class LoginDao {
 		// TODO Auto-generated method stub
 		String password = login.getUserPassword();
 		PasswordEncryption passwordEncrypt = new PasswordEncryption();
-		//String hashPassword = passwordEncrypt.passwordEncrypt(password);
+		// String hashPassword = passwordEncrypt.passwordEncrypt(password);
 		String hashPassword = password;
 		System.out.println(password + " : " + hashPassword);
 		Login user = null;
@@ -65,6 +65,11 @@ public class LoginDao {
 		return jdbcTemplate.query("Select * from public.logindetails where dept=? and year = ?",
 				new Object[] { dept, year }, new LoginRowMapper());
 
+	}
+
+	public List<Login> getEligiblePlayers(int userId) {
+		// TODO Auto-generated method stub
+		return jdbcTemplate.query("Select * from public.logindetails ", new LoginRowMapper());
 	}
 
 }

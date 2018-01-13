@@ -1,16 +1,35 @@
-app.controller('teamCtrl', function($scope, $http, $localStorage, $location) {
+app.controller('teamCtrl', function(maxPlayersInTeam, $scope, $http,
+		$localStorage, $location) {
 
-	var vm = this, getRandomInt = function(min, max) {
-		return Math.floor(Math.random() * (max - min + 1) + min);
-	};
+	var userId = 2;
+	$scope.maxPlayers = maxPlayersInTeam;
+	$scope.options = [];
 
-	vm.options2 = [];
-	for (var i = 0; i < 100; i++) {
-		//console.log(i);
-		vm.options2.push({
-			key : i + 1,
-			value : 'Prop' + (i + 1).toString()
-		});
+	getEligiblePlayers(userId);
+
+	function getEligiblePlayers(userId) {
+
+		$http.get('project/getEligiblePlayers/' + userId).then(
+				function(empdata) {
+					console.log(empdata.data);
+					// console.log(empdata.data.length);
+					// $scope.options = empdata.data;
+					// $scope.events = empdata.data;
+
+					for (var i = 0; i < empdata.data.length; i++) { //
+						$scope.options.push({
+							key : empdata.data[i].userId,
+							value : empdata.data[i].userName
+						});
+					}
+
+					// console.log($scope.options);
+
+				}, function myError(response) {
+					$scope.myWelcome = response.statusText;
+				});
+
 	}
+	;
 
 });

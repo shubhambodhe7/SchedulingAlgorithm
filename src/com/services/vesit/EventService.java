@@ -41,6 +41,10 @@ public class EventService {
 		return ed.getAllEvents();
 	}
 
+	public List<Event> getEventDetails(int eventId) {
+		return ed.getEventDetails(eventId);
+	}
+
 	public int registerAsEventHead(int userId, int eventId) {
 		// TODO Auto-generated method stub
 		if (!ed.checkIfAlreadyRegisteredEventHead(userId, eventId)) {

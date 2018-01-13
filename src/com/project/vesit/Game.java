@@ -4,11 +4,33 @@ import java.sql.Timestamp;
 
 public class Game {
 	private int gameId;
-	private Team teamA;
-	private Team teamB;
 	private Timestamp startTimeStamp;
 	private Timestamp endTimeStamp;
-	private int sportId;
+	private int eventId;
+	private String eventHead;
+
+	
+	
+	public Game(Timestamp startTimeStamp, Timestamp endTimeStamp, int eventId) {
+		super();
+		this.startTimeStamp = startTimeStamp;
+		this.endTimeStamp = endTimeStamp;
+		this.eventId = eventId;
+	}
+
+	public Game(int gameId, Timestamp startTimeStamp, Timestamp endTimeStamp, int eventId, String eventHead) {
+		super();
+		this.gameId = gameId;
+		this.startTimeStamp = startTimeStamp;
+		this.endTimeStamp = endTimeStamp;
+		this.eventId = eventId;
+		this.eventHead = eventHead;
+	}
+
+	public Game() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public int getGameId() {
 		return gameId;
@@ -16,22 +38,6 @@ public class Game {
 
 	public void setGameId(int gameId) {
 		this.gameId = gameId;
-	}
-
-	public Team getTeamA() {
-		return teamA;
-	}
-
-	public void setTeamA(Team teamA) {
-		this.teamA = teamA;
-	}
-
-	public Team getTeamB() {
-		return teamB;
-	}
-
-	public void setTeamB(Team teamB) {
-		this.teamB = teamB;
 	}
 
 	public Timestamp getStartTimeStamp() {
@@ -50,51 +56,26 @@ public class Game {
 		this.endTimeStamp = endTimeStamp;
 	}
 
-	public int getSportId() {
-		return sportId;
+	public int getEventId() {
+		return eventId;
 	}
 
-	public void setSportId(int sportId) {
-		this.sportId = sportId;
+	public void setEventId(int eventId) {
+		this.eventId = eventId;
 	}
 
-	public Game(int gameId, Team teamA, Team teamB, Timestamp startTimeStamp, Timestamp endTimeStamp) {
-		super();
-		this.gameId = gameId;
-		this.teamA = teamA;
-		this.teamB = teamB;
-		this.startTimeStamp = startTimeStamp;
-		this.endTimeStamp = endTimeStamp;
+	public String getEventHead() {
+		return eventHead;
 	}
 
-	public Game(int gameId, Team teamA, Team teamB) {
-		super();
-		this.gameId = gameId;
-		this.teamA = teamA;
-		this.teamB = teamB;
-	}
-
-	public Game(Team teamA, Team teamB, Timestamp startTimeStamp, Timestamp endTimeStamp) {
-		super();
-		this.teamA = teamA;
-		this.teamB = teamB;
-		this.startTimeStamp = startTimeStamp;
-		this.endTimeStamp = endTimeStamp;
-	}
-
-	public Game(Team teamA, Team teamB, Timestamp startTimeStamp, Timestamp endTimeStamp, int sportId) {
-		super();
-		this.teamA = teamA;
-		this.teamB = teamB;
-		this.startTimeStamp = startTimeStamp;
-		this.endTimeStamp = endTimeStamp;
-		this.sportId = sportId;
+	public void setEventHead(String eventHead) {
+		this.eventHead = eventHead;
 	}
 
 	@Override
 	public String toString() {
-		return "Game [gameId=" + gameId + ", teamA=" + teamA + ", teamB=" + teamB + ", startTimeStamp=" + startTimeStamp
-				+ ", endTimeStamp=" + endTimeStamp + "]";
+		return "Game [gameId=" + gameId + ", startTimeStamp=" + startTimeStamp + ", endTimeStamp=" + endTimeStamp
+				+ ", eventId=" + eventId + ", eventHead=" + eventHead + "]";
 	}
 
 }
