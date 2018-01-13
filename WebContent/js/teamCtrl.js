@@ -32,23 +32,6 @@ app.controller('teamCtrl', function(maxPlayersInTeam, $scope, $http,
 	}
 	;
 
-	function getMaxPlayersInTeamForEvent(eventId) {
-
-		var promise = $http.get('project/getEventDetails/' + eventId);
-
-		promise.then(function(empdata) {
-			console.log(empdata.data);
-			$scope.maxPlayers = empdata.data[0].maxPlayers;
-			console.log(" $scope.maxPlayers " + $scope.maxPlayers);
-
-		}, function myError(response) {
-			$scope.myWelcome = response.statusText;
-			$scope.maxPlayers = 0;
-		});
-
-		console.log("maxPlayers " + $scope.maxPlayers);
-
-	}
-	;
+	
 
 });
