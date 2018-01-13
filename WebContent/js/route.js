@@ -37,13 +37,13 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 				controller : "teamCtrl",
 				resolve : {
 
-					maxPlayersInTeam : function($http, $route) {
+					event : function($http, $route) {
 						var eventId = $route.current.params.eventId;
 						console.log("$routeParams.eventId : "
 								+ $route.current.params.eventId);
 						return $http.get('project/getEventDetails/' + eventId)
 								.then(function(response) {
-									return response.data[0].maxPlayers;
+									return response.data[0];
 								})
 					}
 

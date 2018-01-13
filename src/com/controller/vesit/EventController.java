@@ -1,6 +1,7 @@
 package com.controller.vesit;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,10 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/registerForTeamEvent", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody int registerForTeamEvent(@RequestBody Team team) throws NoSuchAlgorithmException {
-		return es.registerForTeamEvent(team);
+	public @ResponseBody int registerForTeamEvent(@RequestBody HashMap team) throws NoSuchAlgorithmException {
+
+		// return es.registerForTeamEvent(team.get(0));
+		return 0;
 	}
 
 }
