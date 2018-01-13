@@ -41,6 +41,12 @@ public class EventDao {
 
 	}
 
+	public List<Event> getEventDetails(int eventId) {
+		return jdbcTemplate.query("Select * from public.event where event_id = ? ", new Object[] { eventId },
+				new EventRowMapper());
+
+	}
+
 	public List<Event> addEvent(Event e) {
 		jdbcTemplate.update(
 				"INSERT INTO public.event(event_name, gender, parallel_matches, details)  VALUES ( ?, ?, ?, ?)",

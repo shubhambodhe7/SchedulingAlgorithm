@@ -39,18 +39,17 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 		console.log("Login method");
 		$location.path('/login');
 	};
-	
-	
+
 	$scope.register = function() {
 		console.log("Register method");
 		$location.path('/register');
 	};
-	
+
 	$scope.teamRegister = function() {
 		console.log("Team Register method");
-		$location.path('/teamRegister');
+		$location.path('/teamRegister/1');
 	};
-	
+
 	$scope.login = function(user) {
 		console.log(user);
 		$localStorage.loggedIn = false;

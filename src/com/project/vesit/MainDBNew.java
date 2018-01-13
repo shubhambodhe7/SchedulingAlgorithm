@@ -79,10 +79,14 @@ public class MainDBNew {
 							System.out.println();
 							final1.setScheduled(true);
 							final2.setScheduled(true);
-							Timestamp sch = getSchedule(s);
+							//Timestamp sch = getSchedule(s);
 
 							// check here
-							games.add(new Game(final1, final2, sch, new Timestamp(sch.getTime() + 0), s.getEventId()));
+
+							saveGames(
+									new Game(new Timestamp(System.currentTimeMillis()),
+											new Timestamp(System.currentTimeMillis() + 60 * 60 * 1000), s.getEventId()),
+									schedule_index);
 
 							// check ends
 
@@ -107,19 +111,22 @@ public class MainDBNew {
 			}
 			for (Game g : games) {
 				System.out.println("--------");
-				System.out.println(g.getTeamA().getTeamName() + " vs " + g.getTeamB().getTeamName() + " @  "
-						+ g.getStartTimeStamp() + " - " + g.getEndTimeStamp());
+				// System.out.println(g.getTeamA().getTeamName() + " vs " +
+				// g.getTeamB().getTeamName() + " @ " + g.getStartTimeStamp() +
+				// " - " + g.getEndTimeStamp());
 			}
-			saveGames(games, schedule_index);
+			// saveGames(games, schedule_index);
 			for (Event s : sports) {
 
 				System.out.println(s.getEventName());
-				for (Game g : s.getGames()) {
-
-					System.out.println(g.getTeamA().getTeamName() + " vs " + g.getTeamB().getTeamName() + " @  "
-							+ getTimeStr(g.getStartTimeStamp()) + " - " + getTimeStr(g.getEndTimeStamp()));
-				}
 				/*
+				 * for (Game g : s.getGames()) {
+				 * 
+				 * System.out.println(g.getTeamA().getTeamName() + " vs " +
+				 * g.getTeamB().getTeamName() + " @  " +
+				 * getTimeStr(g.getStartTimeStamp()) + " - " +
+				 * getTimeStr(g.getEndTimeStamp())); }
+				 * 
 				 * for (Team t : s.getTeams()) {
 				 * System.out.println(t.getTeamName() + " : " +
 				 * t.isScheduled()); }
@@ -302,7 +309,8 @@ public class MainDBNew {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("SELECT player_id, player_name FROM public.player p where p.team_id = ?");
+			stmt = c.prepareStatement(
+					"SELECT player_id, username FROM public.player p,public.logindetails l where p.player_id = l.user_id and p.team_id = ?");
 			stmt.setInt(1, t.getTeamId());
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -322,7 +330,7 @@ public class MainDBNew {
 		return playerList;
 	}
 
-	private static void saveGames(List<Game> games, long schedule_index) {
+	private static void saveGames(Game g, long schedule_index) {
 		System.out.println("MainDB | saveGames start");
 		Connection c = null;
 		ResultSet rs = null;
@@ -330,40 +338,33 @@ public class MainDBNew {
 		int gameId = 0;
 		try {
 			c = getConnection();
-			for (Game g : games) {
-				stmt = c.prepareStatement(
-						"INSERT INTO public.game(team_a, team_b, start_ts, end_ts, sport_id)   VALUES ( ?, ?, ?, ?, ?);");
-				stmt.setInt(1, g.getTeamA().getTeamId());
-				stmt.setInt(2, g.getTeamB().getTeamId());
-				stmt.setTimestamp(3, g.getStartTimeStamp());
-				stmt.setTimestamp(4, g.getEndTimeStamp());
-				stmt.setInt(5, g.getSportId());
+			stmt = c.prepareStatement("INSERT INTO public.game( start_ts, end_ts, event_id) VALUES (?, ?, ?)");
+			stmt.setTimestamp(1, g.getStartTimeStamp());
+			stmt.setTimestamp(2, g.getEndTimeStamp());
+			stmt.setInt(3, g.getEventId());
 
-				stmt.executeUpdate();
+			stmt.executeUpdate();
 
-				stmt = c.prepareStatement(
-						"SELECT game_id  FROM public.game where team_a = ?  and team_b = ? and start_ts = ? and end_ts =? and sport_id = ?");
-				stmt.setInt(1, g.getTeamA().getTeamId());
-				stmt.setInt(2, g.getTeamB().getTeamId());
-				stmt.setTimestamp(3, g.getStartTimeStamp());
-				stmt.setTimestamp(4, g.getEndTimeStamp());
-				stmt.setInt(5, g.getSportId());
+			stmt = c.prepareStatement(
+					"SELECT game_id  FROM public.game where start_ts = ? and end_ts =? and sport_id = ?");
+			stmt.setTimestamp(1, g.getStartTimeStamp());
+			stmt.setTimestamp(2, g.getEndTimeStamp());
+			stmt.setInt(3, g.getEventId());
 
-				rs = stmt.executeQuery();
-				while (rs.next()) {
-					gameId = rs.getInt(1);
-				}
-
-				stmt = c.prepareStatement("INSERT INTO public.schedule(   schedule_id, game_id)   VALUES (?, ?)");
-				stmt.setLong(1, schedule_index);
-				stmt.setInt(2, gameId);
-
-				stmt.executeUpdate();
-
-				rs.close();
-				stmt.close();
-
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				gameId = rs.getInt(1);
 			}
+
+			stmt = c.prepareStatement("INSERT INTO public.schedule(   schedule_id, game_id)   VALUES (?, ?)");
+			stmt.setLong(1, schedule_index);
+			stmt.setInt(2, gameId);
+
+			stmt.executeUpdate();
+
+			rs.close();
+			stmt.close();
+
 			c.close();
 
 		} catch (Exception e) {

@@ -1,21 +1,28 @@
-<div ng-controller="teamCtrl">
-	<div class="form-group">
-		<label class="sr-only" for="form-first-name"></label> Team Name :<input
-			ng-model="teamName" type="text" name="form-first-name"
-			placeholder="Team name..." class="form-first-name form-control"
-			id="form-first-name">
-	</div>
+<div>
+	<form>
+		<div class="form-group">
+			<label class="sr-only" for="form-first-name"></label> Team Name :<input
+				ng-model="teamName" type="text" name="form-first-name"
+				placeholder="Team name..." class="form-first-name form-control"
+				id="form-first-name">
+		</div>
 
-	<div class="form-group">
-		<multiselect class="input-xlarge multiselect" ng-model="vm.option2"
-			options="p.key as p.value for p in vm.options2" select-limit="5"
-			header="select Players" selected-header="options selected"
-			multiple="true" complex-models="true" required enable-filter="true"
-			filter-placeholder="Filter stuff.."> </multiselect>
-	</div>
-
-	<div class="form-group">
-		Option3 Complex
-		<pre ng-bind="vm.option2 | json"></pre>
-	</div>
+		<div class="form-group">
+			<multiselect class="input-xlarge multiselect" ng-model="option"
+				options="p.key as p.value for p in options"
+				select-limit="{{maxPlayers}}" header="select Players"
+				selected-header="options selected" multiple="true"
+				complex-models="true" required enable-filter="true"
+				filter-placeholder="Filter stuff.."> </multiselect>
+		</div>
+		<p>{{maxPlayers}}</p>
+		<div class="form-group">
+			Option Complex
+			<pre ng-bind="options | json"></pre>
+		</div>
+		<div class="form-group">
+			selected option
+			<pre ng-bind="option | json"></pre>
+		</div>
+	</form>
 </div>

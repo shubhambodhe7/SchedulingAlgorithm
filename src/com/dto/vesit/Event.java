@@ -14,6 +14,8 @@ public class Event {
 	private int maxPlayers;
 	private int maxTeams;
 
+	private int teamsInOneMatch;
+
 	public Event(int eventId, String eventName, List<Team> teams, String gender, int parallelMatches, String details,
 			List<Game> games, int maxPlayers, int maxTeams) {
 		super();
@@ -51,6 +53,14 @@ public class Event {
 		}
 		return true;
 
+	}
+
+	public int getTeamsInOneMatch() {
+		return teamsInOneMatch;
+	}
+
+	public void setTeamsInOneMatch(int teamsInOneMatch) {
+		this.teamsInOneMatch = teamsInOneMatch;
 	}
 
 	public int getEventId() {

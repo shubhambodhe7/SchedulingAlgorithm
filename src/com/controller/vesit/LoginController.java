@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,12 +35,12 @@ public class LoginController {
 		}
 		return user;
 	}
-	
+
 	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
 	@ResponseBody
-	public Login getUserInfo (HttpServletRequest request) {
-	    Login nUser = (Login) request.getSession().getAttribute("user");
-	    return nUser;
+	public Login getUserInfo(HttpServletRequest request) {
+		Login nUser = (Login) request.getSession().getAttribute("user");
+		return nUser;
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
@@ -48,6 +48,13 @@ public class LoginController {
 		request.getSession().setAttribute("user", null);
 		session.invalidate();
 
+	}
+
+	@RequestMapping(value = "/getEligiblePlayers/{userId}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Login> getEligiblePlayers(@PathVariable int userId) {
+
+		return loginService.getEligiblePlayers(userId);
 	}
 
 }
