@@ -1,0 +1,46 @@
+<div ng-controller="eventCtrl">
+	<form>
+		<div class="form-group">
+
+			<multiselect class="input-xlarge multiselect" ng-model="eventId" ng-selected
+				ng-change="alert('canges');"
+				options="p.key as p.value for p in eventList" header="Select Event"
+				selected-header="options selected" multiple="false" required
+				enable-filter="true" filter-placeholder="Filter events...">
+			</multiselect>
+			<!-- getEligibleEventHeads(data.eventId);
+ -->
+		</div>
+
+		<div class="form-group">
+			<multiselect class="input-xlarge multiselect"
+				ng-model="data.eventHeadId"
+				options="p.key as p.value for p in eventHeads"
+				header="Select Referee" selected-header="options selected"
+				multiple="false" required enable-filter="true"
+				filter-placeholder="Filter applicants..."> </multiselect>
+		</div>
+
+		<p>{{maxPlayers}}</p>
+		<button class="btn" ng-click="assignReferee(data)">Assign as
+			Referee</button>
+
+		<div class="form-group">
+			selected option
+			<pre ng-bind="eventHeads | json"></pre>
+		</div>
+		<div class="form-group">
+			selected option
+			<pre ng-bind="eventList | json"></pre>
+		</div>
+
+		<!-- <div class="form-group">
+			selected option
+			<pre ng-bind="payload | json"></pre>
+		</div>
+		<div class="form-group">
+			selected option
+			<pre ng-bind="data.option | json"></pre>
+		</div> -->
+	</form>
+</div>
