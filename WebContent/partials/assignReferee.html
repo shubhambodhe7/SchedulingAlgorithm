@@ -3,7 +3,6 @@
 		<div class="form-group">
 
 			<multiselect class="input-xlarge multiselect" ng-model="data.eventId"
-				ng-change="alert('canges');"
 				options="p.key as p.value for p in eventList" header="Select Event"
 				selected-header="options selected" multiple="false" required
 				enable-filter="true" filter-placeholder="Filter events...">
@@ -21,6 +20,8 @@
 				filter-placeholder="Filter applicants..."> </multiselect>
 		</div>
 
+
+		
 		<p>{{maxPlayers}}</p>
 		<button class="btn" ng-click="assignReferee(data)">Assign as
 			Referee</button>

@@ -73,9 +73,22 @@ public class EventController {
 		return es.getEligibleEventHeads(eventId);
 	}
 
+	@RequestMapping(value = "/getTeamsForEvent", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody List<Team> getTeamsForEvent(@RequestBody int eventId) throws NoSuchAlgorithmException {
+		return es.getTeamsForEvent(eventId);
+	}
+
 	@RequestMapping(value = "/assignRefereeForEvent/{userId}/{eventId}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody int assignReferee(@PathVariable String userId, @PathVariable String eventId)
 			throws NoSuchAlgorithmException {
 		return es.assignReferee(Integer.parseInt(eventId), Integer.parseInt(userId));
+	}
+
+	@RequestMapping(value = "/advanceTeam/{round}/{eventId}/{json}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody int advanceTeam(@PathVariable String round, @PathVariable String eventId,
+			@PathVariable String json) throws NoSuchAlgorithmException {
+
+		return es.advanceTeam(round, eventId, json);
+		// return 1;
 	}
 }

@@ -26,9 +26,9 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 
 	$scope.getAllSports = function() {
 		console.log("view method");
-		$http.get('project/getAllSports').then(function(empdata) {
-			console.log(empdata.data);
-			$scope.employee = empdata.data;
+		$http.get('project/getAllSports').then(function(response) {
+			console.log(response.data);
+			$scope.employee = response.data;
 
 		}, function myError(response) {
 			$scope.myWelcome = response.statusText;
@@ -56,6 +56,10 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 	$scope.assignReferee = function() {
 		console.log("Team Register method");
 		$location.path('/assignReferee');
+	};
+	$scope.advTeams = function() {
+		console.log("Team Register method");
+		$location.path('/advTeams');
 	};
 
 	$scope.login = function(user) {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.dao.vesit.EventDao;
 import com.dto.vesit.Event;
@@ -53,6 +54,10 @@ public class EventService {
 		return ed.getEligibleEventHeads(eventId);
 	}
 
+	public List<Team> getTeamsForEvent(int eventId) {
+		return ed.getTeamsForEvent(eventId);
+	}
+
 	public List<Event> getPendingEventsForRefreeAssignment() {
 		return ed.getPendingEventsForRefreeAssignment();
 	}
@@ -92,6 +97,15 @@ public class EventService {
 
 	public int assignReferee(int eventId, int userId) {
 		return ed.assignReferee(eventId, userId);
+	}
+
+	public int advanceTeam(String round, String eventId, String json) {
+		Gson gson = new Gson();
+		Team[] teamArray = gson.fromJson(json, Team[].class);
+		List<Team> teamList = Arrays.asList(teamArray);
+		// System.out.println(playerList);
+		return ed.advanceTeam(round, eventId, teamList);
+		// return 1;
 	}
 
 }

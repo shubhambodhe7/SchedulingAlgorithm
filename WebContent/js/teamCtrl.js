@@ -18,16 +18,16 @@ app
 						$http
 								.get('project/getEligiblePlayers/' + userId)
 								.then(
-										function(empdata) {
-											console.log(empdata.data);
-											$scope.yearOfEng = empdata.data[0].yearOfEng;
-											$scope.dept = empdata.data[0].dept;
+										function(response) {
+											console.log(response.data);
+											$scope.yearOfEng = response.data[0].yearOfEng;
+											$scope.dept = response.data[0].dept;
 
-											for (var i = 0; i < empdata.data.length; i++) { //
+											for (var i = 0; i < response.data.length; i++) { //
 												$scope.options
 														.push({
-															key : empdata.data[i].userId,
-															value : empdata.data[i].userName
+															key : response.data[i].userId,
+															value : response.data[i].userName
 														});
 											}
 

@@ -1,0 +1,58 @@
+<div ng-controller="eventCtrl">
+	<form>
+		<div class="form-group">
+
+			<multiselect class="input-xlarge multiselect"
+				ng-model="data.allEventId"
+				options="p.key as p.value for p in allEventList"
+				header="Select Event" selected-header="options selected"
+				multiple="false" required enable-filter="true"
+				filter-placeholder="Filter events..."> </multiselect>
+			<!-- getEligibleEventHeads(data.eventId);
+ -->
+		</div>
+
+		<div class="form-group">
+			<multiselect class="input-xlarge multiselect" ng-model="data.teams"
+				options="p.key as p.value for p in teamList" header="Select Teams"
+				selected-header="options selected" multiple="true" required
+				complex-models="true" enable-filter="true"
+				filter-placeholder="Filter Teams..."> </multiselect>
+		</div>
+
+
+
+
+		<div class="form-group">
+			<multiselect class="input-xlarge multiselect" ng-model="data.round"
+				options="p as p for p in rounds " header="Select Round"
+				multiple="false" required> </multiselect>
+		</div>
+
+
+		<button class="btn" ng-click="advanceTeam(data)">Advance
+			teams to next round</button>
+
+		<!-- <div class="form-group">
+			data.eventId
+			<pre ng-bind="data.eventId | json"></pre>
+		</div>
+		<div class="form-group">
+			selected option
+			<pre ng-bind="eventHeads | json"></pre>
+		</div>
+		<div class="form-group">
+			selected option
+			<pre ng-bind="eventList | json"></pre>
+		</div> -->
+
+		<!-- <div class="form-group">
+			selected option
+			<pre ng-bind="payload | json"></pre>
+		</div>
+		<div class="form-group">
+			selected option
+			<pre ng-bind="data.option | json"></pre>
+		</div> -->
+	</form>
+</div>

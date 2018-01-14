@@ -1,5 +1,6 @@
 package com.dao.vesit;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class EventDao {
 	}
 
 	public List<Event> getAllEvents() {
-		return jdbcTemplate.query("Select * from public.event e order by e.event_name ", new EventRowMapper());
+		return jdbcTemplate.query("Select * from public.event e order by e.event_name desc ", new EventRowMapper());
 
 	}
 
@@ -51,13 +52,28 @@ public class EventDao {
 
 	public List<Login> getEligibleEventHeads(int eventId) {
 		return jdbcTemplate.query(
-				"SELECT l.user_id, username, userpassword, rolename, gender, contact, dept,   year_of_engg  FROM public.logindetails l, public.event_head eh where l.user_id = eh.user_id and event_id = ?",
+				"SELECT l.user_id, username, userpassword, rolename, gender, contact, dept,   year_of_engg  FROM public.logindetails l, public.event_head eh where l.user_id = eh.user_id and event_id = ? order by l.username desc",
 				new Object[] { eventId }, new LoginRowMapper());
 
 	}
 
+	public List<Team> getTeamsForEvent(int eventId) {
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(
+				"SELECT team_id, team_name FROM public.team where event_id = ? order by team_name desc",
+				new Object[] { eventId });
+		System.out.println(list);
+		List<Team> teamList = new ArrayList<>();
+		for (Map<String, Object> m : list) {
+			Team t = new Team((int) m.get("team_id"), (String) m.get("team_name"));
+			teamList.add(t);
+			System.out.println("m :: " + m);
+		}
+		return teamList;
+
+	}
+
 	public List<Event> getPendingEventsForRefreeAssignment() {
-		return jdbcTemplate.query("select * from public.event e  where e.eventhead = -1 order by e.event_name asc ",
+		return jdbcTemplate.query("select * from public.event e  where e.eventhead = -1 order by e.event_name desc ",
 				new EventRowMapper());
 
 	}
@@ -150,6 +166,17 @@ public class EventDao {
 		return jdbcTemplate.update("UPDATE public.event  SET eventhead= ? WHERE  event_id = ?",
 				new Object[] { userId, eventId });
 
+	}
+
+	public int advanceTeam(String round, String eventId, List<Team> teams) {
+		int ret = -1;
+		for (Team t : teams) {
+			System.out.println(round + "  " + eventId + "  " + t.getTeamId() + " :  " + t.getTeamName());
+			ret = jdbcTemplate.update("UPDATE public.team set round=?  WHERE team_id = ? and event_id = ?",
+					new Object[] { Integer.parseInt(round), t.getTeamId(), Integer.parseInt(eventId) });
+
+		}
+		return ret;
 	}
 
 }

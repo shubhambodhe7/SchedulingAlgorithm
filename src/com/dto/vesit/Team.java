@@ -17,6 +17,13 @@ public class Team {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Team(int teamId, String teamName) {
+		super();
+		this.teamId = teamId;
+		this.teamName = teamName;
+	}
+
+
 	public int getTeamId() {
 		return teamId;
 	}

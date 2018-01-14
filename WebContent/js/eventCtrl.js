@@ -8,6 +8,16 @@ app
 						$scope.eventHeads = [];
 						getEligibleEventHeads($scope.data.eventId);
 					});
+					$scope.$watch('data.allEventId', function() {
+						$scope.teamList = [];
+						getTeamsForEvent($scope.data.allEventId);
+					});
+					$scope.$watch('data.teams', function() {
+						$scope.rounds = [ 5, 4, 3, 2 ];
+					});
+
+					init();
+
 					function init() {
 
 						$scope.maxPlayers = event.maxPlayers;
@@ -18,23 +28,48 @@ app
 						$scope.options = [];
 						$scope.eventList = [];
 						$scope.eventHeads = [];
+						$scope.allEventList = [];
+						$scope.teamList = [];
+
 						getPendingEvents();
+						getAllEvents();
+						getEventList();
 						// getEligibleEventHeads(1);
 
 						console.log("view method");
+
+					}
+
+					function getAllEvents() {
 						$http.get('project/getAllEvents').then(
-								function(empdata) {
-									console.log(empdata.data);
-									$scope.events = empdata.data;
+								function(response) {
+									console.log(response.data);
+									$scope.events = response.data;
 
 								}, function myError(response) {
 									$scope.myWelcome = response.statusText;
 								});
-
 					}
+					function getEventList() {
+						$http
+								.get('project/getAllEvents')
+								.then(
+										function(response) {
+											console.log(response.data);
 
-					init();
+											for (var i = 0; i < response.data.length; i++) { //
+												$scope.allEventList
+														.push({
+															key : response.data[i].eventId,
+															value : response.data[i].eventName
+														});
+											}
 
+										},
+										function myError(response) {
+											$scope.myWelcome = response.statusText;
+										});
+					}
 					function getMaxNumParticipants(eventId) {
 						for (var i = 0; i < $scope.events.length; ++i) {
 							/*
@@ -104,24 +139,23 @@ app
 
 					};
 					// ///////////////////
-					getEligiblePlayers(userId);
 
 					function getEligiblePlayers(userId) {
 
 						$http
 								.get('project/getEligiblePlayers/' + userId)
 								.then(
-										function(empdata) {
-											console.log(empdata.data);
-											$scope.yearOfEng = empdata.data[0].yearOfEng;
-											$scope.dept = empdata.data[0].dept;
+										function(response) {
+											console.log(response.data);
+											$scope.yearOfEng = response.data[0].yearOfEng;
+											$scope.dept = response.data[0].dept;
 											$scope.options = [];
 
-											for (var i = 0; i < empdata.data.length; i++) { //
+											for (var i = 0; i < response.data.length; i++) { //
 												$scope.options
 														.push({
-															key : empdata.data[i].userId,
-															value : empdata.data[i].userName
+															key : response.data[i].userId,
+															value : response.data[i].userName
 														});
 											}
 
@@ -139,14 +173,14 @@ app
 								.get(
 										'project/getPendingEventsForRefreeAssignment')
 								.then(
-										function(empdata) {
-											console.log(empdata.data);
+										function(response) {
+											console.log(response.data);
 											$scope.eventList = [];
-											for (var i = 0; i < empdata.data.length; i++) { //
+											for (var i = 0; i < response.data.length; i++) { //
 												$scope.eventList
 														.push({
-															key : empdata.data[i].eventId,
-															value : empdata.data[i].eventName
+															key : response.data[i].eventId,
+															value : response.data[i].eventName
 														});
 											}
 
@@ -164,14 +198,36 @@ app
 						$http
 								.post('project/getEligibleEventHeads', eventId)
 								.then(
-										function(empdata) {
-											console.log(empdata.data);
+										function(response) {
+											console.log(response.data);
 											$scope.eventHeads = [];
-											for (var i = 0; i < empdata.data.length; i++) { //
+											for (var i = 0; i < response.data.length; i++) { //
 												$scope.eventHeads
 														.push({
-															key : empdata.data[i].userId,
-															value : empdata.data[i].userName
+															key : response.data[i].userId,
+															value : response.data[i].userName
+														});
+											}
+
+										}, function myError(response) {
+
+										});
+
+					}
+					;
+					function getTeamsForEvent(eventId) {
+						console.log(eventId);
+						$http
+								.post('project/getTeamsForEvent', eventId)
+								.then(
+										function(response) {
+											console.log(response.data);
+											$scope.teamList = [];
+											for (var i = 0; i < response.data.length; i++) { //
+												$scope.teamList
+														.push({
+															key : response.data[i].teamId,
+															value : response.data[i].teamName
 														});
 											}
 
@@ -258,6 +314,48 @@ app
 									bootbox.alert("Assignment failed");
 
 								});
+
+					};
+					$scope.advanceTeam = function(data) {
+						console.log(data);
+						// $scope.data = data;
+						// debugger;
+						var temp = [];// data.teams;
+
+						for (var i = 0; i < data.teams.length; i++) { //
+							temp.push({
+								teamId : parseInt(data.teams[i].key),
+								teamName : data.teams[i].value
+							});
+						}
+						console.log(temp);
+						$http
+								.get(
+										'project/advanceTeam/' + data.round
+												+ '/' + data.allEventId + '/'
+
+												+ JSON.stringify(temp))
+								.then(
+										function(response) {
+											console.log(response.data);
+											if (response.data == -1) {
+												bootbox
+														.alert("Operation failed");
+
+											} else {
+												bootbox
+														.alert("Teams have been advanced to round "
+																+ data.round
+																+ " successfully");
+											}
+											getPendingEvents();
+
+										}, function error(response) {
+											console.log(response);
+
+											bootbox.alert("Assignment failed");
+
+										});
 
 					};
 

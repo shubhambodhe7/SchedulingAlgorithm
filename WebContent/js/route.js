@@ -32,6 +32,8 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 		templateUrl : "partials/displayEvents.html"
 	}).when("/assignReferee", {
 		templateUrl : "partials/assignReferee.html"
+	}).when("/advTeams", {
+		templateUrl : "partials/advanceTeams.html"
 	}).when(
 			"/teamRegister/:eventId",
 			{
