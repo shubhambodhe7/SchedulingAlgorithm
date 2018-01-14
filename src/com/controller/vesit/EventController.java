@@ -74,8 +74,8 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/assignRefereeForEvent/{userId}/{eventId}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody int assignReferee(@PathVariable int userId, @PathVariable int eventId)
+	public @ResponseBody int assignReferee(@PathVariable String userId, @PathVariable String eventId)
 			throws NoSuchAlgorithmException {
-		return es.assignReferee(eventId, userId);
+		return es.assignReferee(Integer.parseInt(eventId), Integer.parseInt(userId));
 	}
 }

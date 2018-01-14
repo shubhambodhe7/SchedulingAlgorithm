@@ -146,7 +146,10 @@ public class EventDao {
 	}
 
 	public int assignReferee(int eventId, int userId) {
-		return 0;
+
+		return jdbcTemplate.update("UPDATE public.event  SET eventhead= ? WHERE  event_id = ?",
+				new Object[] { userId, eventId });
+
 	}
 
 }

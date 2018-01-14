@@ -4,7 +4,10 @@ app
 				function($scope, $http, $localStorage, $location) {
 
 					var userId = 2;
-
+					$scope.$watch('data.eventId', function() {
+						$scope.eventHeads = [];
+						getEligibleEventHeads($scope.data.eventId);
+					});
 					function init() {
 
 						$scope.maxPlayers = event.maxPlayers;
@@ -16,7 +19,7 @@ app
 						$scope.eventList = [];
 						$scope.eventHeads = [];
 						getPendingEvents();
-						getEligibleEventHeads(1);
+						// getEligibleEventHeads(1);
 
 						console.log("view method");
 						$http.get('project/getAllEvents').then(
@@ -112,6 +115,7 @@ app
 											console.log(empdata.data);
 											$scope.yearOfEng = empdata.data[0].yearOfEng;
 											$scope.dept = empdata.data[0].dept;
+											$scope.options = [];
 
 											for (var i = 0; i < empdata.data.length; i++) { //
 												$scope.options
@@ -137,7 +141,7 @@ app
 								.then(
 										function(empdata) {
 											console.log(empdata.data);
-
+											$scope.eventList = [];
 											for (var i = 0; i < empdata.data.length; i++) { //
 												$scope.eventList
 														.push({
@@ -158,11 +162,11 @@ app
 					function getEligibleEventHeads(eventId) {
 						console.log(eventId);
 						$http
-								.post('project/getEligibleEventHeads', 1)
+								.post('project/getEligibleEventHeads', eventId)
 								.then(
 										function(empdata) {
 											console.log(empdata.data);
-
+											$scope.eventHeads = [];
 											for (var i = 0; i < empdata.data.length; i++) { //
 												$scope.eventHeads
 														.push({
@@ -171,10 +175,8 @@ app
 														});
 											}
 
-										},
-										function myError(response) {
-											bootbox
-													.alert("Error occurred while fetching events list!");
+										}, function myError(response) {
+
 										});
 
 					}
@@ -236,22 +238,26 @@ app
 					$scope.assignReferee = function(data) {
 						console.log(data);
 
-						$http.get(
-								'/assignRefereeForEvent/' + 2 + '/' + 1
-										+ eventId).then(function(response) {
-							console.log(response.data);
-							if (response.data == -1) {
-								bootbox.alert("You have already registered");
-							} else {
-								bootbox.alert("Registered successfully");
-							}
+						$http
+								.get(
+										'project/assignRefereeForEvent/'
+												+ data.eventHeadId + '/'
+												+ data.eventId)
+								.then(function(response) {
+									console.log(response.data);
+									if (response.data == 1) {
+										bootbox.alert("Assignment successful");
+									} else {
+										bootbox.alert("Assignment failed");
+									}
+									getPendingEvents();
 
-						}, function error(response) {
-							console.log(response);
+								}, function error(response) {
+									console.log(response);
 
-							bootbox.alert("registered failed");
+									bootbox.alert("Assignment failed");
 
-						});
+								});
 
 					};
 
