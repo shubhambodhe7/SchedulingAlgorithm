@@ -69,7 +69,10 @@ public class LoginDao {
 
 	public List<Login> getEligiblePlayers(int userId) {
 		// TODO Auto-generated method stub
-		return jdbcTemplate.query("Select * from public.logindetails l order by l.username", new LoginRowMapper());
+		List<Login> userDetails = jdbcTemplate.query("Select * from public.logindetails l where user_id = ?  ",
+				new Object[] { userId }, new LoginRowMapper());
+
+		return getAllUsers(userDetails.get(0).getDept(), userDetails.get(0).getYearOfEng());
 	}
 
 }
