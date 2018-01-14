@@ -1,30 +1,51 @@
-<div>
-	<form>
-		<div class="form-group">
-			<label class="sr-only" for="form-first-name"></label> Team Name :<input
-				ng-model="eventName" type="text" name="form-first-name"
-				placeholder="Event name..." readonly
-				class="form-first-name form-control" id="form-first-name">
-		</div>
-		<div class="form-group">
-			<label class="sr-only" for="form-first-name"></label> Team Name :<input
-				ng-model="data.teamName" type="text" name="form-first-name"
-				placeholder="Team name..." class="form-first-name form-control"
-				id="form-first-name">
-		</div>
+<div class="top-content">
 
-		<div class="form-group">
-			<multiselect class="input-xlarge multiselect" ng-model="data.option"
-				options="p.key as p.value for p in options"
-				select-limit="{{maxPlayers}}" header="select Players"
-				selected-header="options selected" multiple="true"
-				complex-models="true" required enable-filter="true"
-				filter-placeholder="Filter stuff.." > </multiselect>
-		</div>
-		<!-- <p>{{maxPlayers}}</p>
-		<button class="btn" ng-click="registerTeam(data)">Register
-			Team!</button>
+	<div class="inner-bg">
+		<div class="container">
 
+			<div class="row">
+
+				<div class="col-sm-5">
+
+					<div class="form-box">
+						<div class="form-top">
+							<div class="form-top-left">
+								<h3>Team Up!</h3>
+							</div>
+							<div class="form-top-right">
+								<i class="fa fa-pencil"></i>
+							</div>
+						</div>
+
+
+						<div class="form-bottom">
+							<form role="form" class="registration-form">
+								<div class="form-group">
+									<label class="sr-only" for="form-first-name"></label> Team Name
+									:<input ng-model="eventName" type="text" name="form-first-name"
+										placeholder="Event name..." readonly
+										class="form-first-name form-control" id="form-first-name">
+								</div>
+								<div class="form-group">
+									<label class="sr-only" for="form-first-name"></label> Team Name
+									:<input ng-model="data.teamName" type="text"
+										name="form-first-name" placeholder="Team name..."
+										class="form-first-name form-control" id="form-first-name">
+								</div>
+
+								<div class="form-group">
+									<multiselect class="input-xlarge multiselect"
+										ng-model="data.option"
+										options="p.key as p.value for p in options"
+										select-limit="{{maxPlayers}}" header="select Players"
+										selected-header="options selected" multiple="true"
+										complex-models="true" required enable-filter="true"
+										filter-placeholder="Filter stuff.."> </multiselect>
+								</div>
+								<p>{{maxPlayers}}</p>
+								<button class="btn" ng-click="registerTeam(data)">Register
+									Team!</button>
+								<!--
 		<div class="form-group">
 			selected option
 			<pre ng-bind="team | json"></pre>
@@ -37,5 +58,16 @@
 			selected option
 			<pre ng-bind="data.option | json"></pre>
 		</div> -->
-	</form>
+							</form>
+						</div>
+					</div>
+
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+
 </div>
