@@ -21,7 +21,7 @@
 						<div class="form-bottom">
 							<form role="form" class="registration-form">
 								<div class="form-group">
-									<label class="sr-only" for="form-first-name"></label> Team Name
+									<label class="sr-only" for="form-first-name"></label> Event Name
 									:<input ng-model="eventName" type="text" name="form-first-name"
 										placeholder="Event name..." readonly
 										class="form-first-name form-control" id="form-first-name">
@@ -42,9 +42,13 @@
 										complex-models="true" required enable-filter="true"
 										filter-placeholder="Filter stuff.."> </multiselect>
 								</div>
-								<p>{{maxPlayers}}</p>
-								<button class="btn" ng-click="registerTeam(data)">Register
-									Team!</button>
+								<p>No. of players required: {{maxPlayers}}</p>
+			<div class="modal-footer">
+             <button class="btn" ng-click="registerTeam(data)">Register Team!</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+								
+								
 								<!--
 		<div class="form-group">
 			selected option

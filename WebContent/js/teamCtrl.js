@@ -1,7 +1,7 @@
 app
 		.controller(
 				'teamCtrl',
-				function(event, $scope, $http, $localStorage, $location) {
+				function(event, $scope, $http, $localStorage, $location, $modalInstance) {
 
 					var userId = 2;
 					$scope.maxPlayers = event.maxPlayers;
@@ -40,6 +40,10 @@ app
 					}
 					;
 
+					 $scope.cancel = function () {
+						    $modalInstance.dismiss('cancel');
+						  };
+					
 					$scope.registerTeam = function(data) {
 						$scope.data = data;
 
@@ -77,9 +81,11 @@ app
 												bootbox
 														.alert("Team with same name for this event already exists!");
 											} else if (response.data == -1) {
+												$modalInstance.dismiss('cancel');
 												bootbox
 														.alert("Registration failed!");
 											} else {
+												$modalInstance.dismiss('cancel');
 												bootbox
 														.alert("Registration successful!");
 											}
@@ -87,6 +93,7 @@ app
 										},
 										function error(response) {
 											console.log(response);
+											$modalInstance.dismiss('cancel');
 											bootbox
 													.alert("Registration failed!");
 

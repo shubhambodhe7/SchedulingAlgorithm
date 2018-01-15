@@ -44,7 +44,7 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 		console.log("Register method");
 		$location.path('/register');
 	};
-	$scope.register = function() {
+	$scope.events = function() {
 		console.log("Events method");
 		$location.path('/displayEvents');
 	};

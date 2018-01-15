@@ -1,7 +1,7 @@
 app
 		.controller(
 				'eventCtrl',
-				function($scope, $http, $localStorage, $location) {
+				function($scope, $http, $localStorage, $location, $modal, $log) {
 
 					var userId = 2;
 					$scope.$watch('data.eventId', function() {
@@ -113,7 +113,30 @@ app
 
 											});
 						} else {
-							bootbox.alert("more than 1 plyer");
+
+						        var modalInstance = $modal.open({
+						            templateUrl: 'partials/teamRegister.html',
+						            controller: 'teamCtrl',
+						            
+						            resolve: {
+						            	event : function($http) {
+						
+											return $http.get('project/getEventDetails/' + eventId)
+													.then(function(response) {
+														return response.data[0];
+													})
+										}
+						            }
+						        });
+						        
+						        modalInstance.result.then(function (selectedItems) {
+						            //products = selectedItems;
+						        }, function () {
+						            $log.info('Modal dismissed at: ' + new Date());
+						        });
+						
+							
+							//bootbox.alert("more than 1 plyer");
 						}
 
 					};
