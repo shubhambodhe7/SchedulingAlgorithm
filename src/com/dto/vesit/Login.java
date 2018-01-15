@@ -10,6 +10,7 @@ public class Login {
 	private String userName;
 	private String dept;
 	private int yearOfEng;
+	private String gender;
 
 	public Login() {
 		super();
@@ -25,12 +26,18 @@ public class Login {
 		this.userName = userName;
 	}
 
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
 	public Login(String roleName) {
 		super();
 		this.roleName = roleName;
 	}
-	
-	
 
 	public String getDept() {
 		return dept;

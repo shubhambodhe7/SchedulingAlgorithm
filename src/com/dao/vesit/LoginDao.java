@@ -24,6 +24,11 @@ public class LoginDao {
 		// TODO Auto-generated constructor stub
 	}
 
+	public LoginDao(JdbcTemplate jdbcTemplate) {
+		super();
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
 	public Login loginUser(Login login) throws NoSuchAlgorithmException {
 		System.out.println("LoginDao | loginUser");
 		// TODO Auto-generated method stub
@@ -55,6 +60,13 @@ public class LoginDao {
 
 	}
 
+	// where user_id=?", new Object[] { userId }
+	public List<Login> getUser(int userId) {
+		System.out.println(userId);
+		return jdbcTemplate.query("Select * from public.logindetails", new LoginRowMapper());
+
+	}
+
 	public List<Login> getAllUsers(String dept) {
 		return jdbcTemplate.query("Select * from public.logindetails where dept=?", new Object[] { dept },
 				new LoginRowMapper());
@@ -62,7 +74,7 @@ public class LoginDao {
 	}
 
 	public List<Login> getAllUsers(String dept, int year) {
-		return jdbcTemplate.query("Select * from public.logindetails where dept=? and year = ?",
+		return jdbcTemplate.query("Select * from public.logindetails where dept=? and year_of_engg = ?",
 				new Object[] { dept, year }, new LoginRowMapper());
 
 	}

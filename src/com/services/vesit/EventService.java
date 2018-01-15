@@ -72,10 +72,11 @@ public class EventService {
 
 	public int registerForIndEvent(int userId, int eventId) {
 		// TODO Auto-generated method stub
-		/*
-		 * if (!ed.checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
-		 * return ed.registerForIndEvent(userId, eventId); } else
-		 */return 1;
+
+		if (!ed.checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
+			return ed.registerForIndEvent(userId, eventId);
+		} else
+			return 1;
 	}
 
 	public int registerForTeamEvent(String teamName, String dept, String year, String eventId, String json) {

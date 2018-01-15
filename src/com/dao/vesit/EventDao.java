@@ -105,7 +105,7 @@ public class EventDao {
 
 	public boolean checkIfAlreadyRegisteredForIndEvent(int userId, int eventId) {
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(
-				"SELECT team_id FROM public.team t,public.player p where p.team_id = t.teamid and p.player_id = ? and t.event_id=?",
+				"SELECT t.team_id FROM public.team t,public.player p where p.team_id = t.team_id and p.player_id = ? and t.event_id=?",
 				new Object[] { userId, eventId });
 
 		// System.out.println("list" + list);
@@ -116,8 +116,26 @@ public class EventDao {
 	}
 
 	public int registerForIndEvent(int userId, int eventId) {
+		LoginDao dao = new LoginDao(jdbcTemplate);
+		Login l = dao.getUser(userId).get(0);
+		int ret = jdbcTemplate.update(
+				"INSERT INTO public.team(team_name, dept, year_of_engg, scheduled, event_id)   VALUES ( ?, ?, ?, ?, ?)",
+				new Object[] { l.getUserName(), l.getDept(), l.getYearOfEng(), false, eventId });
 
-		return 1;
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(
+				"SELECT t.team_id FROM public.team t where t.team_name = ? and t.event_id=?",
+				new Object[] { l.getUserName(), eventId });
+
+		if (null == list || list.isEmpty()) {
+			return -1;
+		}
+		System.out.println("list" + list.get(0).get("team_id"));
+		int teamId = (int) list.get(0).get("team_id");
+
+		jdbcTemplate.update("INSERT INTO public.player( player_id, team_id)    VALUES (?, ?)",
+				new Object[] { userId, teamId });
+
+		return ret;
 
 	}
 

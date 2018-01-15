@@ -44,7 +44,7 @@ app
 						$http.get('project/getAllEvents').then(
 								function(response) {
 									console.log(response.data);
-									$scope.events = response.data;
+									$scope.events = response.data.reverse();
 
 								}, function myError(response) {
 									$scope.myWelcome = response.statusText;
