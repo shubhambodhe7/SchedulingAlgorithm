@@ -1,7 +1,8 @@
 app
 		.controller(
 				'teamCtrl',
-				function(event, $scope, $http, $localStorage, $location, $modalInstance) {
+				function(event, $scope, $http, $localStorage, $location,
+						$modalInstance) {
 
 					var userId = 2;
 					$scope.maxPlayers = event.maxPlayers;
@@ -40,10 +41,10 @@ app
 					}
 					;
 
-					 $scope.cancel = function () {
-						    $modalInstance.dismiss('cancel');
-						  };
-					
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+
 					$scope.registerTeam = function(data) {
 						$scope.data = data;
 
@@ -74,18 +75,23 @@ app
 								.then(
 										function(response) {
 											console.log(response.data);
-											if (response.data == -3) {
+											if (response.data == -4) {
+												bootbox
+														.alert("One of the participant has already registered as a referee for this event!");
+											} else if (response.data == -3) {
 												bootbox
 														.alert("One of the participant has already registered for this event!");
 											} else if (response.data == -2) {
 												bootbox
 														.alert("Team with same name for this event already exists!");
 											} else if (response.data == -1) {
-												$modalInstance.dismiss('cancel');
+												$modalInstance
+														.dismiss('cancel');
 												bootbox
 														.alert("Registration failed!");
 											} else {
-												$modalInstance.dismiss('cancel');
+												$modalInstance
+														.dismiss('cancel');
 												bootbox
 														.alert("Registration successful!");
 											}

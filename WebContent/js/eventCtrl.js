@@ -96,14 +96,17 @@ app
 											function(response) {
 												console.log(response.data);
 
-												if (response.data == -1) {
+												if (response.data == -2) {
 													bootbox
-															.alert("You have already registered as referee!");
+															.alert("You have already registered as referee for this event hence you cannot participate!");
+												} else if (response.data == -1) {
+													bootbox
+															.alert("You have already registered for this event!");
 												} else {
 													bootbox
-															.alert("Registered successfully");
-												}
+															.alert("Registration successfully");
 
+												}
 											},
 											function error(response) {
 												console.log(response);
@@ -114,51 +117,60 @@ app
 											});
 						} else {
 
-						        var modalInstance = $modal.open({
-						            templateUrl: 'partials/teamRegister.html',
-						            controller: 'teamCtrl',
-						            
-						            resolve: {
-						            	event : function($http) {
-						
-											return $http.get('project/getEventDetails/' + eventId)
-													.then(function(response) {
-														return response.data[0];
-													})
-										}
-						            }
-						        });
-						        
-						        modalInstance.result.then(function (selectedItems) {
-						            //products = selectedItems;
-						        }, function () {
-						            $log.info('Modal dismissed at: ' + new Date());
-						        });
-						
-							
-							//bootbox.alert("more than 1 plyer");
+							var modalInstance = $modal.open({
+								templateUrl : 'partials/teamRegister.html',
+								controller : 'teamCtrl',
+
+								resolve : {
+									event : function($http) {
+
+										return $http.get(
+												'project/getEventDetails/'
+														+ eventId).then(
+												function(response) {
+													return response.data[0];
+												})
+									}
+								}
+							});
+
+							modalInstance.result.then(function(selectedItems) {
+								// products = selectedItems;
+							}, function() {
+								$log.info('Modal dismissed at: ' + new Date());
+							});
+
+							// bootbox.alert("more than 1 plyer");
 						}
 
 					};
 					$scope.applyAsReferee = function(eventId) {
 						console.log(eventId);
 
-						$http.get(
-								'project/registerAsEventHead/' + 1 + '/'
-										+ eventId).then(function(response) {
-							console.log(response.data);
-							if (response.data == -1) {
-								bootbox.alert("You have already registered");
-							} else {
-								bootbox.alert("Registered successfully");
-							}
+						$http
+								.get(
+										'project/registerAsEventHead/' + 1
+												+ '/' + eventId)
+								.then(
+										function(response) {
+											console.log(response.data);
+											if (response.data == -2) {
+												bootbox
+														.alert("You have already registered as participant for this event hence you cannot become a refree!");
+											} else if (response.data == -1) {
+												bootbox
+														.alert("You have already registered");
+											} else {
+												bootbox
+														.alert("Registered successfully");
+											}
 
-						}, function error(response) {
-							console.log(response);
+										}, function error(response) {
+											console.log(response);
 
-							bootbox.alert("registered failed");
+											bootbox.alert("registered failed");
 
-						});
+										});
 
 					};
 					// ///////////////////

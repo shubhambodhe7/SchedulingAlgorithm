@@ -64,6 +64,10 @@ public class EventService {
 
 	public int registerAsEventHead(int userId, int eventId) {
 		// TODO Auto-generated method stub
+
+		if (ed.checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
+			return -2;
+		}
 		if (!ed.checkIfAlreadyRegisteredEventHead(userId, eventId)) {
 			return ed.registerAsEventHead(userId, eventId);
 		} else
@@ -72,11 +76,13 @@ public class EventService {
 
 	public int registerForIndEvent(int userId, int eventId) {
 		// TODO Auto-generated method stub
-
+		if (ed.checkIfAlreadyRegisteredEventHead(userId, eventId)) {
+			return -2;
+		}
 		if (!ed.checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
 			return ed.registerForIndEvent(userId, eventId);
-		} else
-			return 1;
+		}
+		return -1;
 	}
 
 	public int registerForTeamEvent(String teamName, String dept, String year, String eventId, String json) {

@@ -148,6 +148,13 @@ public class EventDao {
 			return -2;
 		}
 		for (Player p : pList) {
+
+			if (checkIfAlreadyRegisteredEventHead(p.getPlayerId(), team.getTeamId())) {
+				return -4;
+			}
+		}
+		for (Player p : pList) {
+
 			List<Map<String, Object>> checkplayerlist = jdbcTemplate.queryForList(
 					"SELECT p.player_id FROM public.team t ,public.player p where t.team_id = p.team_id and  p.player_id = ? and t.event_id=?",
 					new Object[] { p.getPlayerId(), team.getEventId() });
