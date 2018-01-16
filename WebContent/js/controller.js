@@ -97,15 +97,6 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 		authenticate.checkLogin();
 	};
 
-	$scope.addEvent = function(event) {
-
-		$http.post('project/addEvent', event).then(function(response) {
-			console.log(response.data);
-			bootbox.alert("registered");
-		}, function error(response) {
-			console.log(response);
-
-		});
-	};
+	
 
 });

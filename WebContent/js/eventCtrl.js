@@ -82,6 +82,19 @@ app
 							}
 						}
 					}
+
+					$scope.addEvent = function(event) {
+
+						$http.post('project/addEvent', event).then(
+								function(response) {
+									console.log(response.data);
+									bootbox.alert("registered");
+									getAllEvents();
+								}, function error(response) {
+									console.log(response);
+
+								});
+					};
 					$scope.registerForEvent = function(eventId) {
 						// bootbox.alert(eventId);
 						console.log(eventId)
