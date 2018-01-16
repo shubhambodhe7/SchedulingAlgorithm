@@ -28,7 +28,7 @@ public class EventController {
 	EventService es = new EventService();
 
 	@RequestMapping(value = "/addEvent", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody List<Event> addEvent(@RequestBody Event event) throws NoSuchAlgorithmException {
+	public @ResponseBody int addEvent(@RequestBody Event event) throws NoSuchAlgorithmException {
 		return es.addEvent(event);
 	}
 

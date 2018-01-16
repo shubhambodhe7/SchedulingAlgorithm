@@ -38,7 +38,7 @@ public class EventService {
 		// TODO Auto-generated constructor stub
 	}
 
-	public List<Event> addEvent(Event event) {
+	public int addEvent(Event event) {
 		return ed.addEvent(event);
 	}
 

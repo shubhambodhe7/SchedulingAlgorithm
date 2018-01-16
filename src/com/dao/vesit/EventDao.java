@@ -78,11 +78,20 @@ public class EventDao {
 
 	}
 
-	public List<Event> addEvent(Event e) {
-		jdbcTemplate.update(
-				"INSERT INTO public.event(event_name, gender, parallel_matches, details)  VALUES ( ?, ?, ?, ?)",
-				new Object[] { e.getEventName(), e.getGender(), e.getParallelMatches(), e.getDetails() });
-		return getAllEvents();
+	public int addEvent(Event e) {
+
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(
+				"Select * from public.event_head where  event_name = ?", new Object[] { e.getEventName() });
+
+		// System.out.println("list" + list);
+		if (null == list || list.isEmpty()) {
+			return jdbcTemplate.update(
+					"INSERT INTO public.event(event_name, gender, parallel_matches, details, max_participate, max_team, teams_in_one_match)  VALUES ( ?, ?, ?, ?)",
+					new Object[] { e.getEventName(), e.getGender(), e.getParallelMatches(), e.getDetails(),
+							e.getMaxPlayers(), e.getMaxTeams(), e.getTeamsInOneMatch() });
+			
+		}
+		return -1;
 
 	}
 
