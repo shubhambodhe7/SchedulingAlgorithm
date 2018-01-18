@@ -12,14 +12,14 @@
 							<div class="form-top-left">
 								<h3>Team Up!</h3>
 							</div>
-							<div class="form-top-right">
+								<div class="form-top-right">
 								<i class="fa fa-pencil"></i>
 							</div>
 						</div>
 
 
 						<div class="form-bottom">
-							<form role="form" class="registration-form">
+							<form role="form" class="registration-form" name="teamRegForm">
 								<div class="form-group">
 									<label class="sr-only" for="form-first-name"></label> Event Name
 									:<input ng-model="eventName" type="text" name="form-first-name"
@@ -35,14 +35,25 @@
 
 								<div class="form-group">
 									<multiselect class="input-xlarge multiselect"
-										ng-model="data.option"
+										ng-model="data.option" 
 										options="p.key as p.value for p in options"
-										select-limit="{{maxPlayers}}" header="select Players"
-										selected-header="options selected" multiple="true"
+										select-limit="{{maxPlayers}}" header="--Select Participants--"
+										selected-header="participants selected" multiple="true"
 										complex-models="true" required enable-filter="true"
-										filter-placeholder="Filter stuff.."> </multiselect>
+										filter-placeholder="Filter stuff.." required> </multiselect>
 								</div>
-								<p>No. of players required: {{maxPlayers}}</p>
+								
+								<div class="form-group">
+								<p>No. of participants required: {{maxPlayers}}</p>
+								</div>
+			<div class="form-group">
+			Selected Participants :
+			<ul>
+            <li ng-repeat="x in data.option">{{x.value}}</li>
+   			 </ul>
+		</div> 
+			
+			
 			<div class="modal-footer">
              <button class="btn" ng-click="registerTeam(data)">Register Team!</button>
                 <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
