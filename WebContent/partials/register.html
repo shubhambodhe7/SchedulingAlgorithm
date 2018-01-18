@@ -61,7 +61,7 @@
 									ng-class="{ 'has-error' : addEventForm.gender.$invalid && !addEventForm.gender.$pristine }">
 									<label class="sr-only"></label> Gender :<br />
 									<select ng-model="event.gender" class="formform-control" id=""
-										name="gender" required>
+										name="gender" required style="width:100%;">
 										<option value="" disabled class="formform-control">--Select--</option>
 										<option value="M" class="formform-control">Male</option>
 										<option value="F" class="formform-control">Female</option>
@@ -77,7 +77,7 @@
 									ng-class="{ 'has-error' : addEventForm.type.$invalid && !addEventForm.type.$pristine }">
 									<label class="sr-only"></label> Type of Event :<br />
 									<select ng-model="event.eventType" class="formform-control" id=""
-										name="type" required>
+										name="type" required  style="width:100%;">
 										<option value="" disabled class="formform-control">--Select--</option>
 										<option value="M" class="formform-control">Indoor</option>
 										<option value="F" class="formform-control">Outdoor</option>

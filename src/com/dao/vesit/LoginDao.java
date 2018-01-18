@@ -2,9 +2,11 @@ package com.dao.vesit;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.jasper.tagplugins.jstl.core.Catch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,7 @@ public class LoginDao {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+	PasswordEncryption passwordEncrypt = new PasswordEncryption();
 
 	public LoginDao() {
 		// TODO Auto-generated constructor stub
@@ -77,6 +80,30 @@ public class LoginDao {
 		return jdbcTemplate.query("Select * from public.logindetails where dept=? and year_of_engg = ?",
 				new Object[] { dept, year }, new LoginRowMapper());
 
+	}
+
+	public int signupUser(Login l) {
+		List<Map<String, Object>> list = jdbcTemplate
+				.queryForList("Select * from public.logindetails where  user_id = ?", new Object[] { l.getUserId() });
+
+		// System.out.println("list" + list);
+		if (null == list || list.isEmpty()) {
+			try {
+				return jdbcTemplate.update(
+						"INSERT INTO public.logindetails(user_id, username, userpassword, rolename, gender, contact, dept,year_of_engg) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+						new Object[] { l.getUserId(), l.getUserName(),
+								passwordEncrypt.passwordEncrypt(l.getUserPassword()), l.getRoleName(), l.getGender(),
+								l.getContact(), l.getDept(), l.getYearOfEng() });
+			} catch (DataAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		return -1;
 	}
 
 	public List<Login> getEligiblePlayers(int userId) {

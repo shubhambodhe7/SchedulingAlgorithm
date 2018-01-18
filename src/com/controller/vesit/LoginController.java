@@ -50,6 +50,11 @@ public class LoginController {
 
 	}
 
+	@RequestMapping(value = "/signupUser", method = RequestMethod.POST)
+	public int signupUser(@RequestBody Login login) {
+		return loginService.signupUser(login);
+	}
+
 	@RequestMapping(value = "/getEligiblePlayers/{userId}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Login> getEligiblePlayers(@PathVariable int userId) {
