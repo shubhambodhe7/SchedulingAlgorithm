@@ -11,9 +11,10 @@ app
 					$scope.yearOfEng;
 					$scope.dept;
 					$scope.options = [];
+					$scope.selectedPlayers = [];
 
 					getEligiblePlayers(userId);
-
+					
 					function getEligiblePlayers(userId) {
 
 						$http
@@ -46,6 +47,8 @@ app
 					};
 
 					$scope.registerTeam = function(data) {
+						debugger;
+						
 						$scope.data = data;
 
 						console.log("data" + $scope.data.option[0]);

@@ -24,7 +24,7 @@
 
 
 <!-- Top content -->
-<div class="top-content">
+<div class="top-content" ng-controller="eventCtrl">
 
 	<div class="inner-bg">
 		<div class="container">
@@ -130,7 +130,7 @@
 									</div>
 								</div>
 								<button class="btn" ng-click="addEvent(event)"
-									ng-disabled="addEventForm.$invalid">Add Event</button>
+									ng-disabled="addEventForm.$invalid" >Add Event</button>
 							</form>
 						</div>
 					</div>

@@ -26,6 +26,7 @@ app
 						$scope.yearOfEng;
 						$scope.dept;
 						$scope.options = [];
+						$scope.selectedPlayers = [];
 						$scope.eventList = [];
 						$scope.eventHeads = [];
 						$scope.allEventList = [];
@@ -84,11 +85,10 @@ app
 					}
 
 					$scope.addEvent = function(event) {
-
 						$http.post('project/addEvent', event).then(
 								function(response) {
 									console.log(response.data);
-									bootbox.alert("registered");
+									bootbox.alert("Event added successfully.");
 									getAllEvents();
 								}, function error(response) {
 									console.log(response);
@@ -147,11 +147,11 @@ app
 								}
 							});
 
-							modalInstance.result.then(function(selectedItems) {
+							/*modalInstance.result.then(function(selectedItems) {
 								// products = selectedItems;
 							}, function() {
 								$log.info('Modal dismissed at: ' + new Date());
-							});
+							});*/
 
 							// bootbox.alert("more than 1 plyer");
 						}
@@ -160,6 +160,7 @@ app
 					$scope.applyAsReferee = function(eventId) {
 						console.log(eventId);
 
+				
 						$http
 								.get(
 										'project/registerAsEventHead/' + 1

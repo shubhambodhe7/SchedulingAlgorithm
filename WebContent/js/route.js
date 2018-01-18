@@ -1,6 +1,6 @@
 var app = angular.module("app", [ "ngRoute", "ngStorage", 'ui.bootstrap',
 		'ngSanitize', 'ngAnimate', 'long2know', 'ui.bootstrap', 'ui.router',
-		'ui' ]);
+		'ui','ngMessages' ]);
 
 app.service('authenticate', function($http) {
 
