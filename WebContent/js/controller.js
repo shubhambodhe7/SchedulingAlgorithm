@@ -1,28 +1,5 @@
 app.controller('myCtrl', function($scope, $http, $localStorage, $location,
-		authenticate) {
-	$scope.name = "John Doe";
-	console.log($scope.name);
-
-	// //
-
-	$scope.login = function(user) {
-		console.log(user);
-		$localStorage.loggedIn = false;
-		$http.post('project/login', user).then(function(response) {
-			console.log(response.data);
-
-			console.log("Hello User");
-			$location.path("/register");
-
-		}, function error(response) {
-			console.log(response);
-
-			console.log("Login failed");
-
-		});
-		authenticate.checkLogin();
-	};
-	//
+		$cookieStore) {
 
 	$scope.getAllSports = function() {
 		console.log("view method");
@@ -68,12 +45,19 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 
 	$scope.login = function(user) {
 		console.log(user);
-		$localStorage.loggedIn = false;
+		$scope.logout();
 		$http.post('project/login', user).then(function(response) {
-			console.log(response.data);
 
-			console.log("Hello User");
-			$location.path("/register");
+			debugger;
+			console.log(response.data);
+			if (response.data.userId == null) {
+				bootbox.alert("Incorrect credentails.");
+			} else {
+				console.log("Hello User");
+				$cookieStore.put("userId", response.data.userId);
+				$cookieStore.put("roleName", response.data.roleName);
+				$location.path("/register");
+			}
 
 		}, function error(response) {
 			console.log(response);
@@ -81,7 +65,7 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 			console.log("Login failed");
 
 		});
-		authenticate.checkLogin();
+
 	};
 	$scope.logout = function(user) {
 		console.log(user);
@@ -90,7 +74,9 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 			console.log(response.data);
 
 			console.log("User logged out");
-			$location.path("/register");
+			$cookieStore.remove("userId");
+			$cookieStore.remove("roleName");
+			$location.path("/login");
 
 		}, function error(response) {
 			console.log(response);
@@ -98,7 +84,7 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 			console.log("User logged out failed");
 
 		});
-		authenticate.checkLogin();
+
 	};
 
 	$scope.changePass = function(change) {

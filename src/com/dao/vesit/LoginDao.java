@@ -37,14 +37,14 @@ public class LoginDao {
 		// TODO Auto-generated method stub
 		String password = login.getUserPassword();
 		PasswordEncryption passwordEncrypt = new PasswordEncryption();
-		// String hashPassword = passwordEncrypt.passwordEncrypt(password);
-		String hashPassword = password;
+		String hashPassword = passwordEncrypt.passwordEncrypt(password);
+		// String hashPassword = password;
 		System.out.println(password + " : " + hashPassword);
 		Login user = null;
-		String sql = "SELECT user_id, username, userpassword, rolename, contact  FROM logindetails where user_id = ? and userpassword = ?";
+		String sql = "SELECT user_id, username, gender, rolename, contact,classroom  FROM logindetails where user_id = ? and userpassword = ?";
 		try {
-			user = jdbcTemplate.query(sql, new Object[] { Integer.parseInt(login.getUserId()), hashPassword },
-					new LoginRowMapper()).get(0);
+			user = jdbcTemplate.query(sql, new Object[] { login.getUserId(), hashPassword }, new LoginRowMapper())
+					.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new Login("Incorrect credentails.");

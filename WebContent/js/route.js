@@ -1,41 +1,70 @@
 var app = angular.module("app", [ "ngRoute", "ngStorage", 'ui.bootstrap',
 		'ngSanitize', 'ngAnimate', 'long2know', 'ui.bootstrap', 'ui.router',
-		'ui', 'ngMessages' ]);
+		'ui', 'ngMessages', 'ngCookies' ]);
 
-app.service('authenticate', function($http) {
-
+app.factory('accessFac', function($http, $log, $q, $cookieStore) {
 	return {
-		checkLogin : function() {
-			$http.get('project/getUser').then(function(response) {
-				console.log(response.data);
-				console.log("session active");
+		checkIfAdmin : function() {
+			return ($cookieStore.get('roleName') == 'admin')
+		},
+		checkIfUser : function() {
 
-				return true;
-			}, function error(response) {
-				console.log(response);
+			return ($cookieStore.get('roleName') == 'normal')
 
-				console.log("session failed");
-				return false;
-			});
 		}
 	}
-});
 
+});
 app.config(function($routeProvider, $httpProvider, $locationProvider) {
 	$routeProvider.when("/", {
 		templateUrl : "partials/error.html"
-	}).when("/register", {
-		templateUrl : "partials/register.html"
 	}).when("/login", {
 		templateUrl : "partials/login.html"
+	}).when("/register", {
+		templateUrl : "partials/register.html",
+		resolve : {
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfAdmin()) {
+					$location.path('/login');
+				}
+			}
+		}
 	}).when("/displayEvents", {
-		templateUrl : "partials/displayEvents.html"
+		templateUrl : "partials/displayEvents.html",
+		resolve : {
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfAdmin()) {
+					$location.path('/login');
+				}
+			}
+		}
 	}).when("/assignReferee", {
-		templateUrl : "partials/assignReferee.html"
+		templateUrl : "partials/assignReferee.html",
+		resolve : {
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfAdmin()) {
+					$location.path('/login');
+				}
+			}
+		}
 	}).when("/advTeams", {
-		templateUrl : "partials/advanceTeams.html"
+		templateUrl : "partials/advanceTeams.html",
+		resolve : {
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfAdmin()) {
+					$location.path('/login');
+				}
+			}
+		}
 	}).when("/updateScore", {
-		templateUrl : "partials/updateScore.html"
+		templateUrl : "partials/updateScore.html",
+		resolve : {
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfAdmin()) {
+					$location.path('/login');
+				}
+			}
+		}
 	})
 
 	.when(
@@ -59,4 +88,5 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 			}).otherwise({
 		redirect : '/'
 	});
+
 });

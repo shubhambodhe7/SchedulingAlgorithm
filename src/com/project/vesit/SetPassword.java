@@ -1,5 +1,6 @@
 package com.project.vesit;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,8 +16,15 @@ import com.dto.vesit.PasswordEncryption;
 public class SetPassword {
 
 	public static void main(String args[]) {
-
-		setPassword();
+		PasswordEncryption passwordEncrypt = new PasswordEncryption();
+		try {
+			String hashPassword = passwordEncrypt.passwordEncrypt("q");
+			System.out.println(hashPassword);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//setPassword();
 	}
 
 	public static Connection getConnection() {
