@@ -25,6 +25,13 @@ public class LoginService {
 		return loginDao.signupUser(login);
 	}
 
+	public int changePass(Login login) throws NoSuchAlgorithmException {
+
+		System.out.println("change service");
+
+		return loginDao.changePass(login);
+	}
+
 	public List<Login> getEligiblePlayers(String userId) {
 		// TODO Auto-generated method stub
 		return loginDao.getEligiblePlayers(userId);

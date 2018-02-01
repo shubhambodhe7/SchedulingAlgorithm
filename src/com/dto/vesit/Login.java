@@ -6,6 +6,7 @@ public class Login {
 	private String userId;
 	private String roleName;
 	private String userPassword;
+	private String changedPassword;
 	private String contact;
 	private String userName;
 	private String dept;
@@ -27,7 +28,6 @@ public class Login {
 		this.userName = userName;
 	}
 
-	
 	public Login(String userId, String userPassword, String contact) {
 		super();
 		this.userId = userId;
@@ -110,6 +110,14 @@ public class Login {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getChangedPassword() {
+		return changedPassword;
+	}
+
+	public void setChangedPassword(String changedPassword) {
+		this.changedPassword = changedPassword;
 	}
 
 }

@@ -58,6 +58,19 @@ public class LoginDao {
 
 	}
 
+	public int changePass(Login login) throws NoSuchAlgorithmException {
+
+		System.out.println("change dao");
+		String oldPassword = login.getUserPassword();
+		PasswordEncryption passwordEncrypt = new PasswordEncryption();
+		String hashOldPassword = passwordEncrypt.passwordEncrypt(oldPassword);
+		String newPassword = login.getChangedPassword();
+		String hashNewPassword = passwordEncrypt.passwordEncrypt(newPassword);
+
+		return jdbcTemplate.update("UPDATE logindetails SET userpassword=? WHERE user_id = ? and userpassword = ?",
+				new Object[] { hashNewPassword, login.getUserId(), hashOldPassword });
+	}
+
 	public List<Login> getAllUsers() {
 		return jdbcTemplate.query("Select * from logindetails", new LoginRowMapper());
 

@@ -36,6 +36,13 @@ public class LoginController {
 		return user;
 	}
 
+	@RequestMapping(value = "/changePass", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody int changePass(@RequestBody Login login) throws NoSuchAlgorithmException {
+
+		
+		return loginService.changePass(login);
+	}
+
 	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
 	@ResponseBody
 	public Login getUserInfo(HttpServletRequest request) {
