@@ -4,17 +4,19 @@ app
 				function(event, $scope, $http, $localStorage, $location,
 						$modalInstance) {
 
-					var userId = 2;
+					//var userId = 3;
+					$scope.userId = 'aarzu.shaha@ves.ac.in';
 					$scope.maxPlayers = event.maxPlayers;
 					$scope.eventName = event.eventName;
 					$scope.eventId = event.eventId;
 					$scope.yearOfEng;
 					$scope.dept;
+					$scope.classroom;
 					$scope.options = [];
 					$scope.selectedPlayers = [];
 
-					getEligiblePlayers(userId);
-					
+					getEligiblePlayers($scope.userId);
+
 					function getEligiblePlayers(userId) {
 
 						$http
@@ -24,6 +26,7 @@ app
 											console.log(response.data);
 											$scope.yearOfEng = response.data[0].yearOfEng;
 											$scope.dept = response.data[0].dept;
+											$scope.classroom = response.data[0].classroom;
 
 											for (var i = 0; i < response.data.length; i++) { //
 												$scope.options
@@ -48,7 +51,7 @@ app
 
 					$scope.registerTeam = function(data) {
 						debugger;
-						
+
 						$scope.data = data;
 
 						console.log("data" + $scope.data.option[0]);
@@ -70,7 +73,7 @@ app
 						$http
 								.get(
 										'project/registerForTeamEvent/'
-												+ $scope.data.teamName + '/'
+												+ $scope.classroom + '/'
 												+ $scope.dept + '/'
 												+ $scope.yearOfEng + '/'
 												+ $scope.eventId + '/'

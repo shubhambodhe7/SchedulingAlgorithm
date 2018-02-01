@@ -61,6 +61,10 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 		console.log("Team Register method");
 		$location.path('/advTeams');
 	};
+	$scope.updateScore = function() {
+		console.log("Update score method");
+		$location.path('/updateScore');
+	};
 
 	$scope.login = function(user) {
 		console.log(user);

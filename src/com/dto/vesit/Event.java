@@ -17,6 +17,20 @@ public class Event {
 
 	private int teamsInOneMatch;
 
+	public Event(int eventId, String eventName, String gender, int parallelMatches, String details, int maxPlayers,
+			int maxTeams, int teamsInOneMatch, int eventHead) {
+		super();
+		this.eventId = eventId;
+		this.eventName = eventName;
+		this.gender = gender;
+		this.parallelMatches = parallelMatches;
+		this.details = details;
+		this.maxPlayers = maxPlayers;
+		this.maxTeams = maxTeams;
+		this.eventHead = eventHead;
+		this.teamsInOneMatch = teamsInOneMatch;
+	}
+
 	public Event(int eventId, String eventName, List<Team> teams, String gender, int parallelMatches, String details,
 			List<Game> games, int maxPlayers, int maxTeams) {
 		super();
@@ -143,6 +157,10 @@ public class Event {
 	public void setEventHead(int eventHead) {
 		this.eventHead = eventHead;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Event [" + eventId + " : " + eventName + " : " + teams + "]";
+	}
 
 }

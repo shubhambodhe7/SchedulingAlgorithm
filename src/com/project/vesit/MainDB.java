@@ -146,7 +146,7 @@ public class MainDB {
 		try {
 			c = getConnection();
 			System.out.println("Opened database successfully");
-			stmt = c.prepareStatement("INSERT INTO public.schedule(  schedule_id, game_id)    VALUES (?, ?) ");
+			stmt = c.prepareStatement("INSERT INTO schedule(  schedule_id, game_id)    VALUES (?, ?) ");
 			stmt.setLong(1, index);
 			stmt.setInt(2, gameId);
 
@@ -188,7 +188,7 @@ public class MainDB {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("select s.current_ts,s.game_interval from  public.sport s where s.sport_id = ?");
+			stmt = c.prepareStatement("select s.current_ts,s.game_interval from  sport s where s.sport_id = ?");
 			stmt.setInt(1, s.getSportId());
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -196,7 +196,7 @@ public class MainDB {
 				interval = rs.getLong(2);
 			}
 
-			stmt = c.prepareStatement("Update  public.sport s SET s.current_ts = ? where s.sport_id = ?");
+			stmt = c.prepareStatement("Update  sport s SET s.current_ts = ? where s.sport_id = ?");
 			stmt.setTimestamp(1, new Timestamp((t.getTime() + s.getSlotTime() + interval)));
 			stmt.setInt(2, s.getSportId());
 
@@ -264,7 +264,7 @@ public class MainDB {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("SELECT * FROM public.team t where t.sport_id = ?");
+			stmt = c.prepareStatement("SELECT * FROM team t where t.sport_id = ?");
 			stmt.setInt(1, s.getSportId());
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -296,7 +296,7 @@ public class MainDB {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("SELECT player_id, player_name FROM public.player p where p.team_id = ?");
+			stmt = c.prepareStatement("SELECT player_id, player_name FROM player p where p.team_id = ?");
 			stmt.setInt(1, t.getTeamId());
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -326,7 +326,7 @@ public class MainDB {
 			c = getConnection();
 			for (Game g : games) {
 				stmt = c.prepareStatement(
-						"INSERT INTO public.game(team_a, team_b, start_ts, end_ts, sport_id)   VALUES ( ?, ?, ?, ?, ?);");
+						"INSERT INTO game(team_a, team_b, start_ts, end_ts, sport_id)   VALUES ( ?, ?, ?, ?, ?);");
 				stmt.setInt(1, g.getTeamA().getTeamId());
 				stmt.setInt(2, g.getTeamB().getTeamId());
 				stmt.setTimestamp(3, g.getStartTimeStamp());
@@ -336,7 +336,7 @@ public class MainDB {
 				stmt.executeUpdate();
 
 				stmt = c.prepareStatement(
-						"SELECT game_id  FROM public.game where team_a = ?  and team_b = ? and start_ts = ? and end_ts =? and sport_id = ?");
+						"SELECT game_id  FROM game where team_a = ?  and team_b = ? and start_ts = ? and end_ts =? and sport_id = ?");
 				stmt.setInt(1, g.getTeamA().getTeamId());
 				stmt.setInt(2, g.getTeamB().getTeamId());
 				stmt.setTimestamp(3, g.getStartTimeStamp());
@@ -348,7 +348,7 @@ public class MainDB {
 					gameId = rs.getInt(1);
 				}
 
-				stmt = c.prepareStatement("INSERT INTO public.schedule(   schedule_id, game_id)   VALUES (?, ?)");
+				stmt = c.prepareStatement("INSERT INTO schedule(   schedule_id, game_id)   VALUES (?, ?)");
 				stmt.setLong(1, schedule_index);
 				stmt.setInt(2, gameId);
 
@@ -378,7 +378,7 @@ public class MainDB {
 			c = getConnection();
 
 			stmt = c.prepareStatement(
-					"select distinct t.team_id,s.sport_id from  public.sport s,public.game g, public.team t, public.player p where s.sport_id = t.sport_id and g.sport_id = s.sport_id and t.team_id = p.team_id  and p.player_id = ? and g.start_ts = ? and g.end_ts = ?");
+					"select distinct t.team_id,s.sport_id from  sport s,game g, team t, player p where s.sport_id = t.sport_id and g.sport_id = s.sport_id and t.team_id = p.team_id  and p.player_id = ? and g.start_ts = ? and g.end_ts = ?");
 			stmt.setInt(1, p.getPlayerId());
 			stmt.setTimestamp(2, s.getCurTimestamp());
 			stmt.setTimestamp(3, new Timestamp(s.getCurTimestamp().getTime() + s.getSlotTime()));
@@ -411,7 +411,7 @@ public class MainDB {
 			c = getConnection();
 
 			stmt = c.prepareStatement(
-					"SELECT distinct s.schedule_id, MAX(g.end_ts) - MIN(g.start_ts)   FROM public.schedule s, public.game g   group by s.schedule_id;");
+					"SELECT distinct s.schedule_id, MAX(g.end_ts) - MIN(g.start_ts)   FROM schedule s, game g   group by s.schedule_id;");
 
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -424,12 +424,12 @@ public class MainDB {
 
 			}
 
-			stmt = c.prepareStatement("delete  FROM public.schedule s where s.schedule_id != ? ");
+			stmt = c.prepareStatement("delete  FROM schedule s where s.schedule_id != ? ");
 			stmt.setLong(1, minSchId);
 			stmt.executeUpdate();
 
 			stmt = c.prepareStatement(
-					" delete from public.game g where g.game_id  NOT IN  (select s.game_id FROM public.schedule s where s.schedule_id = ?)");
+					" delete from game g where g.game_id  NOT IN  (select s.game_id FROM schedule s where s.schedule_id = ?)");
 			stmt.setLong(1, minSchId);
 			stmt.executeUpdate();
 
@@ -453,10 +453,10 @@ public class MainDB {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("delete   FROM public.schedule s");
+			stmt = c.prepareStatement("delete   FROM schedule s");
 			stmt.executeUpdate();
 
-			stmt = c.prepareStatement("delete   FROM public.game g");
+			stmt = c.prepareStatement("delete   FROM game g");
 			stmt.executeUpdate();
 
 			stmt.close();

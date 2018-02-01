@@ -25,7 +25,7 @@ public class LoginService {
 		return loginDao.signupUser(login);
 	}
 
-	public List<Login> getEligiblePlayers(int userId) {
+	public List<Login> getEligiblePlayers(String userId) {
 		// TODO Auto-generated method stub
 		return loginDao.getEligiblePlayers(userId);
 	}

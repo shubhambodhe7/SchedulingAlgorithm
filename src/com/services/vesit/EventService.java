@@ -62,23 +62,18 @@ public class EventService {
 		return ed.getPendingEventsForRefreeAssignment();
 	}
 
-	public int registerAsEventHead(int userId, int eventId) {
+	public int registerAsEventHead(String userId, int eventId) {
 		// TODO Auto-generated method stub
 
-		if (ed.checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
-			return -2;
-		}
 		if (!ed.checkIfAlreadyRegisteredEventHead(userId, eventId)) {
 			return ed.registerAsEventHead(userId, eventId);
 		} else
 			return -1;
 	}
 
-	public int registerForIndEvent(int userId, int eventId) {
+	public int registerForIndEvent(String userId, int eventId) {
 		// TODO Auto-generated method stub
-		if (ed.checkIfAlreadyRegisteredEventHead(userId, eventId)) {
-			return -2;
-		}
+		
 		if (!ed.checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
 			return ed.registerForIndEvent(userId, eventId);
 		}

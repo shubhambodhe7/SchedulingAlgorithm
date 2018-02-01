@@ -1,6 +1,6 @@
 var app = angular.module("app", [ "ngRoute", "ngStorage", 'ui.bootstrap',
 		'ngSanitize', 'ngAnimate', 'long2know', 'ui.bootstrap', 'ui.router',
-		'ui','ngMessages' ]);
+		'ui', 'ngMessages' ]);
 
 app.service('authenticate', function($http) {
 
@@ -34,7 +34,11 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 		templateUrl : "partials/assignReferee.html"
 	}).when("/advTeams", {
 		templateUrl : "partials/advanceTeams.html"
-	}).when(
+	}).when("/updateScore", {
+		templateUrl : "partials/updateScore.html"
+	})
+
+	.when(
 			"/teamRegister/:eventId",
 			{
 				templateUrl : "partials/teamRegister.html",

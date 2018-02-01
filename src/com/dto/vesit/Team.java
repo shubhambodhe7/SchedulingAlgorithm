@@ -99,8 +99,7 @@ public class Team {
 
 	@Override
 	public String toString() {
-		return "Team [teamId=" + teamId + ", teamName=" + teamName + ", players=" + players + ", scheduled=" + scheduled
-				+ ", eventId=" + eventId + ", gameId=" + gameId + "]";
+		return "Team ["+ teamId + " : "+ teamName +"]";
 	}
 
 }

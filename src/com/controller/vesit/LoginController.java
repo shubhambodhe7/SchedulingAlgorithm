@@ -57,7 +57,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/getEligiblePlayers/{userId}", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Login> getEligiblePlayers(@PathVariable int userId) {
+	public List<Login> getEligiblePlayers(@PathVariable String userId) {
 
 		return loginService.getEligiblePlayers(userId);
 	}

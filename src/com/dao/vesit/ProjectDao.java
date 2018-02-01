@@ -46,7 +46,7 @@ public class ProjectDao {
 		List<Sport> sportList = new ArrayList<>();
 		try {
 			return jdbcTemplate.query(
-					"SELECT sport_id, sport_name, slot_time, start_ts, current_ts, game_interval FROM public.sport",
+					"SELECT sport_id, sport_name, slot_time, start_ts, current_ts, game_interval FROM sport",
 					new SportRowMapper());
 
 		} catch (Exception e) {

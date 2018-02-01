@@ -48,13 +48,13 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/registerAsEventHead/{userId}/{eventId}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody int registerAsEventHead(@PathVariable int userId, @PathVariable int eventId)
+	public @ResponseBody int registerAsEventHead(@PathVariable String userId, @PathVariable int eventId)
 			throws NoSuchAlgorithmException {
 		return es.registerAsEventHead(userId, eventId);
 	}
 
 	@RequestMapping(value = "/registerForIndEvent/{userId}/{eventId}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody int registerForIndEvent(@PathVariable int userId, @PathVariable int eventId)
+	public @ResponseBody int registerForIndEvent(@PathVariable String userId, @PathVariable int eventId)
 			throws NoSuchAlgorithmException {
 		return es.registerForIndEvent(userId, eventId);
 	}
@@ -86,6 +86,14 @@ public class EventController {
 
 	@RequestMapping(value = "/advanceTeam/{round}/{eventId}/{json}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody int advanceTeam(@PathVariable String round, @PathVariable String eventId,
+			@PathVariable String json) throws NoSuchAlgorithmException {
+
+		return es.advanceTeam(round, eventId, json);
+		// return 1;
+	}
+
+	@RequestMapping(value = "/updateScore/{round}/{eventId}/{json}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody int updateScore(@PathVariable String round, @PathVariable String eventId,
 			@PathVariable String json) throws NoSuchAlgorithmException {
 
 		return es.advanceTeam(round, eventId, json);

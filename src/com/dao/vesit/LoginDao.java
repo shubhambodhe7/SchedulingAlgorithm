@@ -41,7 +41,7 @@ public class LoginDao {
 		String hashPassword = password;
 		System.out.println(password + " : " + hashPassword);
 		Login user = null;
-		String sql = "SELECT user_id, username, userpassword, rolename, contact  FROM public.logindetails where user_id = ? and userpassword = ?";
+		String sql = "SELECT user_id, username, userpassword, rolename, contact  FROM logindetails where user_id = ? and userpassword = ?";
 		try {
 			user = jdbcTemplate.query(sql, new Object[] { Integer.parseInt(login.getUserId()), hashPassword },
 					new LoginRowMapper()).get(0);
@@ -59,38 +59,33 @@ public class LoginDao {
 	}
 
 	public List<Login> getAllUsers() {
-		return jdbcTemplate.query("Select * from public.logindetails", new LoginRowMapper());
+		return jdbcTemplate.query("Select * from logindetails", new LoginRowMapper());
 
 	}
 
 	// where user_id=?", new Object[] { userId }
-	public List<Login> getUser(int userId) {
+	public List<Login> getUser(String userId) {
 		System.out.println(userId);
-		return jdbcTemplate.query("Select * from public.logindetails", new LoginRowMapper());
-
-	}
-
-	public List<Login> getAllUsers(String dept) {
-		return jdbcTemplate.query("Select * from public.logindetails where dept=?", new Object[] { dept },
+		return jdbcTemplate.query("Select * from logindetails where user_id = ?", new Object[] { userId },
 				new LoginRowMapper());
 
 	}
 
-	public List<Login> getAllUsers(String dept, int year) {
-		return jdbcTemplate.query("Select * from public.logindetails where dept=? and year_of_engg = ?",
-				new Object[] { dept, year }, new LoginRowMapper());
+	public List<Login> getAllUsers(String classroom) {
+		return jdbcTemplate.query("Select * from logindetails where classroom=?", new Object[] { classroom },
+				new LoginRowMapper());
 
 	}
 
 	public int signupUser(Login l) {
-		List<Map<String, Object>> list = jdbcTemplate
-				.queryForList("Select * from public.logindetails where  user_id = ?", new Object[] { l.getUserId() });
+		List<Map<String, Object>> list = jdbcTemplate.queryForList("Select * from logindetails where  user_id = ?",
+				new Object[] { l.getUserId() });
 
 		// System.out.println("list" + list);
 		if (null == list || list.isEmpty()) {
 			try {
 				return jdbcTemplate.update(
-						"INSERT INTO public.logindetails(user_id, username, userpassword, rolename, gender, contact, dept,year_of_engg) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+						"INSERT INTO logindetails(user_id, username, userpassword, rolename, gender, contact, dept,year_of_engg) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 						new Object[] { l.getUserId(), l.getUserName(),
 								passwordEncrypt.passwordEncrypt(l.getUserPassword()), l.getRoleName(), l.getGender(),
 								l.getContact(), l.getDept(), l.getYearOfEng() });
@@ -106,12 +101,13 @@ public class LoginDao {
 		return -1;
 	}
 
-	public List<Login> getEligiblePlayers(int userId) {
+	public List<Login> getEligiblePlayers(String userId) {
 		// TODO Auto-generated method stub
-		List<Login> userDetails = jdbcTemplate.query("Select * from public.logindetails l where user_id = ?  ",
+		System.out.println("userId : " + userId);
+		List<Login> userDetails = jdbcTemplate.query("Select * from logindetails l where user_id = ?  ",
 				new Object[] { userId }, new LoginRowMapper());
 
-		return getAllUsers(userDetails.get(0).getDept(), userDetails.get(0).getYearOfEng());
+		return getAllUsers(userDetails.get(0).getClassroom());
 	}
 
 }

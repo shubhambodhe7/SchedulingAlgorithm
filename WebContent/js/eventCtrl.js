@@ -3,7 +3,7 @@ app
 				'eventCtrl',
 				function($scope, $http, $localStorage, $location, $modal, $log) {
 
-					var userId = 2;
+					var userId = 'aarzu.shaha@ves.ac.in';
 					$scope.$watch('data.eventId', function() {
 						$scope.eventHeads = [];
 						getEligibleEventHeads($scope.data.eventId);
@@ -13,7 +13,9 @@ app
 						getTeamsForEvent($scope.data.allEventId);
 					});
 					$scope.$watch('data.teams', function() {
-						$scope.rounds = [ 5, 4, 3, 2 ];
+						$scope.rounds = [ 'Final Winner', 'Finalists',
+								'Semi Finalists', 'Quarter Finalists',
+								'Pre quarter finalists ', 'Participated' ];
 					});
 
 					init();
@@ -103,8 +105,8 @@ app
 						if (getMaxNumParticipants(eventId) == 1) {
 							$http
 									.get(
-											'project/registerForIndEvent/' + 1
-													+ '/' + eventId)
+											'project/registerForIndEvent/'
+													+ userId + '/' + eventId)
 									.then(
 											function(response) {
 												console.log(response.data);
@@ -147,11 +149,12 @@ app
 								}
 							});
 
-							/*modalInstance.result.then(function(selectedItems) {
-								// products = selectedItems;
-							}, function() {
-								$log.info('Modal dismissed at: ' + new Date());
-							});*/
+							/*
+							 * modalInstance.result.then(function(selectedItems) { //
+							 * products = selectedItems; }, function() {
+							 * $log.info('Modal dismissed at: ' + new Date());
+							 * });
+							 */
 
 							// bootbox.alert("more than 1 plyer");
 						}
@@ -160,10 +163,9 @@ app
 					$scope.applyAsReferee = function(eventId) {
 						console.log(eventId);
 
-				
 						$http
 								.get(
-										'project/registerAsEventHead/' + 1
+										'project/registerAsEventHead/' + userId
 												+ '/' + eventId)
 								.then(
 										function(response) {
@@ -190,7 +192,7 @@ app
 					// ///////////////////
 
 					function getEligiblePlayers(userId) {
-
+						debugger;
 						$http
 								.get('project/getEligiblePlayers/' + userId)
 								.then(

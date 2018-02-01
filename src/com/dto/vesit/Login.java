@@ -11,6 +11,7 @@ public class Login {
 	private String dept;
 	private int yearOfEng;
 	private String gender;
+	private String classroom;
 
 	public Login() {
 		super();
@@ -24,6 +25,22 @@ public class Login {
 		this.userPassword = userPassword;
 		this.contact = contact;
 		this.userName = userName;
+	}
+
+	
+	public Login(String userId, String userPassword, String contact) {
+		super();
+		this.userId = userId;
+		this.userPassword = userPassword;
+		this.contact = contact;
+	}
+
+	public String getClassroom() {
+		return classroom;
+	}
+
+	public void setClassroom(String classroom) {
+		this.classroom = classroom;
 	}
 
 	public String getGender() {

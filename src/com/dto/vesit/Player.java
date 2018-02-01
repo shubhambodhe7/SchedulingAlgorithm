@@ -1,32 +1,37 @@
 package com.dto.vesit;
 
 public class Player {
-	private int playerId;
+	private String playerId;
 
 	private String playerName;
 	
 
-	public Player(int playerId, String playerName) {
+	public Player(String playerId, String playerName) {
 		super();
 		this.playerId = playerId;
 		this.playerName = playerName;
 	}
 
-	public int getPlayerId() {
+
+	public String getPlayerId() {
 		return playerId;
 	}
 
-	public void setPlayerId(int playerId) {
+
+	public void setPlayerId(String playerId) {
 		this.playerId = playerId;
 	}
+
 
 	public String getPlayerName() {
 		return playerName;
 	}
 
+
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
 	}
+
 
 	@Override
 	public String toString() {
