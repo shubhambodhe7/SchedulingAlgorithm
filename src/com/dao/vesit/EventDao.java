@@ -44,9 +44,11 @@ public class EventDao {
 
 	}
 
-	public List<Event> getEventDetails(int eventId) {
-		return jdbcTemplate.query("Select * from event where event_id = ? ", new Object[] { eventId },
-				new EventRowMapper());
+	public List<Event> getEventDetails(String userId,int eventId) {
+		LoginDao ld = new LoginDao();
+		String gender = ld.getUser(userId).get(0).getGender();
+		return jdbcTemplate.query("Select * from event where event_id = ? where gender = ?",
+				new Object[] { eventId, gender }, new EventRowMapper());
 
 	}
 
@@ -213,7 +215,7 @@ public class EventDao {
 		} else if (round.equalsIgnoreCase("Participated")) {
 			points = 1;
 		}
-		System.out.println("points : " +points);
+		System.out.println("points : " + points);
 		for (Team t : teams) {
 			System.out.println(round + "  " + eventId + "  " + t.getTeamId() + " :  " + t.getTeamName());
 			ret = jdbcTemplate.update("UPDATE team set round=?, points= ?  WHERE team_id = ? and event_id = ?",

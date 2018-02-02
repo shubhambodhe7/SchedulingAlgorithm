@@ -37,9 +37,9 @@ public class EventController {
 		return es.getAllEvents();
 	}
 
-	@RequestMapping(value = "/getEventDetails/{eventId}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<Event> getEventDetails(@PathVariable int eventId) throws NoSuchAlgorithmException {
-		return es.getEventDetails(eventId);
+	@RequestMapping(value = "/getEventDetails/{userId}/{eventId}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<Event> getEventDetails(@PathVariable String userId, @PathVariable int eventId) throws NoSuchAlgorithmException {
+		return es.getEventDetails(userId,eventId);
 	}
 
 	@RequestMapping(value = "/getPendingEventsForRefreeAssignment", method = RequestMethod.GET, produces = "application/json")

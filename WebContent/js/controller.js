@@ -46,25 +46,30 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 	$scope.login = function(user) {
 		console.log(user);
 		$scope.logout();
-		$http.post('project/login', user).then(function(response) {
+		$http.post('project/login', user).then(
+				function(response) {
 
-			debugger;
-			console.log(response.data);
-			if (response.data.userId == null) {
-				bootbox.alert("Incorrect credentails.");
-			} else {
-				console.log("Hello User");
-				$cookieStore.put("userId", response.data.userId);
-				$cookieStore.put("roleName", response.data.roleName);
-				$location.path("/register");
-			}
+					// debugger;
+					console.log(response.data);
+					if (response.data.userId == null) {
+						bootbox.alert("Incorrect credentails.");
+					} else {
+						console.log("Hello User");
 
-		}, function error(response) {
-			console.log(response);
+						$cookieStore.put("userId", response.data.userId);
 
-			console.log("Login failed");
+						$cookieStore.put(
+								"_f7c2e09ca07304e85f9563435e6ca31534ee2ca1",
+								response.data.userPassword);
+						$location.path("/register");
+					}
 
-		});
+				}, function error(response) {
+					console.log(response);
+
+					console.log("Login failed");
+
+				});
 
 	};
 	$scope.logout = function(user) {
@@ -75,7 +80,7 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 
 			console.log("User logged out");
 			$cookieStore.remove("userId");
-			$cookieStore.remove("roleName");
+			$cookieStore.remove("_f7c2e09ca07304e85f9563435e6ca31534ee2ca1");
 			$location.path("/login");
 
 		}, function error(response) {

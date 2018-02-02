@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.dto.vesit.Login;
+import com.dto.vesit.PasswordEncryption;
 import com.services.vesit.LoginService;
 
 @Controller
@@ -29,17 +30,18 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody Login loginUser(@RequestBody Login login, HttpServletRequest request)
 			throws NoSuchAlgorithmException {
+		PasswordEncryption passwordEncrypt = new PasswordEncryption();
 		Login user = loginService.loginUser(login);
 		if (null != user.getUserId()) {
 			request.getSession().setAttribute("user", user);
 		}
+		user.setUserPassword(passwordEncrypt.passwordEncrypt((user.getRoleName())));
 		return user;
 	}
 
 	@RequestMapping(value = "/changePass", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody int changePass(@RequestBody Login login) throws NoSuchAlgorithmException {
 
-		
 		return loginService.changePass(login);
 	}
 

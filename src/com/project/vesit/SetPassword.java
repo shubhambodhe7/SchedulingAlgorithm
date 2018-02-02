@@ -18,7 +18,7 @@ public class SetPassword {
 	public static void main(String args[]) {
 		PasswordEncryption passwordEncrypt = new PasswordEncryption();
 		try {
-			String hashPassword = passwordEncrypt.passwordEncrypt("q");
+			String hashPassword = passwordEncrypt.passwordEncrypt("normal");
 			System.out.println(hashPassword);
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block

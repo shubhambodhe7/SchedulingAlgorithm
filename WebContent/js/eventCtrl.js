@@ -141,7 +141,8 @@ app
 
 										return $http.get(
 												'project/getEventDetails/'
-														+ eventId).then(
+														+ userId + '/'
+														+ +eventId).then(
 												function(response) {
 													return response.data[0];
 												})
