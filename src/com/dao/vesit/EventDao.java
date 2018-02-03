@@ -75,7 +75,7 @@ public class EventDao {
 	}
 
 	public List<Event> getPendingEventsForRefreeAssignment() {
-		return jdbcTemplate.query("select * from event e  where e.eventhead = -1 order by e.event_name desc ",
+		return jdbcTemplate.query("select * from event e  where e.eventhead = 'none' order by e.event_name desc ",
 				new EventRowMapper());
 
 	}

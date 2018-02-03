@@ -14,13 +14,12 @@ public class Event {
 	private List<Game> games;
 	private int maxPlayers;
 	private int maxTeams;
-	private int eventHead;
-
+	private String eventHead;
 
 	private int teamsInOneMatch;
 
 	public Event(int eventId, String eventName, String gender, int parallelMatches, String details, int maxPlayers,
-			int maxTeams, int teamsInOneMatch, int eventHead) {
+			int maxTeams, int teamsInOneMatch, String eventHead) {
 		super();
 		this.eventId = eventId;
 		this.eventName = eventName;
@@ -160,11 +159,11 @@ public class Event {
 		this.maxTeams = maxTeams;
 	}
 
-	public int getEventHead() {
+	public String getEventHead() {
 		return eventHead;
 	}
 
-	public void setEventHead(int eventHead) {
+	public void setEventHead(String eventHead) {
 		this.eventHead = eventHead;
 	}
 

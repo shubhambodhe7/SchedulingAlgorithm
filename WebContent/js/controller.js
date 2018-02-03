@@ -88,7 +88,7 @@ app
 								.then(
 										function(response) {
 
-											//debugger;
+											// debugger;
 											console.log(response.data);
 											if (response.data.userId == null) {
 												bootbox
@@ -104,6 +104,7 @@ app
 												 * response.data.userPassword);
 												 */
 												$localStorage.userId = response.data.userId;
+												$localStorage.userName = response.data.userName;
 												$localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 = response.data.userPassword;
 
 												$location.path("/register");
