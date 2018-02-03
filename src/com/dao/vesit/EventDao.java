@@ -161,8 +161,8 @@ public class EventDao {
 			}
 		}
 		int ret = jdbcTemplate.update(
-				"INSERT INTO team(team_name, dept, year_of_engg, scheduled, event_id)   VALUES ( ?, ?, ?, ?, ?)",
-				new Object[] { team.getTeamName(), team.getDept(), team.getYearOfEng(), false, team.getEventId() });
+				"INSERT INTO team(team_name, classroom, scheduled, event_id)   VALUES ( ?,  ?, ?, ?)",
+				new Object[] { team.getTeamName(), team.getClassroom(), false, team.getEventId() });
 
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(
 				"SELECT t.team_id FROM team t where t.team_name = ? and t.event_id=?",

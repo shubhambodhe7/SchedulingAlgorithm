@@ -23,11 +23,11 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 		templateUrl : "partials/register.html",
 		resolve : {
 			sessionActive : function(accessFac) {
-				return accessFac.checkIfAdmin();
+				return accessFac.checkIfUser();
 
 			},
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfAdmin()) {
+				if (!accessFac.checkIfUser()) {
 					$location.path('/login');
 				}
 			}
@@ -36,7 +36,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 		templateUrl : "partials/displayEvents.html",
 		resolve : {
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfAdmin()) {
+				if (!accessFac.checkIfUser()) {
 					$location.path('/login');
 				}
 			}
@@ -45,7 +45,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 		templateUrl : "partials/assignReferee.html",
 		resolve : {
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfAdmin()) {
+				if (!accessFac.checkIfUser()) {
 					$location.path('/login');
 				}
 			}
@@ -54,7 +54,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 		templateUrl : "partials/advanceTeams.html",
 		resolve : {
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfAdmin()) {
+				if (!accessFac.checkIfUser()) {
 					$location.path('/login');
 				}
 			}
@@ -63,7 +63,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 		templateUrl : "partials/updateScore.html",
 		resolve : {
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfAdmin()) {
+				if (!accessFac.checkIfUser()) {
 					$location.path('/login');
 				}
 			}

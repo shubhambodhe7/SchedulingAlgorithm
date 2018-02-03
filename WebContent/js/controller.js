@@ -21,7 +21,7 @@ app
 						}
 						console.log('chnged');
 						console.log($localStorage.userId);
-						$scope.sessionActive = accessFac.checkIfAdmin();
+						$scope.sessionActive = accessFac.checkIfUser();
 						console.log("$scope.sessionActive",
 								$scope.sessionActive)
 					})

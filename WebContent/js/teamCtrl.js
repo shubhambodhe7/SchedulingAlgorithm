@@ -24,8 +24,6 @@ app
 								.then(
 										function(response) {
 											console.log(response.data);
-											$scope.yearOfEng = response.data[0].yearOfEng;
-											$scope.dept = response.data[0].dept;
 											$scope.classroom = response.data[0].classroom;
 
 											for (var i = 0; i < response.data.length; i++) { //
@@ -58,26 +56,21 @@ app
 						var temp = [];
 						for (var i = 0; i < $scope.data.option.length; i++) { //
 							temp.push({
-								playerId : parseInt($scope.options[i].key),
+								playerId : $scope.options[i].key,
 								playerName : $scope.options[i].value
+
 							});
 						}
 						var varyearOfEng = $scope.yearOfEng;
 						var vardept = $scope.dept;
-						$scope.payload = {
-							yearOfEng : varyearOfEng,
-							dept : vardept,
-							players : temp
+						var params = {
+							classroom : $scope.classroom,
+							eventId : $scope.eventId,
+							players : JSON.stringify(temp)
 						};
 
 						$http
-								.get(
-										'project/registerForTeamEvent/'
-												+ $scope.classroom + '/'
-												+ $scope.dept + '/'
-												+ $scope.yearOfEng + '/'
-												+ $scope.eventId + '/'
-												+ JSON.stringify(temp))
+								.post('project/registerForTeamEvent/', params)
 								.then(
 										function(response) {
 											console.log(response.data);

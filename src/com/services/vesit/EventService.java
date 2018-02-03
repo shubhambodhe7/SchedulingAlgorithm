@@ -46,8 +46,8 @@ public class EventService {
 		return ed.getAllEvents();
 	}
 
-	public List<Event> getEventDetails(String userId,int eventId) {
-		return ed.getEventDetails(userId,eventId);
+	public List<Event> getEventDetails(String userId, int eventId) {
+		return ed.getEventDetails(userId, eventId);
 	}
 
 	public List<Login> getEligibleEventHeads(int eventId) {
@@ -73,20 +73,19 @@ public class EventService {
 
 	public int registerForIndEvent(String userId, int eventId) {
 		// TODO Auto-generated method stub
-		
+
 		if (!ed.checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
 			return ed.registerForIndEvent(userId, eventId);
 		}
 		return -1;
 	}
 
-	public int registerForTeamEvent(String teamName, String dept, String year, String eventId, String json) {
+	public int registerForTeamEvent(String teamName, String classroom, String eventId, String json) {
 
 		Team t = new Team();
 		t.setTeamName(teamName);
-		t.setDept(dept);
+		t.setClassroom(classroom);
 		t.setEventId(Integer.parseInt(eventId));
-		t.setYearOfEng(Integer.parseInt(year));
 		System.out.println(json);
 
 		Gson gson = new Gson();

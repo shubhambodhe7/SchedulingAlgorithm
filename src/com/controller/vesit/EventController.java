@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,16 +61,17 @@ public class EventController {
 		return es.registerForIndEvent(userId, eventId);
 	}
 
-	@RequestMapping(value = "/registerForTeamEvent/{teamName:.+}/{dept:.+}/{year:.+}/{eventId:.+}/{json:.+}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody int registerForTeamEvent(@PathVariable String teamName, @PathVariable String dept,
-			@PathVariable String year, @PathVariable String eventId, @PathVariable String json)
+	@RequestMapping(value = "/registerForTeamEvent", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody int registerForTeamEvent(@RequestBody Map<String, String> data)
 			throws NoSuchAlgorithmException {
-
-		return es.registerForTeamEvent(teamName, dept, year, eventId, json);
+		Map<String, String> d = data;
+		System.out.println(d);
+		return es.registerForTeamEvent("teamname", String.valueOf(data.get("classroom")),
+				String.valueOf(data.get("eventId")), data.get("players"));
 		// return 1;
 	}
 
-	@RequestMapping(value = "/getEligibleEventHeads", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/getEligibleEventHeads", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Login> getEligibleEventHeads(@RequestBody int eventId) throws NoSuchAlgorithmException {
 		return es.getEligibleEventHeads(eventId);
 	}
@@ -85,7 +87,7 @@ public class EventController {
 		return es.assignReferee(Integer.parseInt(eventId), Integer.parseInt(userId));
 	}
 
-	@RequestMapping(value = "/advanceTeam/{round:.+}/{eventId:.+}/{json:.+}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/advanceTeam/{round:.+}/{eventId:.+}/{json:.+}", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody int advanceTeam(@PathVariable String round, @PathVariable String eventId,
 			@PathVariable String json) throws NoSuchAlgorithmException {
 

@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
+import org.joda.time.DateTime;
+
 import com.dto.vesit.Event;
 import com.dto.vesit.Game;
 import com.dto.vesit.Player;
@@ -23,6 +25,8 @@ import com.dto.vesit.Team;
 public class MainDBNew {
 
 	public static final int NO_OF_ITERATION = 1;
+	static Timestamp startTime = new Timestamp(
+			new DateTime().toDateMidnight().toDateTime().plusDays(1).plusHours(15).getMillis());
 
 	public static void main(String areg[]) {
 		/*----- */
@@ -64,8 +68,7 @@ public class MainDBNew {
 							System.out.print(p.getPlayerName() + " : ");
 
 							Random rand = new Random();
-							conflict = checkConflict(p, new Timestamp(System.currentTimeMillis()),
-									new Timestamp(System.currentTimeMillis()));
+							conflict = checkConflict(p, getSchedule(e,false),new Timestamp(getSchedule(e,false).getTime()+1000*60*60));
 
 							int n = rand.nextInt(5) + 1;
 							if (conflict) {
@@ -97,6 +100,7 @@ public class MainDBNew {
 
 							}
 							selectedTeams.clear();
+							getSchedule(e,true);
 
 						}
 
@@ -173,8 +177,8 @@ public class MainDBNew {
 	public static Connection getConnection() {
 		Connection c = null;
 		try {
-			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "root");
+			Class.forName("com.mysql.jdbc.Driver");
+			c = DriverManager.getConnection("jdbc:mysql://localhost:3306/vesit", "root", "root");
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -183,44 +187,14 @@ public class MainDBNew {
 		return c;
 	}
 
-	public static Timestamp getSchedule(Event e) {
+	public static Timestamp getSchedule(Event e, boolean update) {
 
-		System.out.println("MainDB | checkConflict starts");
-		Timestamp t = null;
-		long interval = 0;
-		Connection c = null;
-		PreparedStatement stmt = null;
-		// List<Team> teamList = new ArrayList<>();
-		try {
-			c = getConnection();
-
-			stmt = c.prepareStatement("select e.current_ts,e.game_interval from  sport e where e.sport_id = ?");
-			stmt.setInt(1, e.getEventId());
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				t = rs.getTimestamp(1);
-				interval = rs.getLong(2);
-			}
-
-			stmt = c.prepareStatement("Update  sport e SET e.current_ts = ? where e.sport_id = ?");
-
-			// check here
-			/*
-			 * stmt.setTimestamp(1, new Timestamp((t.getTime() + e.getSlotTime()
-			 * + interval))); stmt.setInt(2, e.getSportId());
-			 */
-			// check ends
-			rs.close();
-			stmt.close();
-			c.close();
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-
-		}
-
-		System.out.println("MainDB | checkConflict starts");
-		return t;
+		System.out.println("MainDB | getSchedule starts");
+		e.setCurrentTime(startTime);
+		if (update)
+			startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60);
+		System.out.println("MainDB | getSchedule starts");
+		return e.getCurrentTime();
 
 	}
 
@@ -246,7 +220,7 @@ public class MainDBNew {
 			while (rs.next()) {
 
 				Event e = new Event(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5),
-						rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getInt(9));
+						rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9));
 				// System.out.println(e);
 				sportList.add(e);
 			}
@@ -312,7 +286,7 @@ public class MainDBNew {
 			stmt.setInt(1, t.getTeamId());
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				Player p = new Player(rs.getInt(1), rs.getString(2));
+				Player p = new Player(rs.getString(1), rs.getString(2));
 				// System.out.println(t);
 				playerList.add(p);
 			}
@@ -398,6 +372,7 @@ public class MainDBNew {
 
 		Connection c = null;
 		PreparedStatement stmt = null; // List<Team>
+
 		// teamList = new ArrayList<>();
 		try {
 			c = getConnection();
@@ -408,7 +383,7 @@ public class MainDBNew {
 			stmt.setTimestamp(2, st);
 			stmt.setTimestamp(3, et);
 			stmt.setTimestamp(4, et);
-			stmt.setInt(5, p.getPlayerId());
+			stmt.setString(5, p.getPlayerId());
 			ResultSet rs = stmt.executeQuery();
 			if (rs.getRow() > 1) {
 				return true;
@@ -481,13 +456,13 @@ public class MainDBNew {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("delete  FROM schedule e");
+			stmt = c.prepareStatement("delete  FROM schedule ");
 			stmt.executeUpdate();
 
-			stmt = c.prepareStatement("delete  FROM gameteammapping g");
+			stmt = c.prepareStatement("delete  FROM gameteammapping");
 			stmt.executeUpdate();
 
-			stmt = c.prepareStatement("delete  FROM game g");
+			stmt = c.prepareStatement("delete  FROM game ");
 			stmt.executeUpdate();
 
 			stmt.close();

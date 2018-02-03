@@ -9,8 +9,7 @@ public class Team {
 	private boolean scheduled;
 	private int eventId;
 	private int gameId;
-	private String dept;
-	private int yearOfEng;
+	private String classroom;
 
 	public Team() {
 		super();
@@ -22,7 +21,6 @@ public class Team {
 		this.teamId = teamId;
 		this.teamName = teamName;
 	}
-
 
 	public int getTeamId() {
 		return teamId;
@@ -72,20 +70,12 @@ public class Team {
 		this.players = players;
 	}
 
-	public String getDept() {
-		return dept;
+	public String getClassroom() {
+		return classroom;
 	}
 
-	public void setDept(String dept) {
-		this.dept = dept;
-	}
-
-	public int getYearOfEng() {
-		return yearOfEng;
-	}
-
-	public void setYearOfEng(int yearOfEng) {
-		this.yearOfEng = yearOfEng;
+	public void setClassroom(String classroom) {
+		this.classroom = classroom;
 	}
 
 	public Team(int teamId, String teamName, boolean scheduled, int eventId, int gameId) {
@@ -99,7 +89,7 @@ public class Team {
 
 	@Override
 	public String toString() {
-		return "Team ["+ teamId + " : "+ teamName +"]";
+		return "Team [" + teamId + " : " + teamName + "]";
 	}
 
 }

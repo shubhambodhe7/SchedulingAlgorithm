@@ -1,6 +1,9 @@
 package com.dto.vesit;
 
+import java.sql.Timestamp;
 import java.util.List;
+
+import org.joda.time.DateTime;
 
 public class Event {
 
@@ -15,6 +18,7 @@ public class Event {
 	private int maxPlayers;
 	private int maxTeams;
 	private String eventHead;
+	private Timestamp currentTime;
 
 	private int teamsInOneMatch;
 
@@ -69,6 +73,15 @@ public class Event {
 		}
 		return true;
 
+	}
+
+	
+	public Timestamp getCurrentTime() {
+		return currentTime;
+	}
+
+	public void setCurrentTime(Timestamp currentTime) {
+		this.currentTime = currentTime;
 	}
 
 	public String getEventType() {
