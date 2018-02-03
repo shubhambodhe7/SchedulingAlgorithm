@@ -3,7 +3,7 @@ app
 				'eventCtrl',
 				function($scope, $http, $localStorage, $location, $modal, $log) {
 
-					var userId = 'aarzu.shaha@ves.ac.in';
+					var userId = 'chayan.agrawal@ves.ac.in';
 					$scope.$watch('data.eventId', function() {
 						$scope.eventHeads = [];
 						getEligibleEventHeads($scope.data.eventId);
@@ -142,7 +142,7 @@ app
 										return $http.get(
 												'project/getEventDetails/'
 														+ userId + '/'
-														+ +eventId).then(
+														+ eventId).then(
 												function(response) {
 													return response.data[0];
 												})

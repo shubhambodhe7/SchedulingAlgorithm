@@ -34,6 +34,7 @@ public class LoginService {
 
 	public List<Login> getEligiblePlayers(String userId) {
 		// TODO Auto-generated method stub
+		System.out.println("Lgon service  : " + userId);
 		return loginDao.getEligiblePlayers(userId);
 	}
 

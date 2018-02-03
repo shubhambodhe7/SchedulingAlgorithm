@@ -44,10 +44,10 @@ public class EventDao {
 
 	}
 
-	public List<Event> getEventDetails(String userId,int eventId) {
-		LoginDao ld = new LoginDao();
+	public List<Event> getEventDetails(String userId, int eventId) {
+		LoginDao ld = new LoginDao(jdbcTemplate);
 		String gender = ld.getUser(userId).get(0).getGender();
-		return jdbcTemplate.query("Select * from event where event_id = ? where gender = ?",
+		return jdbcTemplate.query("Select * from event where event_id = ? and gender = ?",
 				new Object[] { eventId, gender }, new EventRowMapper());
 
 	}
@@ -82,18 +82,10 @@ public class EventDao {
 
 	public int addEvent(Event e) {
 
-		List<Map<String, Object>> list = jdbcTemplate.queryForList("Select * from event_head where  event_name = ?",
-				new Object[] { e.getEventName() });
-
-		// System.out.println("list" + list);
-		if (null == list || list.isEmpty()) {
-			return jdbcTemplate.update(
-					"INSERT INTO event(event_name, gender, parallel_matches, details, max_participate, max_team, teams_in_one_match)  VALUES ( ?, ?, ?, ?)",
-					new Object[] { e.getEventName(), e.getGender(), e.getParallelMatches(), e.getDetails(),
-							e.getMaxPlayers(), e.getMaxTeams(), e.getTeamsInOneMatch() });
-
-		}
-		return -1;
+		return jdbcTemplate.update(
+				"INSERT INTO event(event_name, gender, event_type,parallel_matches, details, max_participate, max_team, teams_in_one_match)  VALUES (?,?,?,?, ?, ?, ?, ?)",
+				new Object[] { e.getEventName(), e.getGender(), e.getEventType(), e.getParallelMatches(),
+						e.getDetails(), e.getMaxPlayers(), e.getMaxTeams(), e.getTeamsInOneMatch() });
 
 	}
 

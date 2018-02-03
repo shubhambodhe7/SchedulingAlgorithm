@@ -8,12 +8,14 @@ public class Event {
 	private String eventName;
 	private List<Team> teams;
 	private String gender;
+	private String eventType;
 	private int parallelMatches;
 	private String details;
 	private List<Game> games;
 	private int maxPlayers;
 	private int maxTeams;
 	private int eventHead;
+
 
 	private int teamsInOneMatch;
 
@@ -68,6 +70,14 @@ public class Event {
 		}
 		return true;
 
+	}
+
+	public String getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
 	}
 
 	public int getTeamsInOneMatch() {

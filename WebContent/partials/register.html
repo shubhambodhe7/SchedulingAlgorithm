@@ -1,5 +1,121 @@
+<div class="container" ng-controller="eventCtrl">
+	<div class="card card-login mx-auto ">
+		<div class="card-header">Login</div>
+		<div class="card-body">
+			<div class="form-bottom">
+				<form role="form" class="registration-form" name="addEventForm"
+					novalidate>
+					<div class="form-group"
+						ng-class="{ 'has-error' : addEventForm.eventName.$invalid && !addEventForm.eventName.$pristine }">
+						<label class="sr-only"></label> Event Name :<input
+							ng-model="event.eventName" type="text" name="eventName"
+							placeholder="Event name..." class="form-control"
+							id="form-event-name" required>
+						<div class="help-block"
+							ng-messages="addEventForm.eventName.$error"
+							ng-if="addEventForm.eventName.$dirty">
+							<div ng-messages-include="partials/validationMessages.html"></div>
+						</div>
+					</div>
+					<div class="form-group"
+						ng-class="{ 'has-error' : addEventForm.gender.$invalid && !addEventForm.gender.$pristine }">
+						<label class="sr-only"></label> Gender :<br /> <select
+							ng-model="event.gender" class="formform-control" id=""
+							name="gender" required style="width: 100%;">
+							<option value="" disabled class="formform-control">--Select--</option>
+							<option value="M" class="formform-control">Male</option>
+							<option value="F" class="formform-control">Female</option>
+						</select>
+						<div class="help-block" ng-messages="addEventForm.gender.$error"
+							ng-if="addEventForm.gender.$dirty">
+							<div ng-messages-include="partials/validationMessages.html"></div>
+						</div>
+					</div>
 
-<!-- CSS -->
+					<div class="form-group"
+						ng-class="{ 'has-error' : addEventForm.type.$invalid && !addEventForm.type.$pristine }">
+						<label class="sr-only"></label> Type of Event :<br /> <select
+							ng-model="event.eventType" class="formform-control" id=""
+							name="type" required style="width: 100%;">
+							<option value="" disabled class="formform-control">--Select--</option>
+							<option value="Indoor" class="formform-control">Indoor</option>
+							<option value="Outdoor" class="formform-control">Outdoor</option>
+						</select>
+						<div class="help-block" ng-messages="addEventForm.type.$error"
+							ng-if="addEventForm.type.$dirty">
+							<div ng-messages-include="partials/validationMessages.html"></div>
+						</div>
+					</div>
+
+					<div class="form-group"
+						ng-class="{ 'has-error' : addEventForm.players.$invalid && !addEventForm.players.$pristine }">
+						<label class="sr-only"></label> No. of players in each team : <input
+							ng-model="event.maxPlayers" type="text" name="players"
+							placeholder="Players..." class="form-control" id="" required
+							ng-pattern="/^[0-9]{1,7}$/">
+						<div class="help-block" ng-messages="addEventForm.players.$error"
+							ng-if="addEventForm.players.$dirty">
+							<div ng-messages-include="partials/validationMessages.html"></div>
+						</div>
+					</div>
+
+
+					<div class="form-group"
+						ng-class="{ 'has-error' : addEventForm.matches.$invalid && !addEventForm.matches.$pristine }">
+						<label class="sr-only"></label> No. of parallel matches : <input
+							ng-model="event.parallelMatches" type="text" name="matches"
+							placeholder="Matches..." class="form-control" id="" required
+							ng-pattern="/^[0-9]{1,7}$/">
+						<div class="help-block" ng-messages="addEventForm.matches.$error"
+							ng-if="addEventForm.matches.$dirty">
+							<div ng-messages-include="partials/validationMessages.html"></div>
+						</div>
+					</div>
+					<div class="form-group"
+						ng-class="{ 'has-error' : addEventForm.teamsInOneMatch.$invalid && !addEventForm.teamsInOneMatch.$pristine }">
+						<label class="sr-only"></label>Teams in one match : <input
+							ng-model="event.teamsInOneMatch" type="text" name="teamsInOneMatch"
+							placeholder="Teams in one match..." class="form-control" id="" required
+							ng-pattern="/^[0-9]{1,7}$/">
+						<div class="help-block" ng-messages="addEventForm.teamsInOneMatch.$error"
+							ng-if="addEventForm.teamsInOneMatch.$dirty">
+							<div ng-messages-include="partials/validationMessages.html"></div>
+						</div>
+					</div>
+
+
+
+					<div class="form-group"
+						ng-class="{ 'has-error' : addEventForm.eventDesc.$invalid && !addEventForm.eventDesc.$pristine }">
+						<label class="sr-only"></label> Event Details:
+						<textarea ng-model="event.details" name="eventDesc"
+							placeholder="Event description and rules..." class="form-control"
+							id="" required></textarea>
+						<div class="help-block"
+							ng-messages="addEventForm.eventDesc.$error"
+							ng-if="addEventForm.eventDesc.$dirty">
+							<div ng-messages-include="partials/validationMessages.html"></div>
+						</div>
+					</div>
+					<button class="btn btn-primary btn-block"
+						ng-click="addEvent(event)" ng-disabled="addEventForm.$invalid">Add
+						Event</button>
+
+					<!-- 	<a class="btn btn-primary btn-block" ng-click="login(user)"
+						ng-disabled="myForm.$invalid ">Login</a> -->
+				</form>
+			</div>
+			<!-- <div class="text-center">
+				<a class="d-block small mt-3" href="register.html">Register an
+					Account</a> <a class="d-block small" href="forgot-password.html">Forgot
+					Password?</a>
+			</div> -->
+		</div>
+	</div>
+</div>
+
+<!-- 
+
 <link rel="stylesheet"
 	href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
 <link rel="stylesheet" href="./css/bootstrap.min.css">
@@ -10,7 +126,7 @@
 <script src="externalJs/scripts.js"></script>
 
 
-<!-- Favicon and touch icons -->
+Favicon and touch icons
 <link rel="shortcut icon" href="assets/ico/favicon.png">
 <link rel="apple-touch-icon-precomposed" sizes="144x144"
 	href="assets/ico/apple-touch-icon-144-precomposed.png">
@@ -23,7 +139,7 @@
 
 
 
-<!-- Top content -->
+Top content
 <div class="top-content" ng-controller="eventCtrl">
 
 	<div class="inner-bg">
@@ -144,3 +260,4 @@
 	</div>
 
 </div>
+ -->

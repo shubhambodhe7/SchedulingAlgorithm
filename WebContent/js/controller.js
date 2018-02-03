@@ -1,5 +1,10 @@
 app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 		$cookieStore) {
+	var expireDate = new Date();
+	expireDate.setDate(expireDate.getMinutes() + 30);
+	$cookieStore.put('userId', '_f7c2e09ca07304e85f9563435e6ca31534ee2ca1', {
+		'expires' : expireDate
+	})
 
 	$scope.getAllSports = function() {
 		console.log("view method");
@@ -49,7 +54,7 @@ app.controller('myCtrl', function($scope, $http, $localStorage, $location,
 		$http.post('project/login', user).then(
 				function(response) {
 
-					// debugger;
+					debugger;
 					console.log(response.data);
 					if (response.data.userId == null) {
 						bootbox.alert("Incorrect credentails.");

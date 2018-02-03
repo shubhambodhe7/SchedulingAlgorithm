@@ -72,21 +72,24 @@ public class LoginDao {
 	}
 
 	public List<Login> getAllUsers() {
-		return jdbcTemplate.query("Select * from logindetails", new LoginRowMapper());
+		return jdbcTemplate.query("Select user_id, username, gender, rolename, contact,classroom from logindetails",
+				new LoginRowMapper());
 
 	}
 
 	// where user_id=?", new Object[] { userId }
 	public List<Login> getUser(String userId) {
 		System.out.println(userId);
-		return jdbcTemplate.query("Select * from logindetails where user_id = ?", new Object[] { userId },
-				new LoginRowMapper());
+		return jdbcTemplate.query(
+				"Select user_id, username, gender, rolename, contact,classroom from logindetails where user_id = ?",
+				new Object[] { userId }, new LoginRowMapper());
 
 	}
 
 	public List<Login> getAllUsers(String classroom) {
-		return jdbcTemplate.query("Select * from logindetails where classroom=?", new Object[] { classroom },
-				new LoginRowMapper());
+		return jdbcTemplate.query(
+				"Select user_id, username, gender, rolename, contact,classroom from logindetails where classroom=?",
+				new Object[] { classroom }, new LoginRowMapper());
 
 	}
 
@@ -117,7 +120,8 @@ public class LoginDao {
 	public List<Login> getEligiblePlayers(String userId) {
 		// TODO Auto-generated method stub
 		System.out.println("userId : " + userId);
-		List<Login> userDetails = jdbcTemplate.query("Select * from logindetails l where user_id = ?  ",
+		List<Login> userDetails = jdbcTemplate.query(
+				"Select user_id, username, gender, rolename, contact,classroom from logindetails l where user_id = ? order by username desc ",
 				new Object[] { userId }, new LoginRowMapper());
 
 		return getAllUsers(userDetails.get(0).getClassroom());

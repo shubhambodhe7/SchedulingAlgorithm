@@ -64,10 +64,10 @@ public class LoginController {
 		return loginService.signupUser(login);
 	}
 
-	@RequestMapping(value = "/getEligiblePlayers/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getEligiblePlayers/{userId:.+}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Login> getEligiblePlayers(@PathVariable String userId) {
-
+		System.out.println("Login Ctrl : " + userId);
 		return loginService.getEligiblePlayers(userId);
 	}
 

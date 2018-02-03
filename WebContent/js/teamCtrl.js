@@ -4,8 +4,8 @@ app
 				function(event, $scope, $http, $localStorage, $location,
 						$modalInstance) {
 
-					//var userId = 3;
-					$scope.userId = 'aarzu.shaha@ves.ac.in';
+					// var userId = 3;
+					$scope.userId = 'chayan.agrawal@ves.ac.in';
 					$scope.maxPlayers = event.maxPlayers;
 					$scope.eventName = event.eventName;
 					$scope.eventId = event.eventId;
