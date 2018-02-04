@@ -5,7 +5,7 @@
 			<div class="form-bottom">
 				<form role="form" class="registration-form" name="addEventForm"
 					novalidate>
-					
+
 					<div class="form-group"
 						ng-class="{ 'has-error' : addEventForm.eventName.$invalid && !addEventForm.eventName.$pristine }">
 						<label class="sr-only"></label> Event Name :<input
@@ -18,21 +18,6 @@
 							<div ng-messages-include="partials/validationMessages.html"></div>
 						</div>
 					</div>
-					<div class="form-group"
-						ng-class="{ 'has-error' : addEventForm.gender.$invalid && !addEventForm.gender.$pristine }">
-						<label class="sr-only"></label> Gender :<br /> <select
-							ng-model="event.gender" class="formform-control" id=""
-							name="gender" required style="width: 100%;">
-							<option value="" disabled class="formform-control">--Select--</option>
-							<option value="M" class="formform-control">Male</option>
-							<option value="F" class="formform-control">Female</option>
-						</select>
-						<div class="help-block" ng-messages="addEventForm.gender.$error"
-							ng-if="addEventForm.gender.$dirty">
-							<div ng-messages-include="partials/validationMessages.html"></div>
-						</div>
-					</div>
-
 					<div class="form-group"
 						ng-class="{ 'has-error' : addEventForm.type.$invalid && !addEventForm.type.$pristine }">
 						<label class="sr-only"></label> Type of Event :<br /> <select
@@ -47,6 +32,23 @@
 							<div ng-messages-include="partials/validationMessages.html"></div>
 						</div>
 					</div>
+					<div class="form-group"
+						ng-class="{ 'has-error' : addEventForm.gender.$invalid && !addEventForm.gender.$pristine }"
+						ng-hide="event.eventType == 'Indoor'">
+						<label class="sr-only"></label> Gender :<br /> <select
+							ng-model="event.gender" class="formform-control" id=""
+							name="gender" required style="width: 100%;">
+							<option value="" disabled class="formform-control">--Select--</option>
+							<option value="M" class="formform-control">Male</option>
+							<option value="F" class="formform-control">Female</option>
+						</select>
+						<div class="help-block" ng-messages="addEventForm.gender.$error"
+							ng-if="addEventForm.gender.$dirty">
+							<div ng-messages-include="partials/validationMessages.html"></div>
+						</div>
+					</div>
+
+
 
 					<div class="form-group"
 						ng-class="{ 'has-error' : addEventForm.players.$invalid && !addEventForm.players.$pristine }">
@@ -75,10 +77,11 @@
 					<div class="form-group"
 						ng-class="{ 'has-error' : addEventForm.teamsInOneMatch.$invalid && !addEventForm.teamsInOneMatch.$pristine }">
 						<label class="sr-only"></label>Teams in one match : <input
-							ng-model="event.teamsInOneMatch" type="text" name="teamsInOneMatch"
-							placeholder="Teams in one match..." class="form-control" id="" required
-							ng-pattern="/^[0-9]{1,7}$/">
-						<div class="help-block" ng-messages="addEventForm.teamsInOneMatch.$error"
+							ng-model="event.teamsInOneMatch" type="text"
+							name="teamsInOneMatch" placeholder="Teams in one match..."
+							class="form-control" id="" required ng-pattern="/^[0-9]{1,7}$/">
+						<div class="help-block"
+							ng-messages="addEventForm.teamsInOneMatch.$error"
 							ng-if="addEventForm.teamsInOneMatch.$dirty">
 							<div ng-messages-include="partials/validationMessages.html"></div>
 						</div>

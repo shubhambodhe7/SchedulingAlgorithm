@@ -110,7 +110,7 @@ app
 												$localStorage.userName = response.data.userName;
 												$localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 = response.data.userPassword;
 
-												$location.path("/register");
+												$location.path("/home");
 											}
 
 										}, function error(response) {
@@ -132,7 +132,7 @@ app
 											$localStorage.userId = "";
 											$localStorage.userName = "";
 											$localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 = "";
-											//$localStorage.clear();
+											// $localStorage.clear();
 											$location.path("/login");
 
 										},
@@ -150,25 +150,32 @@ app
 					$scope.changePass = function(change) {
 						debugger;
 						console.log(change);
-						$http.post('project/changePass', change).then(function(changed) {
+						$http
+								.post('project/changePass', change)
+								.then(
+										function(changed) {
 
-							console.log(changed);
-							$scope.checkStatus = false;
-							if (changed.data == 0) {
-								bootbox.alert("Current Password is wrong!");
+											console.log(changed);
+											$scope.checkStatus = false;
+											if (changed.data == 0) {
+												bootbox
+														.alert("Current Password is wrong!");
 
-							}
+											}
 
-							else {
-								bootbox.alert("Password Changed Successfully.");
+											else {
+												bootbox
+														.alert("Password Changed Successfully.");
 
-							}
+											}
 
-						}, function error(){
-							//console.log(response);
-							bootbox.alert("Error occured while changing password!");
+										},
+										function error() {
+											// console.log(response);
+											bootbox
+													.alert("Error occured while changing password!");
 
-						});
+										});
 
 					};
 

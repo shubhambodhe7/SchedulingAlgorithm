@@ -17,12 +17,13 @@ public class EventRowMapper implements RowMapper<Event> {
 		e.setEventId(rs.getInt("event_id"));
 		e.setEventName(rs.getString("event_name"));
 		e.setGender(rs.getString("gender"));
-		e.setParallelMatches(rs.getInt("parallel_matches"));
 		e.setDetails(rs.getString("details"));
 		e.setMaxPlayers(rs.getInt("max_participate"));
-		e.setMaxTeams(rs.getInt("max_team"));
+
 		e.setTeamsInOneMatch(rs.getInt("teams_in_one_match"));
 		e.setEventHead(rs.getString("eventhead"));
+		e.setMainEventId(rs.getInt("main_event_id"));
+		e.setSeed(rs.getInt("seed"));
 
 		return e;
 	}

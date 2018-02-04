@@ -1,6 +1,7 @@
 package com.dao.vesit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -10,10 +11,12 @@ import org.springframework.stereotype.Repository;
 
 import com.dto.vesit.Event;
 import com.dto.vesit.Login;
+import com.dto.vesit.MainEvent;
 import com.dto.vesit.Player;
 import com.dto.vesit.Team;
 import com.mapper.vesit.EventRowMapper;
 import com.mapper.vesit.LoginRowMapper;
+import com.mapper.vesit.MainEventRowMapper;
 
 @Repository
 public class EventDao {
@@ -41,6 +44,12 @@ public class EventDao {
 
 	public List<Event> getAllEvents() {
 		return jdbcTemplate.query("Select * from event e order by e.event_name desc ", new EventRowMapper());
+
+	}
+
+	public List<MainEvent> getMainEvents() {
+		return jdbcTemplate.query("Select * from mainevent e order by e.main_event_name desc ",
+				new MainEventRowMapper());
 
 	}
 
@@ -81,11 +90,58 @@ public class EventDao {
 	}
 
 	public int addEvent(Event e) {
+		System.out.println(e.getEventType());
 
-		return jdbcTemplate.update(
-				"INSERT INTO event(event_name, gender, event_type,parallel_matches, details, max_participate, max_team, teams_in_one_match)  VALUES (?,?,?,?, ?, ?, ?, ?)",
-				new Object[] { e.getEventName(), e.getGender(), e.getEventType(), e.getParallelMatches(),
-						e.getDetails(), e.getMaxPlayers(), e.getMaxTeams(), e.getTeamsInOneMatch() });
+		jdbcTemplate.update("INSERT INTO `mainevent`(`main_event_name`, `main_event_parallel_matches`) VALUES (?,?)",
+				new Object[] { e.getEventName(), e.getParallelMatches() });
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(
+				"SELECT main_event_id FROM mainevent WHERE  main_event_name= ? and  main_event_parallel_matches = ?",
+				new Object[] { e.getEventName(), e.getParallelMatches() });
+
+		if (null == list || list.isEmpty()) {
+			return -1;
+		}
+		System.out.println(list.get(0));
+		System.out.println("list" + list.get(0));
+		int mainEventId = (int) list.get(0).get("main_event_id");
+
+		if (e.getEventType().equalsIgnoreCase("Indoor")) {
+			int update = 0;
+
+			jdbcTemplate.update(
+					"INSERT INTO event(event_name,main_event_id, gender, event_type, details, max_participate, teams_in_one_match,seed)  VALUES (?,?,?,?,?, ?, ?, ?)",
+					new Object[] { e.getEventName() + " Boys", mainEventId, "M", e.getEventType(), e.getDetails(),
+							e.getMaxPlayers(), e.getTeamsInOneMatch(), 0 });
+			jdbcTemplate.update(
+					"INSERT INTO event(event_name,main_event_id, gender, event_type, details, max_participate, teams_in_one_match,seed)  VALUES (?,?,?,?,?, ?, ?,  ?)",
+					new Object[] { e.getEventName() + " Girls", mainEventId, "F", e.getEventType(), e.getDetails(),
+							e.getMaxPlayers(), e.getTeamsInOneMatch(), 0 });
+			jdbcTemplate.update(
+					"INSERT INTO event(event_name,main_event_id, gender, event_type, details, max_participate, teams_in_one_match,seed)  VALUES (?,?,?,?,?, ?, ?, ?)",
+					new Object[] { e.getEventName() + " Boys Seed 1", mainEventId, "M", e.getEventType(),
+							e.getDetails(), 1, e.getTeamsInOneMatch(), 1 });
+			jdbcTemplate.update(
+					"INSERT INTO event(event_name,main_event_id, gender, event_type, details, max_participate, teams_in_one_match,seed)  VALUES (?,?,?,?,?, ?, ?, ?)",
+					new Object[] { e.getEventName() + " Boys Seed 2", mainEventId, "M", e.getEventType(),
+							e.getDetails(), 1, e.getTeamsInOneMatch(), 1 });
+			jdbcTemplate.update(
+					"INSERT INTO event(event_name,main_event_id, gender, event_type, details, max_participate, teams_in_one_match,seed)  VALUES (?,?,?,?,?, ?, ?,  ?)",
+					new Object[] { e.getEventName() + " Girls Seed 1", mainEventId, "F", e.getEventType(),
+							e.getDetails(), 1, e.getTeamsInOneMatch(), 2 });
+			jdbcTemplate.update(
+					"INSERT INTO event(event_name,main_event_id, gender, event_type, details, max_participate, teams_in_one_match,seed)  VALUES (?,?,?,?,?, ?, ?, ?)",
+					new Object[] { e.getEventName() + " Girls Seed 2", mainEventId, "F", e.getEventType(),
+							e.getDetails(), 1, e.getTeamsInOneMatch(), 2 });
+
+			// enter in master events
+
+			return update;
+		} else {
+			return jdbcTemplate.update(
+					"INSERT INTO event(event_name,main_event_id, gender, event_type, details, max_participate, max_team, teams_in_one_match,seed)  VALUES (?,?,?,?, ?, ?, ?, ?)",
+					new Object[] { e.getEventName(), mainEventId, e.getGender(), "Outdoor", e.getDetails(),
+							e.getMaxPlayers(), e.getMaxTeams(), e.getTeamsInOneMatch(), 0 });
+		}
 
 	}
 
@@ -143,7 +199,7 @@ public class EventDao {
 	}
 
 	public int registerForTeamEvent(Team team, List<Player> pList) {
-		
+
 		List<Map<String, Object>> checklist = jdbcTemplate.queryForList(
 				"SELECT t.team_id FROM team t where t.team_name = ? and t.event_id=?",
 				new Object[] { team.getTeamName(), team.getEventId() });
@@ -152,7 +208,6 @@ public class EventDao {
 			return -2;
 		}
 
-		
 		int ret = jdbcTemplate.update(
 				"INSERT INTO team(team_name, classroom, scheduled, event_id)   VALUES ( ?,  ?, ?, ?)",
 				new Object[] { team.getTeamName(), team.getClassroom(), false, team.getEventId() });

@@ -49,6 +49,7 @@ app
 						$scope.options = [];
 						$scope.selectedPlayers = [];
 						$scope.eventList = [];
+						$scope.mainEventList = [];
 						$scope.eventHeads = [];
 						$scope.allEventList = [];
 						$scope.teamList = [];
@@ -56,6 +57,7 @@ app
 						getPendingEvents();
 						getAllEvents();
 						getEventList();
+						getMainEvents();
 						// getEligibleEventHeads(1);
 
 						console.log("view method");
@@ -267,7 +269,7 @@ app
 					function getEligibleEventHeads(eventId) {
 						console.log(eventId);
 						$http
-								.get('project/getEligibleEventHeads/'+ eventId)
+								.get('project/getEligibleEventHeads/' + eventId)
 								.then(
 										function(response) {
 											console.log(response.data);
@@ -429,5 +431,30 @@ app
 										});
 
 					};
+
+					function getMainEvents() {
+
+						$http
+								.get('project/getMainEvents')
+								.then(
+										function(response) {
+											console.log(response.data);
+											$scope.mainEventList = [];
+											for (var i = 0; i < response.data.length; i++) { //
+												$scope.mainEventList
+														.push({
+															key : response.data[i].mainEventId,
+															value : response.data[i].mainEventName
+														});
+											}
+
+										},
+										function myError(response) {
+											bootbox
+													.alert("Error occurred while fetching events list!");
+										});
+
+					}
+					;
 
 				});

@@ -66,9 +66,11 @@ public class LoginDao {
 		String hashOldPassword = passwordEncrypt.passwordEncrypt(oldPassword);
 		String newPassword = login.getChangedPassword();
 		String hashNewPassword = passwordEncrypt.passwordEncrypt(newPassword);
-
-		return jdbcTemplate.update("UPDATE logindetails SET userpassword=? WHERE user_id = ? and userpassword = ?",
+		int rowAffected = jdbcTemplate.update(
+				"UPDATE logindetails SET userpassword=? WHERE user_id = ? and userpassword = ?",
 				new Object[] { hashNewPassword, login.getUserId(), hashOldPassword });
+		System.out.println(" rowAffected" + rowAffected);
+		return rowAffected;
 	}
 
 	public List<Login> getAllUsers() {

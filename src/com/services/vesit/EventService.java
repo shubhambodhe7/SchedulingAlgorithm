@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.dao.vesit.EventDao;
 import com.dto.vesit.Event;
 import com.dto.vesit.Login;
+import com.dto.vesit.MainEvent;
 import com.dto.vesit.Player;
 import com.dto.vesit.Team;
 import com.google.gson.Gson;
@@ -44,6 +45,10 @@ public class EventService {
 
 	public List<Event> getAllEvents() {
 		return ed.getAllEvents();
+	}
+
+	public List<MainEvent> getMainEvents() {
+		return ed.getMainEvents();
 	}
 
 	public List<Event> getEventDetails(String userId, int eventId) {

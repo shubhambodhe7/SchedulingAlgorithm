@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dto.vesit.Event;
 import com.dto.vesit.Login;
+import com.dto.vesit.MainEvent;
 import com.dto.vesit.Team;
 import com.google.gson.Gson;
 import com.dto.vesit.Player;
@@ -36,6 +37,11 @@ public class EventController {
 	@RequestMapping(value = "/getAllEvents", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Event> getAllEvents() throws NoSuchAlgorithmException {
 		return es.getAllEvents();
+	}
+
+	@RequestMapping(value = "/getMainEvents", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<MainEvent> getMainEvents() throws NoSuchAlgorithmException {
+		return es.getMainEvents();
 	}
 
 	@RequestMapping(value = "/getEventDetails/{userId:.+}/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")

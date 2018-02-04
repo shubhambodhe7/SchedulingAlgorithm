@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 public class Event {
 
 	private int eventId;
+	private int mainEventId;
 	private String eventName;
 	private List<Team> teams;
 	private String gender;
@@ -22,6 +23,7 @@ public class Event {
 	private int counter;
 
 	private int teamsInOneMatch;
+	private int seed;
 
 	public Event(int eventId, String eventName, String gender, int parallelMatches, String details, int maxPlayers,
 			int maxTeams, int teamsInOneMatch, String eventHead) {
@@ -74,6 +76,22 @@ public class Event {
 		}
 		return true;
 
+	}
+
+	public int getSeed() {
+		return seed;
+	}
+
+	public void setSeed(int seed) {
+		this.seed = seed;
+	}
+
+	public int getMainEventId() {
+		return mainEventId;
+	}
+
+	public void setMainEventId(int mainEventId) {
+		this.mainEventId = mainEventId;
 	}
 
 	public int getCounter() {

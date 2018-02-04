@@ -34,7 +34,6 @@ public class MainDBNew {
 		clearDB();
 		List<Event> events = getAllEvents();
 		System.out.println("::::::::::::::::" + events);
-		System.out.println();
 
 		int loop = 0;
 		while (loop < NO_OF_ITERATION) {
@@ -50,8 +49,8 @@ public class MainDBNew {
 			while (i.hasNext()) {
 				Event e = i.next();
 
-				System.out.println(e.getEventName());
-				while (!e.schedulingCmplt()) {
+				System.out.println("Event Name : " + e.getEventName());
+				while (!e.schedulingCmplt() && e.getMaxPlayers() != 1) {
 					ListIterator<Team> itr = e.getTeams().listIterator();
 
 					// int index = 0;
@@ -59,6 +58,7 @@ public class MainDBNew {
 					while (itr.hasNext()) {
 						boolean conflict = false;
 						Team t = itr.next();
+						System.out.println("Team Name : " + t.getTeamName());
 						Iterator<Player> playItr = t.getPlayers().iterator();
 
 						// while (playItr.hasNext()) {
@@ -146,7 +146,7 @@ public class MainDBNew {
 
 		}
 
-		System.out.println("MainDB | resetTeamScheduleFlag starts");
+		System.out.println("MainDB | resetTeamScheduleFlag ends");
 
 	}
 
@@ -156,7 +156,7 @@ public class MainDBNew {
 		PreparedStatement stmt = null;
 		try {
 			c = getConnection();
-			System.out.println("Opened database successfully");
+
 			stmt = c.prepareStatement("INSERT INTO schedule(  schedule_id, game_id)    VALUES (?, ?) ");
 			stmt.setLong(1, index);
 			stmt.setInt(2, gameId);
@@ -184,7 +184,7 @@ public class MainDBNew {
 			e.printStackTrace();
 
 		}
-		System.out.println("Opened database successfully");
+
 		return c;
 	}
 
