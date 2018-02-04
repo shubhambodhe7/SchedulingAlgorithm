@@ -239,6 +239,12 @@ public class EventDao {
 
 	}
 
+	public int deleteEvent(int eventId) {
+
+		return jdbcTemplate.update("DELETE FROM event WHERE WHERE  event_id = ?", new Object[] { eventId });
+
+	}
+
 	public int advanceTeam(String round, String eventId, List<Team> teams) {
 		int ret = -1;
 		int points = 0;

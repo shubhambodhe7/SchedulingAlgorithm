@@ -457,4 +457,29 @@ app
 					}
 					;
 
+					$scope.deleteEvent = function(eventId) {
+						$http
+								.get('project/deleteEvent/' + eventId)
+								.then(
+										function(response) {
+											console.log(response.data);
+
+											if (response.data == 1) {
+												bootbox
+														.alert("Event deleted succesfully!");
+											} else {
+												bootbox
+														.alert("Event deletion failed!");
+
+											}
+										},
+										function error(response) {
+											console.log(response);
+
+											bootbox
+													.alert("Event deletion failed!");
+
+										});
+					}
+
 				});

@@ -114,4 +114,8 @@ public class EventService {
 		// return 1;
 	}
 
+	public int deleteEvent(int eventId) {
+		return ed.deleteEvent(eventId);
+	}
+
 }

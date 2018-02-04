@@ -108,4 +108,9 @@ public class EventController {
 		return es.advanceTeam(round, eventId, json);
 		// return 1;
 	}
+
+	@RequestMapping(value = "/deleteEvent/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody int deleteEvent(@PathVariable int eventId) throws NoSuchAlgorithmException {
+		return es.deleteEvent(eventId);
+	}
 }
