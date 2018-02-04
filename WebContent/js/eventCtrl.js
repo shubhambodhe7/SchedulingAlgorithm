@@ -7,15 +7,34 @@ app
 					$scope.$watch('data.eventId', function() {
 						$scope.eventHeads = [];
 						getEligibleEventHeads($scope.data.eventId);
+
 					});
-					$scope.$watch('data.allEventId', function() {
-						$scope.teamList = [];
-						getTeamsForEvent($scope.data.allEventId);
-					});
+					$scope
+							.$watch(
+									'data.allEventId',
+									function() {
+										$scope.teamList = [];
+										getTeamsForEvent($scope.data.allEventId);
+										if (getMaxNumParticipants($scope.data.allEventId) != 1) {
+											$scope.rounds = [ 'Final Winner',
+													'Finalists',
+													'Semi Finalists',
+													'Quarter Finalists',
+													'Pre quarter finalists ',
+													'Participated' ];
+										} else {
+											$scope.rounds = [
+													'Final Winner',
+													'Seed Final Winner',
+													'Seed Finalists',
+													'Seed Semi Finalists',
+													'Seed Quarter Finalists',
+													'Seed Pre quarter finalists ',
+													'Seed Participated' ];
+										}
+									});
 					$scope.$watch('data.teams', function() {
-						$scope.rounds = [ 'Final Winner', 'Finalists',
-								'Semi Finalists', 'Quarter Finalists',
-								'Pre quarter finalists ', 'Participated' ];
+
 					});
 
 					init();
@@ -248,7 +267,7 @@ app
 					function getEligibleEventHeads(eventId) {
 						console.log(eventId);
 						$http
-								.post('project/getEligibleEventHeads', eventId)
+								.get('project/getEligibleEventHeads/'+ eventId)
 								.then(
 										function(response) {
 											console.log(response.data);

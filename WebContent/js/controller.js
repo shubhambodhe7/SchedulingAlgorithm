@@ -24,18 +24,21 @@ app
 						$scope.sessionActive = accessFac.checkIfUser();
 						console.log("$scope.sessionActive",
 								$scope.sessionActive)
+					});
+					$scope.$watch(function() {
+						return $localStorage.userName;
+					}, function(newVal, oldVal) {
+						if (oldVal !== newVal && newVal === undefined) {
+							console.log('It is undefined');
+						}
+
+						$scope.userName = 'Welcome ' + $localStorage.userName;
+
 					})
 
 					// $localStorage.userId = "chayan123";
 
 					// console.log("sessionActive", sessionActive);
-
-					var expireDate = new Date();
-					expireDate.setDate(expireDate.getMinutes() + 30);
-					$cookies.put('userId',
-							'_f7c2e09ca07304e85f9563435e6ca31534ee2ca1', {
-								'expires' : expireDate
-							});
 
 					$scope.getAllSports = function() {
 						console.log("view method");
@@ -121,22 +124,15 @@ app
 					};
 					$scope.logout = function(user) {
 						console.log(user);
-						$localStorage.loggedIn = false;
 						$http
 								.post('project/logout', user)
 								.then(
 										function(response) {
 											console.log(response.data);
-
-											/*
-											 * console.log("User logged out");
-											 * $cookies.remove("userId");
-											 * $cookies
-											 * .remove("_f7c2e09ca07304e85f9563435e6ca31534ee2ca1");
-											 */
 											$localStorage.userId = "";
+											$localStorage.userName = "";
 											$localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 = "";
-
+											//$localStorage.clear();
 											$location.path("/login");
 
 										},

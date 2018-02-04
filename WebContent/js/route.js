@@ -32,9 +32,26 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 				}
 			}
 		}
+	}).when("/gome", {
+		templateUrl : "partials/home.html",
+		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfUser()) {
+					$location.path('/login');
+				}
+			}
+		}
 	}).when("/displayEvents", {
 		templateUrl : "partials/displayEvents.html",
 		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
 			check : function(accessFac, $location) {
 				if (!accessFac.checkIfUser()) {
 					$location.path('/login');
@@ -44,6 +61,10 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 	}).when("/assignReferee", {
 		templateUrl : "partials/assignReferee.html",
 		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
 			check : function(accessFac, $location) {
 				if (!accessFac.checkIfUser()) {
 					$location.path('/login');
@@ -53,6 +74,10 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 	}).when("/advTeams", {
 		templateUrl : "partials/advanceTeams.html",
 		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
 			check : function(accessFac, $location) {
 				if (!accessFac.checkIfUser()) {
 					$location.path('/login');
@@ -62,6 +87,10 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 	}).when("/updateScore", {
 		templateUrl : "partials/updateScore.html",
 		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
 			check : function(accessFac, $location) {
 				if (!accessFac.checkIfUser()) {
 					$location.path('/login');

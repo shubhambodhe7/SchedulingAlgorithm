@@ -41,7 +41,7 @@ public class MainDBNew {
 			++loop;
 			System.out.println("loop  : " + loop);
 			long schedule_index = System.currentTimeMillis();
-			List<Game> games = new ArrayList<>();
+			resetTeamScheduleFlag();
 
 			Collections.shuffle(events);
 
@@ -49,7 +49,7 @@ public class MainDBNew {
 
 			while (i.hasNext()) {
 				Event e = i.next();
-				resetTeamScheduleFlag();
+
 				System.out.println(e.getEventName());
 				while (!e.schedulingCmplt()) {
 					ListIterator<Team> itr = e.getTeams().listIterator();
@@ -68,7 +68,8 @@ public class MainDBNew {
 							System.out.print(p.getPlayerName() + " : ");
 
 							Random rand = new Random();
-							conflict = checkConflict(p, getSchedule(e,false),new Timestamp(getSchedule(e,false).getTime()+1000*60*60));
+							conflict = checkConflict(p, getSchedule(e, false),
+									new Timestamp(getSchedule(e, false).getTime() + 1000 * 60 * 60));
 
 							int n = rand.nextInt(5) + 1;
 							if (conflict) {
@@ -100,7 +101,7 @@ public class MainDBNew {
 
 							}
 							selectedTeams.clear();
-							getSchedule(e,true);
+							getSchedule(e, true);
 
 						}
 
@@ -135,7 +136,7 @@ public class MainDBNew {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("UPDATE team   SET scheduled=false ");
+			stmt = c.prepareStatement("UPDATE team SET scheduled=false ");
 
 			stmt.close();
 			c.close();
@@ -191,9 +192,12 @@ public class MainDBNew {
 
 		System.out.println("MainDB | getSchedule starts");
 		e.setCurrentTime(startTime);
-		if (update)
-			startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60);
-		System.out.println("MainDB | getSchedule starts");
+		if (update) {
+			if (e.getCounter() == e.getParallelMatches()) {
+				startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60);
+			}
+		}
+		System.out.println("MainDB | getSchedule ends");
 		return e.getCurrentTime();
 
 	}

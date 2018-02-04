@@ -74,15 +74,9 @@ app
 								.then(
 										function(response) {
 											console.log(response.data);
-											if (response.data == -4) {
+											if (response.data == -2) {
 												bootbox
-														.alert("One of the participant has already registered as a referee for this event!");
-											} else if (response.data == -3) {
-												bootbox
-														.alert("One of the participant has already registered for this event!");
-											} else if (response.data == -2) {
-												bootbox
-														.alert("Team with same name for this event already exists!");
+														.alert("Team from your class has already registered of this event!");
 											} else if (response.data == -1) {
 												$modalInstance
 														.dismiss('cancel');

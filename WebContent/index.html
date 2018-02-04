@@ -147,7 +147,7 @@
 
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
 			style="margin-left: -1px;" id="mainNav">
-			<a class="navbar-brand" href="#/"
+			<a class="navbar-brand" href="#!/home"
 				style="font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'; font-size: 26px;">VESIT
 				Event Management</a>
 			<button class="navbar-toggler navbar-toggler-right" type="button"
@@ -202,7 +202,7 @@
 
 					<li class="nav-item" data-toggle="tooltip" data-placement="right"
 						title="Advance Teams"><a class="nav-link" href="#!advTeams">
-							<i class="fa fa-fw fa-table"></i> <span class="nav-link-text">Advance
+							<i class="fa fa-fw fa-sitemap"></i> <span class="nav-link-text">Advance
 								Teams</span>
 					</a></li>
 					<li class="nav-item" data-toggle="tooltip" data-placement="right"
@@ -218,7 +218,7 @@
 						</ul></li>
 					<li class="nav-item" data-toggle="tooltip" data-placement="right"
 						title="Link"><a class="nav-link" href="#!classScore"> <i
-							class="fa fa-fw fa-link"></i> <span class="nav-link-text">Class
+							class="fa fa-fw fa-line-chart"></i> <span class="nav-link-text">Class
 								Score</span>
 					</a></li>
 				</ul>
@@ -231,8 +231,8 @@
 				<ul class="navbar-nav ml-auto">
 
 					<li class="nav-item"><a class="nav-link" data-toggle="modal"
-						data-target="#exampleModal"> <i class="fa fa-fw fa-user"></i>Welcome
-							{{userName}}
+						data-target="#exampleModal" ng-bind="userName"> <i
+							class="fa fa-fw fa-user"></i>
 					</a></li>
 					<li class="nav-item"><a class="nav-link" data-toggle="modal"
 						ng-click="logout()" data-target="#exampleModal"> <i
@@ -244,8 +244,9 @@
 
 	</div>
 	<div class="content-wrapper">
-		<div class="container-fluid" style="padding-top: 30px;">
-			<div ng-view></div>
+		<div class="container-fluid"
+			style="padding-top: 30px; border: 1px solid red;">
+			<div ng-view style=" border: 1px solid red;"></div>
 		</div>
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->

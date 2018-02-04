@@ -71,8 +71,8 @@ public class EventController {
 		// return 1;
 	}
 
-	@RequestMapping(value = "/getEligibleEventHeads", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<Login> getEligibleEventHeads(@RequestBody int eventId) throws NoSuchAlgorithmException {
+	@RequestMapping(value = "/getEligibleEventHeads/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<Login> getEligibleEventHeads(@PathVariable int eventId) throws NoSuchAlgorithmException {
 		return es.getEligibleEventHeads(eventId);
 	}
 

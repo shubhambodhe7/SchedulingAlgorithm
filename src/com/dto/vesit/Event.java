@@ -19,6 +19,7 @@ public class Event {
 	private int maxTeams;
 	private String eventHead;
 	private Timestamp currentTime;
+	private int counter;
 
 	private int teamsInOneMatch;
 
@@ -75,7 +76,14 @@ public class Event {
 
 	}
 
-	
+	public int getCounter() {
+		return counter;
+	}
+
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+
 	public Timestamp getCurrentTime() {
 		return currentTime;
 	}

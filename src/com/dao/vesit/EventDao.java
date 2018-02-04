@@ -54,7 +54,7 @@ public class EventDao {
 
 	public List<Login> getEligibleEventHeads(int eventId) {
 		return jdbcTemplate.query(
-				"SELECT l.user_id, username, userpassword, rolename, gender, contact, dept,   year_of_engg  FROM logindetails l, event_head eh where l.user_id = eh.user_id and event_id = ? order by l.username desc",
+				"SELECT l.user_id, username, userpassword, rolename, gender, contact,classroomvv  FROM logindetails l, event_head eh where l.user_id = eh.user_id and event_id = ? order by l.username desc",
 				new Object[] { eventId }, new LoginRowMapper());
 
 	}
@@ -143,6 +143,7 @@ public class EventDao {
 	}
 
 	public int registerForTeamEvent(Team team, List<Player> pList) {
+		
 		List<Map<String, Object>> checklist = jdbcTemplate.queryForList(
 				"SELECT t.team_id FROM team t where t.team_name = ? and t.event_id=?",
 				new Object[] { team.getTeamName(), team.getEventId() });
@@ -151,15 +152,7 @@ public class EventDao {
 			return -2;
 		}
 
-		for (Player p : pList) {
-
-			List<Map<String, Object>> checkplayerlist = jdbcTemplate.queryForList(
-					"SELECT p.player_id FROM team t ,player p where t.team_id = p.team_id and  p.player_id = ? and t.event_id=?",
-					new Object[] { p.getPlayerId(), team.getEventId() });
-			if (null != checkplayerlist && !checkplayerlist.isEmpty()) {
-				return -3;
-			}
-		}
+		
 		int ret = jdbcTemplate.update(
 				"INSERT INTO team(team_name, classroom, scheduled, event_id)   VALUES ( ?,  ?, ?, ?)",
 				new Object[] { team.getTeamName(), team.getClassroom(), false, team.getEventId() });
