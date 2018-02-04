@@ -32,7 +32,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 				}
 			}
 		}
-	}).when("/gome", {
+	}).when("/home", {
 		templateUrl : "partials/home.html",
 		resolve : {
 			sessionActive : function(accessFac) {
@@ -86,6 +86,19 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 		}
 	}).when("/updateScore", {
 		templateUrl : "partials/updateScore.html",
+		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfUser()) {
+					$location.path('/login');
+				}
+			}
+		}
+	}).when("/changePassword", {
+		templateUrl : "partials/changePassword.html",
 		resolve : {
 			sessionActive : function(accessFac) {
 				return accessFac.checkIfUser();

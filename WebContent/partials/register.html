@@ -1,10 +1,11 @@
 <div class="container" ng-controller="eventCtrl">
 	<div class="card card-login mx-auto ">
-		<div class="card-header">Login</div>
+		<div class="card-header">New Event</div>
 		<div class="card-body">
 			<div class="form-bottom">
 				<form role="form" class="registration-form" name="addEventForm"
 					novalidate>
+					
 					<div class="form-group"
 						ng-class="{ 'has-error' : addEventForm.eventName.$invalid && !addEventForm.eventName.$pristine }">
 						<label class="sr-only"></label> Event Name :<input

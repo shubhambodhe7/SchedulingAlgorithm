@@ -148,32 +148,27 @@ app
 					};
 
 					$scope.changePass = function(change) {
-
+						debugger;
 						console.log(change);
-						$http
-								.post('project/changePass', change)
-								.success(
-										function(changed) {
+						$http.post('project/changePass', change).then(function(changed) {
 
-											console.log(changed);
-											$scope.checkStatus = false;
-											if (changed == 0) {
-												bootbox
-														.alert("Old Password is wrong");
+							console.log(changed);
+							$scope.checkStatus = false;
+							if (changed.data == 0) {
+								bootbox.alert("Current Password is wrong!");
 
-											}
+							}
 
-											else {
-												bootbox
-														.alert("Password Changed Successfully.");
+							else {
+								bootbox.alert("Password Changed Successfully.");
 
-											}
+							}
 
-										}).error(function() {
-									console.log(updated);
-									bootbox.alert("Error in update");
+						}, function error(){
+							//console.log(response);
+							bootbox.alert("Error occured while changing password!");
 
-								});
+						});
 
 					};
 
