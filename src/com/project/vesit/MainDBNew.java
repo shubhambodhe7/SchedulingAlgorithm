@@ -25,6 +25,8 @@ import com.dto.vesit.Team;
 public class MainDBNew {
 
 	public static final int NO_OF_ITERATION = 1;
+	static int seed = 0;
+	static int slot = 0;
 	static Timestamp startTime = new Timestamp(
 			new DateTime().toDateMidnight().toDateTime().plusDays(1).plusHours(15).getMillis());
 
@@ -32,12 +34,13 @@ public class MainDBNew {
 		/*----- */
 
 		clearDB();
-		List<Event> events = getAllEvents();
-		System.out.println("::::::::::::::::" + events);
 
 		int loop = 0;
 		while (loop < NO_OF_ITERATION) {
 			++loop;
+			List<Event> events = getAllEvents();
+			System.out.println("::::::::::::::::" + events);
+
 			System.out.println("loop  : " + loop);
 			long schedule_index = System.currentTimeMillis();
 			resetTeamScheduleFlag();
@@ -157,9 +160,10 @@ public class MainDBNew {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("INSERT INTO schedule(  schedule_id, game_id)    VALUES (?, ?) ");
+			stmt = c.prepareStatement("INSERT INTO schedule(  schedule_id, game_id,seed)    VALUES (?, ?,?) ");
 			stmt.setLong(1, index);
 			stmt.setInt(2, gameId);
+			stmt.setInt(3, seed);
 
 			stmt.executeUpdate();
 
@@ -193,8 +197,10 @@ public class MainDBNew {
 		System.out.println("MainDB | getSchedule starts");
 		e.setCurrentTime(startTime);
 		if (update) {
-			if (e.getCounter() == e.getParallelMatches()) {
+			if (0 == getMainEventParallelMatches(e.getMainEventId())) {
 				startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60);
+				resetMainEventParallelMatches(e.getMainEventId());
+				e.setCounter(e.getCounter() + 1);
 			}
 		}
 		System.out.println("MainDB | getSchedule ends");
@@ -220,11 +226,11 @@ public class MainDBNew {
 
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT event_id, event_name, gender, parallel_matches, details, max_participate, max_team, teams_in_one_match, eventhead FROM event");
+					"SELECT event_id, event_name, gender,  details, max_participate,  teams_in_one_match, eventhead FROM event");
 			while (rs.next()) {
 
-				Event e = new Event(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5),
-						rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9));
+				Event e = new Event(rs.getInt(1), rs.getString(2), rs.getString(3), 0, rs.getString(4), rs.getInt(5), 0,
+						rs.getInt(6), rs.getString(7));
 				// System.out.println(e);
 				sportList.add(e);
 			}
@@ -477,6 +483,65 @@ public class MainDBNew {
 		}
 
 		System.out.println("MainDB | clearDB ends");
+	}
+
+	static int getMainEventParallelMatches(double mainEventId) {
+		System.out.println("MainDB | getMainEventParallelMatches start");
+		int parallelMatches = 0;
+		Connection c = null;
+		PreparedStatement stmt = null;
+
+		try {
+			c = getConnection();
+			stmt = c.prepareStatement("SELECT  temp_counter FROM mainevent WHERE main_event_id = ?  and slot =?");
+			stmt.setDouble(1, mainEventId);
+			stmt.setInt(2, slot);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				parallelMatches = rs.getInt(1);
+				break;
+			}
+
+			stmt = c.prepareStatement(
+					"UPDATE mainevent SET temp_counter=temp_counter -1 WHERE main_event_id = ? and slot =?");
+			stmt.setDouble(1, mainEventId);
+			stmt.setInt(2, slot);
+			stmt.executeUpdate();
+
+			stmt.close();
+			rs.close();
+			c.close();
+
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+
+		}
+		System.out.println("MainDB | getMainEventParallelMatches ends");
+		return parallelMatches;
+	}
+
+	static void resetMainEventParallelMatches(double mainEventId) {
+		Connection c = null;
+		PreparedStatement stmt = null;
+
+		try {
+			c = getConnection();
+
+			stmt = c.prepareStatement(
+					"UPDATE mainevent SET temp_counter=main_event_parallel_matches WHERE main_event_id = ? and slot =?");
+			stmt.setDouble(1, mainEventId);
+			stmt.setInt(2, slot);
+			stmt.executeUpdate();
+
+			stmt.close();
+			c.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
 	}
 
 }

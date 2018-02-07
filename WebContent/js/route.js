@@ -1,7 +1,12 @@
 var app = angular.module("app", [ "ngRoute", "ngStorage", 'ui.bootstrap',
 		'ngSanitize', 'ngAnimate', 'long2know', 'ui.bootstrap', 'ui.router',
 		'ui', 'ngMessages', 'ngCookies' ]);
-
+/*
+ * window.onbeforeunload = function() {
+ * localStorage.removeItem("_f7c2e09ca07304e85f9563435e6ca31534ee2ca1");
+ * localStorage.removeItem("userId"); localStorage.removeItem("userName");
+ * return ''; };
+ */
 app.config(function($routeProvider, $httpProvider, $locationProvider) {
 	$routeProvider.when("/", {
 		templateUrl : "partials/login.html"
@@ -113,7 +118,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 	})
 
 	.when(
-			"/teamRegister/:eventId",
+			"/teamRegister/:userId/:eventId",
 			{
 				templateUrl : "partials/teamRegister.html",
 				controller : "teamCtrl",
@@ -121,12 +126,14 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 
 					event : function($http, $route) {
 						var eventId = $route.current.params.eventId;
+						var userId = $route.current.params.userId;
 						console.log("$routeParams.eventId : "
 								+ $route.current.params.eventId);
-						return $http.get('project/getEventDetails/' + eventId)
-								.then(function(response) {
-									return response.data[0];
-								})
+						return $http.get(
+								'project/getEventDetails/' + userId + '/'
+										+ eventId).then(function(response) {
+							return response.data[0];
+						})
 					}
 
 				}

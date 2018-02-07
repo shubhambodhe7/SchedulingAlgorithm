@@ -6,6 +6,7 @@ app
 
 					// var userId = 3;
 					$scope.userId = 'chayan.agrawal@ves.ac.in';
+					console.log(event);
 					$scope.maxPlayers = event.maxPlayers;
 					$scope.eventName = event.eventName;
 					$scope.eventId = event.eventId;

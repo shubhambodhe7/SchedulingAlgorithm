@@ -14,7 +14,7 @@ public class MainEventRowMapper implements RowMapper<MainEvent> {
 	public MainEvent mapRow(ResultSet rs, int rowSeq) throws SQLException {
 		// TODO Auto-generated method stub
 		MainEvent e = new MainEvent();
-		e.setMainEventId(rs.getInt("main_event_id"));
+		e.setMainEventId(rs.getDouble("main_event_id"));
 		e.setMainEventName(rs.getString("main_event_name"));
 		e.setMainEventParallelMatches(rs.getInt("main_event_parallel_matches"));
 

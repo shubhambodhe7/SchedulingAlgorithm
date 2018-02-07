@@ -1,7 +1,8 @@
 app
 		.controller(
 				'eventCtrl',
-				function($scope, $http, $localStorage, $location, $modal, $log) {
+				function($scope, $http, $localStorage, $location, $modal, $log,
+						$route) {
 
 					var userId = 'chayan.agrawal@ves.ac.in';
 					$scope.$watch('data.eventId', function() {
@@ -65,8 +66,9 @@ app
 					}
 
 					function getAllEvents() {
-						$http.get('project/getAllEvents').then(
-								function(response) {
+						
+						$http.get('project/getEventDetailsAsPerUser/' + userId)
+								.then(function(response) {
 									console.log(response.data);
 									$scope.events = response.data.reverse();
 
@@ -112,11 +114,12 @@ app
 								function(response) {
 									console.log(response.data);
 									bootbox.alert("Event added successfully.");
-									getAllEvents();
+									$location.path('/displayEvents');
 								}, function error(response) {
 									console.log(response);
 
 								});
+
 					};
 					$scope.registerForEvent = function(eventId) {
 						// bootbox.alert(eventId);
@@ -156,7 +159,7 @@ app
 							var modalInstance = $modal.open({
 								templateUrl : 'partials/teamRegister.html',
 								controller : 'teamCtrl',
-
+								windowClass : 'center-modal',
 								resolve : {
 									event : function($http) {
 
@@ -458,26 +461,45 @@ app
 					;
 
 					$scope.deleteEvent = function(eventId) {
-						$http
-								.get('project/deleteEvent/' + eventId)
-								.then(
-										function(response) {
-											console.log(response.data);
+						bootbox
+								.confirm(
+										"Are you sure?",
+										function(result) {
+											if (result) {
+												$http
+														.get(
+																'project/deleteEvent/'
+																		+ eventId)
+														.then(
+																function(
+																		response) {
+																	console
+																			.log(response.data);
 
-											if (response.data == 1) {
-												bootbox
-														.alert("Event deleted succesfully!");
-											} else {
-												bootbox
-														.alert("Event deletion failed!");
+																	if (response.data == 1) {
+																		bootbox
+																				.alert("Event deleted succesfully!");
+																	} else {
+																		bootbox
+																				.alert("Event deletion failed!");
 
+																	}
+																	$route
+																			.reload();
+																},
+																function error(
+																		response) {
+																	console
+																			.log(response);
+
+																	bootbox
+																			.alert("Event deletion failed!");
+
+																}
+
+														);
 											}
-										},
-										function error(response) {
-											console.log(response);
-
-											bootbox
-													.alert("Event deletion failed!");
+											getEventList();
 
 										});
 					}

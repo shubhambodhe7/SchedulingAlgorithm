@@ -32,20 +32,15 @@
 							<div ng-messages-include="partials/validationMessages.html"></div>
 						</div>
 					</div>
-					<div class="form-group"
-						ng-class="{ 'has-error' : addEventForm.gender.$invalid && !addEventForm.gender.$pristine }"
-						ng-hide="event.eventType == 'Indoor'">
+					<div class="form-group" ng-hide="event.eventType == 'Indoor'">
 						<label class="sr-only"></label> Gender :<br /> <select
 							ng-model="event.gender" class="formform-control" id=""
-							name="gender" required style="width: 100%;">
-							<option value="" disabled class="formform-control">--Select--</option>
-							<option value="M" class="formform-control">Male</option>
+							name="gender" style="width: 100%;">
+
+							<option value="M" selected class="formform-control">Male</option>
 							<option value="F" class="formform-control">Female</option>
 						</select>
-						<div class="help-block" ng-messages="addEventForm.gender.$error"
-							ng-if="addEventForm.gender.$dirty">
-							<div ng-messages-include="partials/validationMessages.html"></div>
-						</div>
+
 					</div>
 
 

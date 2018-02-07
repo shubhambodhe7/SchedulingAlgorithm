@@ -22,7 +22,7 @@ public class EventRowMapper implements RowMapper<Event> {
 
 		e.setTeamsInOneMatch(rs.getInt("teams_in_one_match"));
 		e.setEventHead(rs.getString("eventhead"));
-		e.setMainEventId(rs.getInt("main_event_id"));
+		e.setMainEventId(rs.getDouble("main_event_id"));
 		e.setSeed(rs.getInt("seed"));
 
 		return e;

@@ -61,6 +61,14 @@ public class EventDao {
 
 	}
 
+	public List<Event> getEventDetailsAsPerUser(String userId) {
+		LoginDao ld = new LoginDao(jdbcTemplate);
+		String gender = ld.getUser(userId).get(0).getGender();
+		return jdbcTemplate.query("Select * from event where gender = ?", new Object[] { gender },
+				new EventRowMapper());
+
+	}
+
 	public List<Login> getEligibleEventHeads(int eventId) {
 		return jdbcTemplate.query(
 				"SELECT l.user_id, username, userpassword, rolename, gender, contact,classroomvv  FROM logindetails l, event_head eh where l.user_id = eh.user_id and event_id = ? order by l.username desc",
@@ -91,20 +99,26 @@ public class EventDao {
 
 	public int addEvent(Event e) {
 		System.out.println(e.getEventType());
+		long mainEventId = System.currentTimeMillis();
+		jdbcTemplate.update(
+				"INSERT INTO `mainevent`(`main_event_id`,`main_event_name`, `main_event_parallel_matches`,`temp_counter`,`slot`) VALUES (?,?,?,?,?)",
+				new Object[] { mainEventId, e.getEventName(), e.getParallelMatches(), e.getParallelMatches(), 1 });
+		jdbcTemplate.update(
+				"INSERT INTO `mainevent`(`main_event_id`,`main_event_name`, `main_event_parallel_matches`,`temp_counter`,`slot`) VALUES (?,?,?,?,?)",
+				new Object[] { mainEventId, e.getEventName(), e.getParallelMatches(), e.getParallelMatches(), 2 });
+		jdbcTemplate.update(
+				"INSERT INTO `mainevent`(`main_event_id`,`main_event_name`, `main_event_parallel_matches`,`temp_counter`,`slot`) VALUES (?,?,?,?,?)",
+				new Object[] { mainEventId, e.getEventName(), e.getParallelMatches(), e.getParallelMatches(), 3 });
 
-		jdbcTemplate.update("INSERT INTO `mainevent`(`main_event_name`, `main_event_parallel_matches`) VALUES (?,?)",
-				new Object[] { e.getEventName(), e.getParallelMatches() });
-		List<Map<String, Object>> list = jdbcTemplate.queryForList(
-				"SELECT main_event_id FROM mainevent WHERE  main_event_name= ? and  main_event_parallel_matches = ?",
-				new Object[] { e.getEventName(), e.getParallelMatches() });
-
-		if (null == list || list.isEmpty()) {
-			return -1;
-		}
-		System.out.println(list.get(0));
-		System.out.println("list" + list.get(0));
-		int mainEventId = (int) list.get(0).get("main_event_id");
-
+		/*
+		 * List<Map<String, Object>> list = jdbcTemplate.queryForList(
+		 * "SELECT main_event_id FROM mainevent WHERE  main_event_name= ? and  main_event_parallel_matches = ?"
+		 * , new Object[] { e.getEventName(), e.getParallelMatches() });
+		 * 
+		 * if (null == list || list.isEmpty()) { return -1; }
+		 * System.out.println(list.get(0)); System.out.println("list" +
+		 * list.get(0)); mainEventId = (int) list.get(0).get("main_event_id");
+		 */
 		if (e.getEventType().equalsIgnoreCase("Indoor")) {
 			int update = 0;
 
@@ -138,9 +152,9 @@ public class EventDao {
 			return update;
 		} else {
 			return jdbcTemplate.update(
-					"INSERT INTO event(event_name,main_event_id, gender, event_type, details, max_participate, max_team, teams_in_one_match,seed)  VALUES (?,?,?,?, ?, ?, ?, ?)",
+					"INSERT INTO event(event_name,main_event_id, gender, event_type, details, max_participate,  teams_in_one_match,seed)  VALUES (?,?,?,?, ?, ?, ?, ?)",
 					new Object[] { e.getEventName(), mainEventId, e.getGender(), "Outdoor", e.getDetails(),
-							e.getMaxPlayers(), e.getMaxTeams(), e.getTeamsInOneMatch(), 0 });
+							e.getMaxPlayers(), e.getTeamsInOneMatch(), 0 });
 		}
 
 	}
@@ -241,7 +255,7 @@ public class EventDao {
 
 	public int deleteEvent(int eventId) {
 
-		return jdbcTemplate.update("DELETE FROM event WHERE WHERE  event_id = ?", new Object[] { eventId });
+		return jdbcTemplate.update("DELETE FROM event WHERE  event_id = ?", new Object[] { eventId });
 
 	}
 

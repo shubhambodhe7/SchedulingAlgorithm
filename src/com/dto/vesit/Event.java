@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 public class Event {
 
 	private int eventId;
-	private int mainEventId;
+	private double mainEventId;
 	private String eventName;
 	private List<Team> teams;
 	private String gender;
@@ -86,11 +86,11 @@ public class Event {
 		this.seed = seed;
 	}
 
-	public int getMainEventId() {
+	public double getMainEventId() {
 		return mainEventId;
 	}
 
-	public void setMainEventId(int mainEventId) {
+	public void setMainEventId(double mainEventId) {
 		this.mainEventId = mainEventId;
 	}
 

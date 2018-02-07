@@ -1,11 +1,11 @@
 package com.dto.vesit;
 
 public class MainEvent {
-	private int mainEventId;
+	private double mainEventId;
 	private String mainEventName;
 	private int mainEventParallelMatches;
 
-	public MainEvent(int mainEventId, String mainEventName, int mainEventParallelMatches) {
+	public MainEvent(double mainEventId, String mainEventName, int mainEventParallelMatches) {
 		super();
 		this.mainEventId = mainEventId;
 		this.mainEventName = mainEventName;
@@ -16,11 +16,11 @@ public class MainEvent {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getMainEventId() {
+	public double getMainEventId() {
 		return mainEventId;
 	}
 
-	public void setMainEventId(int mainEventId) {
+	public void setMainEventId(double mainEventId) {
 		this.mainEventId = mainEventId;
 	}
 

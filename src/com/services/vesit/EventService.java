@@ -54,6 +54,9 @@ public class EventService {
 	public List<Event> getEventDetails(String userId, int eventId) {
 		return ed.getEventDetails(userId, eventId);
 	}
+	public List<Event> getEventDetailsAsPerUser(String userId) {
+		return ed.getEventDetailsAsPerUser(userId);
+	}
 
 	public List<Login> getEligibleEventHeads(int eventId) {
 		return ed.getEligibleEventHeads(eventId);

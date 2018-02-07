@@ -49,6 +49,11 @@ public class EventController {
 			throws NoSuchAlgorithmException {
 		return es.getEventDetails(userId, eventId);
 	}
+	@RequestMapping(value = "/getEventDetailsAsPerUser/{userId:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<Event> getEventDetailsAsPerUser(@PathVariable String userId)
+			throws NoSuchAlgorithmException {
+		return es.getEventDetailsAsPerUser(userId);
+	}
 
 	@RequestMapping(value = "/getPendingEventsForRefreeAssignment", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Event> getPendingEventsForRefreeAssignment() throws NoSuchAlgorithmException {
@@ -109,7 +114,7 @@ public class EventController {
 		// return 1;
 	}
 
-	@RequestMapping(value = "/deleteEvent/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/deleteEvent/{eventId}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody int deleteEvent(@PathVariable int eventId) throws NoSuchAlgorithmException {
 		return es.deleteEvent(eventId);
 	}

@@ -134,6 +134,7 @@ app
 											$localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 = "";
 											// $localStorage.clear();
 											$location.path("/login");
+											$window.localStorage.clear();
 
 										},
 										function error(response) {
