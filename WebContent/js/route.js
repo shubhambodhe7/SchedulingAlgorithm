@@ -63,6 +63,19 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 				}
 			}
 		}
+	}).when("/deleteEvents", {
+		templateUrl : "partials/deleteEvents.html",
+		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfUser()) {
+					$location.path('/login');
+				}
+			}
+		}
 	}).when("/assignReferee", {
 		templateUrl : "partials/assignReferee.html",
 		resolve : {

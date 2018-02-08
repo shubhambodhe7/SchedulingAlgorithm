@@ -1,0 +1,20 @@
+
+
+
+<div ng-controller="eventCtrl">
+
+
+
+	<uib-accordion>
+	<div ng-repeat="e in eventListForDel">
+		<div uib-accordion-group class="panel-info" heading="{{e.eventName}}">
+			<p>{{e.eventType}}</p>
+			<p>{{e.gender}}</p>
+			<p>{{e.details}}</p>
+
+			<button class="btn btn-danger" ng-click="deleteEvent(e.eventId)">Delete
+				Event</button>
+		</div>
+	</div>
+	</uib-accordion>
+</div>

@@ -8,14 +8,15 @@
 	<uib-accordion>
 	<div ng-repeat="e in events">
 		<div uib-accordion-group class="panel-info" heading="{{e.eventName}}">
-			<p>{{e.details}}</p>
 			<p>{{e.gender}}</p>
+			<p>{{e.details}}</p>
+			
 
 			<button class="btn btn-success"
 				ng-click="registerForEvent(e.eventId)">Register for event</button>
 			<button class="btn btn-warning" ng-click="applyAsReferee(e.eventId)">Apply
 				as referee</button>
-			<button class="btn btn-danger" ng-click="deleteEvent(e.eventId)">Delete Event</button>
+			
 		</div>
 	</div>
 	</uib-accordion>

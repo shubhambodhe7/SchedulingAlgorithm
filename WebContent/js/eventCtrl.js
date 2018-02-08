@@ -66,7 +66,7 @@ app
 					}
 
 					function getAllEvents() {
-						
+
 						$http.get('project/getEventDetailsAsPerUser/' + userId)
 								.then(function(response) {
 									console.log(response.data);
@@ -82,7 +82,7 @@ app
 								.then(
 										function(response) {
 											console.log(response.data);
-
+											$scope.eventListForDel = response.data;
 											for (var i = 0; i < response.data.length; i++) { //
 												$scope.allEventList
 														.push({
@@ -137,7 +137,7 @@ app
 
 												if (response.data == -2) {
 													bootbox
-															.alert("You have already registered as referee for this event hence you cannot participate!");
+															.alert("Someone from your class has already participated in this seed. Try your luck with other seed!");
 												} else if (response.data == -1) {
 													bootbox
 															.alert("You have already registered for this event!");

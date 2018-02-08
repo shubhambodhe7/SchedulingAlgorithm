@@ -10,11 +10,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.dto.vesit.Event;
+import com.dto.vesit.EventWinner;
 import com.dto.vesit.Login;
 import com.dto.vesit.MainEvent;
 import com.dto.vesit.Player;
 import com.dto.vesit.Team;
 import com.mapper.vesit.EventRowMapper;
+import com.mapper.vesit.EventWinnerRowMapper;
 import com.mapper.vesit.LoginRowMapper;
 import com.mapper.vesit.MainEventRowMapper;
 
@@ -44,6 +46,13 @@ public class EventDao {
 
 	public List<Event> getAllEvents() {
 		return jdbcTemplate.query("Select * from event e order by e.event_name desc ", new EventRowMapper());
+
+	}
+
+	public List<EventWinner> getWinners() {
+		return jdbcTemplate.query(
+				"select event_name, team_name,classroom,round,points from event e, team t where t.event_id = e.event_id  order by points desc ",
+				new EventWinnerRowMapper());
 
 	}
 
@@ -187,8 +196,27 @@ public class EventDao {
 		}
 		return true;
 	}
+	public boolean checkIfClassAlreadyRegisteredForIndEvent(String userId, int eventId) {
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(
+				"SELECT t.team_id FROM logindetails l ,team t,player p WHERE p.team_id = t.team_id and l.classroom = t.classroom and l.user_id = ? and t.event_id = ? ",
+				new Object[] { userId, eventId });
+		
+		// System.out.println("list" + list);
+		if (null == list || list.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
 
+	// SELECT t.team_id,e.seed FROM team t , event e where t.event_id =
+	// e.event_id
 	public int registerForIndEvent(String userId, int eventId) {
+		if (checkIfClassAlreadyRegisteredForIndEvent(userId, eventId)) {
+			return -2;
+		}
+		if (checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
+			return -1;
+		}
 		LoginDao dao = new LoginDao(jdbcTemplate);
 		Login l = dao.getUser(userId).get(0);
 		int ret = jdbcTemplate.update(
@@ -200,6 +228,8 @@ public class EventDao {
 				new Object[] { l.getUserName(), eventId });
 
 		if (null == list || list.isEmpty()) {
+			System.out.println(list);
+
 			return -1;
 		}
 		System.out.println("list" + list.get(0).get("team_id"));
@@ -219,6 +249,7 @@ public class EventDao {
 				new Object[] { team.getTeamName(), team.getEventId() });
 		System.out.println(checklist);
 		if (null != checklist && !checklist.isEmpty()) {
+			System.out.println(checklist);
 			return -2;
 		}
 
@@ -284,5 +315,9 @@ public class EventDao {
 		}
 		return ret;
 	}
-
+	// select * from schedule s,event e, game g, gameteammapping gt, team t
+	// where s.game_id = g.game_id and g.event_id = e.event_id and g.game_id =
+	// gt.game_id and gt.team_id = t.team_id
+	// select event_name, team_name,classroom,round,points from event e, team t
+	// where t.event_id = e.event_id order by points desc
 }

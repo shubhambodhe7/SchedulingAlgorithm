@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.dao.vesit.EventDao;
 import com.dto.vesit.Event;
+import com.dto.vesit.EventWinner;
 import com.dto.vesit.Login;
 import com.dto.vesit.MainEvent;
 import com.dto.vesit.Player;
@@ -46,6 +47,9 @@ public class EventService {
 	public List<Event> getAllEvents() {
 		return ed.getAllEvents();
 	}
+	public List<EventWinner> getWinners() {
+		return ed.getWinners();
+	}
 
 	public List<MainEvent> getMainEvents() {
 		return ed.getMainEvents();
@@ -82,10 +86,8 @@ public class EventService {
 	public int registerForIndEvent(String userId, int eventId) {
 		// TODO Auto-generated method stub
 
-		if (!ed.checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
-			return ed.registerForIndEvent(userId, eventId);
-		}
-		return -1;
+		
+		return ed.registerForIndEvent(userId, eventId);
 	}
 
 	public int registerForTeamEvent(String teamName, String classroom, String eventId, String json) {
