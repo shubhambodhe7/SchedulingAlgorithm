@@ -211,11 +211,12 @@ public class EventDao {
 	// SELECT t.team_id,e.seed FROM team t , event e where t.event_id =
 	// e.event_id
 	public int registerForIndEvent(String userId, int eventId) {
-		if (checkIfClassAlreadyRegisteredForIndEvent(userId, eventId)) {
-			return -2;
-		}
+		
 		if (checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
 			return -1;
+		}
+		if (checkIfClassAlreadyRegisteredForIndEvent(userId, eventId)) {
+			return -2;
 		}
 		LoginDao dao = new LoginDao(jdbcTemplate);
 		Login l = dao.getUser(userId).get(0);

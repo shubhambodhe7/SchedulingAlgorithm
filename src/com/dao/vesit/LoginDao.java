@@ -4,16 +4,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.jasper.tagplugins.jstl.core.Catch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.dto.vesit.Event;
 import com.dto.vesit.Login;
 import com.dto.vesit.PasswordEncryption;
-import com.mapper.vesit.EventRowMapper;
 import com.mapper.vesit.LoginRowMapper;
 
 @Component
