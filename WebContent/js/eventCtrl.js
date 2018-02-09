@@ -1,7 +1,7 @@
 app
 		.controller(
 				'eventCtrl',
-				function($scope, $http, $localStorage, $location, $modal, $log,
+				function($scope, $http, $sessionStorage, $location, $modal, $log,
 						$route) {
 
 					var userId = 'chayan.agrawal@ves.ac.in';
@@ -70,7 +70,7 @@ app
 
 					function getAllEvents() {
 
-						$http.get('project/getEventDetailsAsPerUser/' + userId)
+						$http.get('project/getEventDetailsAsPerUser/' + $sessionStorage.userId)
 								.then(function(response) {
 									console.log(response.data);
 									$scope.events = response.data.reverse();
@@ -94,8 +94,7 @@ app
 					function getClassPoints() {
 
 						$http.get(
-								'project/getClassPoints/'
-										+ $sessionStorage.userId).then(
+								'project/getClassPoints/' + $sessionStorage.userId).then(
 								function(response) {
 									debugger;
 									console.log(response.data);
@@ -162,7 +161,7 @@ app
 							$http
 									.get(
 											'project/registerForIndEvent/'
-													+ userId + '/' + eventId)
+													+ $sessionStorage.userId + '/' + eventId)
 									.then(
 											function(response) {
 												console.log(response.data);
@@ -197,7 +196,7 @@ app
 
 										return $http.get(
 												'project/getEventDetails/'
-														+ userId + '/'
+														+ $sessionStorage.userId + '/'
 														+ eventId).then(
 												function(response) {
 													return response.data[0];
@@ -222,7 +221,7 @@ app
 
 						$http
 								.get(
-										'project/registerAsEventHead/' + userId
+										'project/registerAsEventHead/' + $sessionStorage.userId
 												+ '/' + eventId)
 								.then(
 										function(response) {

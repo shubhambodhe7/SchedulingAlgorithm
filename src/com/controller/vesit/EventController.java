@@ -46,7 +46,7 @@ public class EventController {
 	}
 
 	@RequestMapping(value = "/getClassPoints/{userId:.+}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<EventWinner> getWinners(String userId) throws NoSuchAlgorithmException {
+	public @ResponseBody List<EventWinner> getWinners(@PathVariable String userId) throws NoSuchAlgorithmException {
 		System.out.println(" getClassPoints " + userId);
 		return es.getWinners(userId);
 	}
