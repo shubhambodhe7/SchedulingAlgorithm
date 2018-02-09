@@ -39,9 +39,16 @@ public class EventController {
 	public @ResponseBody List<Event> getAllEvents() throws NoSuchAlgorithmException {
 		return es.getAllEvents();
 	}
+
 	@RequestMapping(value = "/getWinners", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<EventWinner> getWinners() throws NoSuchAlgorithmException {
 		return es.getWinners();
+	}
+
+	@RequestMapping(value = "/getClassPoints/{userId:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<EventWinner> getWinners(String userId) throws NoSuchAlgorithmException {
+		System.out.println(" getClassPoints " + userId);
+		return es.getWinners(userId);
 	}
 
 	@RequestMapping(value = "/getMainEvents", method = RequestMethod.GET, produces = "application/json")
@@ -54,6 +61,7 @@ public class EventController {
 			throws NoSuchAlgorithmException {
 		return es.getEventDetails(userId, eventId);
 	}
+
 	@RequestMapping(value = "/getEventDetailsAsPerUser/{userId:.+}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Event> getEventDetailsAsPerUser(@PathVariable String userId)
 			throws NoSuchAlgorithmException {
@@ -103,7 +111,7 @@ public class EventController {
 		return es.assignReferee(Integer.parseInt(eventId), Integer.parseInt(userId));
 	}
 
-	@RequestMapping(value = "/advanceTeam/{round:.+}/{eventId:.+}/{json:.+}", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/advanceTeam/{round:.+}/{eventId:.+}/{json:.+}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody int advanceTeam(@PathVariable String round, @PathVariable String eventId,
 			@PathVariable String json) throws NoSuchAlgorithmException {
 

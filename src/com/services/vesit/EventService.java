@@ -50,6 +50,9 @@ public class EventService {
 	public List<EventWinner> getWinners() {
 		return ed.getWinners();
 	}
+	public List<EventWinner> getWinners(String userId) {
+		return ed.getWinners(userId);
+	}
 
 	public List<MainEvent> getMainEvents() {
 		return ed.getMainEvents();

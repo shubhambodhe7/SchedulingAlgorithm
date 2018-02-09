@@ -51,8 +51,15 @@ public class EventDao {
 
 	public List<EventWinner> getWinners() {
 		return jdbcTemplate.query(
-				"select event_name, team_name,classroom,round,points from event e, team t where t.event_id = e.event_id  order by points desc ",
+				"select event_name, team_name,classroom,round,points from event e, team t where t.event_id = e.event_id order by event_name asc, points desc",
 				new EventWinnerRowMapper());
+
+	}
+
+	public List<EventWinner> getWinners(String userId) {
+		return jdbcTemplate.query(
+				"select event_name, t.team_name, t.classroom,round,points from event e, team t,logindetails l where t.event_id = e.event_id and l.classroom = t.classroom and l.user_id = ? order by event_name asc, points desc",
+				new Object[] { userId }, new EventWinnerRowMapper());
 
 	}
 
@@ -196,11 +203,12 @@ public class EventDao {
 		}
 		return true;
 	}
+
 	public boolean checkIfClassAlreadyRegisteredForIndEvent(String userId, int eventId) {
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(
 				"SELECT t.team_id FROM logindetails l ,team t,player p WHERE p.team_id = t.team_id and l.classroom = t.classroom and l.user_id = ? and t.event_id = ? ",
 				new Object[] { userId, eventId });
-		
+
 		// System.out.println("list" + list);
 		if (null == list || list.isEmpty()) {
 			return false;
@@ -211,7 +219,7 @@ public class EventDao {
 	// SELECT t.team_id,e.seed FROM team t , event e where t.event_id =
 	// e.event_id
 	public int registerForIndEvent(String userId, int eventId) {
-		
+
 		if (checkIfAlreadyRegisteredForIndEvent(userId, eventId)) {
 			return -1;
 		}

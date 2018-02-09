@@ -1,42 +1,42 @@
 app
 		.controller(
 				'myCtrl',
-				function(accessFac, $scope, $http, $localStorage, $location,
+				function(accessFac, $scope, $http, $sessionStorage, $location,
 						$cookies) {
 
 					/*
-					 * $localStorage.userId = "chayan";
-					 * $localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 =
-					 * "role"; console.log("$localStorage.userId",
-					 * $localStorage.userId); console .log(
-					 * "$localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1",
-					 * $localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1);
+					 * $sessionStorage.userId = "chayan";
+					 * $sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 =
+					 * "role"; console.log("$sessionStorage.userId",
+					 * $sessionStorage.userId); console .log(
+					 * "$sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1",
+					 * $sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1);
 					 */
 					$scope.sessionActive = accessFac.checkIfAdmin();
 					$scope.$watch(function() {
-						return $localStorage.userId;
+						return $sessionStorage.userId;
 					}, function(newVal, oldVal) {
 						if (oldVal !== newVal && newVal === undefined) {
 							console.log('It is undefined');
 						}
 						console.log('chnged');
-						console.log($localStorage.userId);
+						console.log($sessionStorage.userId);
 						$scope.sessionActive = accessFac.checkIfUser();
 						console.log("$scope.sessionActive",
 								$scope.sessionActive)
 					});
 					$scope.$watch(function() {
-						return $localStorage.userName;
+						return $sessionStorage.userName;
 					}, function(newVal, oldVal) {
 						if (oldVal !== newVal && newVal === undefined) {
 							console.log('It is undefined');
 						}
 
-						$scope.userName = 'Welcome ' + $localStorage.userName;
+						$scope.userName = 'Welcome ' + $sessionStorage.userName;
 
 					})
 
-					// $localStorage.userId = "chayan123";
+					// $sessionStorage.userId = "chayan123";
 
 					// console.log("sessionActive", sessionActive);
 
@@ -106,9 +106,9 @@ app
 												 * "_f7c2e09ca07304e85f9563435e6ca31534ee2ca1",
 												 * response.data.userPassword);
 												 */
-												$localStorage.userId = response.data.userId;
-												$localStorage.userName = response.data.userName;
-												$localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 = response.data.userPassword;
+												$sessionStorage.userId = response.data.userId;
+												$sessionStorage.userName = response.data.userName;
+												$sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 = response.data.userPassword;
 
 												$location.path("/home");
 											}
@@ -129,10 +129,10 @@ app
 								.then(
 										function(response) {
 											console.log(response.data);
-											$localStorage.userId = "";
-											$localStorage.userName = "";
-											$localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 = "";
-											// $localStorage.clear();
+											$sessionStorage.userId = "";
+											$sessionStorage.userName = "";
+											$sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 = "";
+											// $sessionStorage.clear();
 											$location.path("/login");
 											$window.localStorage.clear();
 

@@ -9,7 +9,15 @@ var app = angular.module("app", [ "ngRoute", "ngStorage", 'ui.bootstrap',
  */
 app.config(function($routeProvider, $httpProvider, $locationProvider) {
 	$routeProvider.when("/", {
-		templateUrl : "partials/login.html"
+		templateUrl : "partials/home.html",
+		controller : "myCtrl",
+		resolve : {
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfUser()) {
+					$location.path('/login');
+				}
+			}
+		}
 	}).when("/login", {
 		templateUrl : "partials/login.html",
 		controller : "myCtrl",
@@ -52,6 +60,32 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 		}
 	}).when("/displayEvents", {
 		templateUrl : "partials/displayEvents.html",
+		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfUser()) {
+					$location.path('/login');
+				}
+			}
+		}
+	}).when("/winners", {
+		templateUrl : "partials/winners.html",
+		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfUser()) {
+					$location.path('/login');
+				}
+			}
+		}
+	}).when("/classScore", {
+		templateUrl : "partials/classScore.html",
 		resolve : {
 			sessionActive : function(accessFac) {
 				return accessFac.checkIfUser();
@@ -159,14 +193,14 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 app
 		.factory(
 				'accessFac',
-				function($localStorage) {
+				function($sessionStorage) {
 					return {
 						checkIfAdmin : function() {
-							return ($localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 == 'd033e22ae348aeb5660fc2140aec35850c4da997')
+							return ($sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 == 'd033e22ae348aeb5660fc2140aec35850c4da997')
 						},
 						checkIfUser : function() {
 
-							return ($localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 == '9c2a6e4809aeef7b7712ca4db05a681452f4f748' || $localStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 == 'd033e22ae348aeb5660fc2140aec35850c4da997')
+							return ($sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 == '9c2a6e4809aeef7b7712ca4db05a681452f4f748' || $sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 == 'd033e22ae348aeb5660fc2140aec35850c4da997')
 
 						}
 					}

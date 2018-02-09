@@ -54,11 +54,14 @@ app
 						$scope.eventHeads = [];
 						$scope.allEventList = [];
 						$scope.teamList = [];
+						$scope.currEventWinners = [];
 
 						getPendingEvents();
 						getAllEvents();
 						getEventList();
 						getMainEvents();
+						getWinners();
+						getClassPoints();
 						// getEligibleEventHeads(1);
 
 						console.log("view method");
@@ -76,6 +79,33 @@ app
 									$scope.myWelcome = response.statusText;
 								});
 					}
+					function getWinners() {
+
+						$http.get('project/getWinners/').then(
+								function(response) {
+									console.log(response.data);
+									$scope.winners = response.data;
+
+								}, function myError(response) {
+									$scope.myWelcome = response.statusText;
+								});
+					}
+					;
+					function getClassPoints() {
+
+						$http.get(
+								'project/getClassPoints/'
+										+ $sessionStorage.userId).then(
+								function(response) {
+									debugger;
+									console.log(response.data);
+									$scope.classScore = response.data;
+
+								}, function myError(response) {
+									$scope.myWelcome = response.statusText;
+								});
+					}
+					;
 					function getEventList() {
 						$http
 								.get('project/getAllEvents')
@@ -96,6 +126,7 @@ app
 											$scope.myWelcome = response.statusText;
 										});
 					}
+					;
 					function getMaxNumParticipants(eventId) {
 						for (var i = 0; i < $scope.events.length; ++i) {
 							/*
@@ -108,6 +139,7 @@ app
 							}
 						}
 					}
+					;
 
 					$scope.addEvent = function(event) {
 						$http.post('project/addEvent', event).then(
@@ -502,6 +534,19 @@ app
 											getEventList();
 
 										});
+					}
+
+					$scope.getClickedEventWinners = function(eventName) {
+						$scope.currEventWinners = [];
+						for (var i = 0; i < $scope.winners.length; ++i) {
+							if ($scope.winners[i].eventName == eventName) {
+								$scope.currEventWinners.push($scope.winners[i]);
+								break;
+							}
+
+						}
+						console.log("$scope.currEventWinners"
+								+ $scope.currEventWinners);
 					}
 
 				});
