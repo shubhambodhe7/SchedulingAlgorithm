@@ -1,0 +1,27 @@
+
+
+
+<div ng-controller="eventCtrl">
+
+	<h2>
+		<p>Class Score</p>
+	</h2>
+	<table>
+		<tr>
+			<td>TeamName</td>
+			<td>Classroom</td>
+			<td>Round</td>
+			<td>Points</td>
+		</tr>
+		<tr ng-repeat="c in classScore">
+			<td>{{c.teamName}}</td>
+			<td>{{c.classroom}}</td>
+			<td>{{c.round}}</td>
+			<td>{{c.points}}</td>
+		</tr>
+	</table>
+
+
+
+
+</div>
