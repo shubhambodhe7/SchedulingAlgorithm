@@ -50,6 +50,11 @@ public class EventController {
 		System.out.println(" getClassPoints " + userId);
 		return es.getWinners(userId);
 	}
+	@RequestMapping(value = "/getMyRegistrations/{userId:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<EventWinner> getMyRegistrations(@PathVariable String userId) throws NoSuchAlgorithmException {
+		System.out.println(" getClassPoints " + userId);
+		return es.getMyRegistrations(userId);
+	}
 
 	@RequestMapping(value = "/getMainEvents", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<MainEvent> getMainEvents() throws NoSuchAlgorithmException {
@@ -84,13 +89,18 @@ public class EventController {
 			throws NoSuchAlgorithmException {
 		return es.registerForIndEvent(userId, eventId);
 	}
+	@RequestMapping(value = "/unregisterForIndEvent/{userId:.+}/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody int unregisterForIndEvent(@PathVariable String userId, @PathVariable int eventId)
+			throws NoSuchAlgorithmException {
+		return es.unregisterForIndEvent(userId, eventId);
+	}
 
 	@RequestMapping(value = "/registerForTeamEvent", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody int registerForTeamEvent(@RequestBody Map<String, String> data)
 			throws NoSuchAlgorithmException {
 		Map<String, String> d = data;
 		System.out.println(d);
-		return es.registerForTeamEvent("teamname", String.valueOf(data.get("classroom")),
+		return es.registerForTeamEvent(String.valueOf(data.get("classroom")), String.valueOf(data.get("classroom")),
 				String.valueOf(data.get("eventId")), data.get("players"));
 		// return 1;
 	}

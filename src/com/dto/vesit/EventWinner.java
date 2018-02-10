@@ -1,6 +1,7 @@
 package com.dto.vesit;
 
 public class EventWinner {
+	private int eventId;
 	private String eventName;
 	private String teamName;
 	private String classroom;
@@ -19,6 +20,13 @@ public class EventWinner {
 		this.classroom = classroom;
 		this.round = round;
 		this.points = points;
+	}
+	
+	public int getEventId() {
+		return eventId;
+	}
+	public void setEventId(int eventId) {
+		this.eventId = eventId;
 	}
 	public String getEventName() {
 		return eventName;

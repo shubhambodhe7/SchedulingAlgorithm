@@ -63,6 +63,13 @@ public class EventDao {
 
 	}
 
+	public List<EventWinner> getMyRegistrations(String userId) {
+		return jdbcTemplate.query(
+				"select distinct e.event_id,event_name, t.team_name, t.classroom,round,points from event e, team t,player p where t.event_id = e.event_id and p.team_id = t.team_id and p.player_id = ? order by event_name asc",
+				new Object[] { userId }, new EventWinnerRowMapper());
+
+	}
+
 	public List<MainEvent> getMainEvents() {
 		return jdbcTemplate.query("Select * from mainevent e order by e.main_event_name desc ",
 				new MainEventRowMapper());
@@ -226,6 +233,17 @@ public class EventDao {
 		if (checkIfClassAlreadyRegisteredForIndEvent(userId, eventId)) {
 			return -2;
 		}
+		// other seed
+		Event event = getEventDetails(userId, eventId).get(0);
+		int otherSeedEventId = 0;
+		if ("1".equals(event.getEventName().charAt(event.getEventName().length() - 1))) {
+			otherSeedEventId = eventId + 1;
+		} else {
+			otherSeedEventId = eventId - 1;
+		}
+		if (checkIfAlreadyRegisteredForIndEvent(userId, otherSeedEventId)) {
+			return -3;
+		}
 		LoginDao dao = new LoginDao(jdbcTemplate);
 		Login l = dao.getUser(userId).get(0);
 		int ret = jdbcTemplate.update(
@@ -251,11 +269,32 @@ public class EventDao {
 
 	}
 
+	public int unregisterForIndEvent(String userId, int eventId) {
+
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(
+				"SELECT t.team_id FROM player p,team t where  p.team_id = t.team_id and p.player_id= ? and t.event_id = ?",
+				new Object[] { userId, eventId });
+
+		if (null == list || list.isEmpty()) {
+			System.out.println(list);
+
+			return -1;
+		}
+		System.out.println("list" + list.get(0).get("team_id"));
+		int teamId = (int) list.get(0).get("team_id");
+
+		jdbcTemplate.update("Delete from player where team_id = ?", new Object[] { teamId });
+		int ret = jdbcTemplate.update("Delete from team where team_id = ?", new Object[] { teamId });
+
+		return ret;
+
+	}
+
 	public int registerForTeamEvent(Team team, List<Player> pList) {
 
 		List<Map<String, Object>> checklist = jdbcTemplate.queryForList(
-				"SELECT t.team_id FROM team t where t.team_name = ? and t.event_id=?",
-				new Object[] { team.getTeamName(), team.getEventId() });
+				"SELECT t.team_id FROM team t where t.classroom = ? and t.event_id=?",
+				new Object[] { team.getClassroom(), team.getEventId() });
 		System.out.println(checklist);
 		if (null != checklist && !checklist.isEmpty()) {
 			System.out.println(checklist);

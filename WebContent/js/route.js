@@ -110,6 +110,19 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 				}
 			}
 		}
+	}).when("/myRegistrations", {
+		templateUrl : "partials/myRegistrations.html",
+		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfUser()) {
+					$location.path('/login');
+				}
+			}
+		}
 	}).when("/assignReferee", {
 		templateUrl : "partials/assignReferee.html",
 		resolve : {

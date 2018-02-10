@@ -1,8 +1,8 @@
 app
 		.controller(
 				'eventCtrl',
-				function($scope, $http, $sessionStorage, $location, $modal, $log,
-						$route) {
+				function($scope, $http, $sessionStorage, $location, $modal,
+						$log, $route) {
 
 					var userId = 'chayan.agrawal@ves.ac.in';
 					$scope.$watch('data.eventId', function() {
@@ -62,6 +62,7 @@ app
 						getMainEvents();
 						getWinners();
 						getClassPoints();
+						getMyRegistrations();
 						// getEligibleEventHeads(1);
 
 						console.log("view method");
@@ -70,8 +71,10 @@ app
 
 					function getAllEvents() {
 
-						$http.get('project/getEventDetailsAsPerUser/' + $sessionStorage.userId)
-								.then(function(response) {
+						$http.get(
+								'project/getEventDetailsAsPerUser/'
+										+ $sessionStorage.userId).then(
+								function(response) {
 									console.log(response.data);
 									$scope.events = response.data.reverse();
 
@@ -94,11 +97,27 @@ app
 					function getClassPoints() {
 
 						$http.get(
-								'project/getClassPoints/' + $sessionStorage.userId).then(
+								'project/getClassPoints/'
+										+ $sessionStorage.userId).then(
 								function(response) {
 									debugger;
 									console.log(response.data);
 									$scope.classScore = response.data;
+
+								}, function myError(response) {
+									$scope.myWelcome = response.statusText;
+								});
+					}
+					;
+					function getMyRegistrations() {
+
+						$http.get(
+								'project/getMyRegistrations/'
+										+ $sessionStorage.userId).then(
+								function(response) {
+									debugger;
+									console.log(response.data);
+									$scope.myRegistration = response.data;
 
 								}, function myError(response) {
 									$scope.myWelcome = response.statusText;
@@ -126,6 +145,7 @@ app
 										});
 					}
 					;
+
 					function getMaxNumParticipants(eventId) {
 						for (var i = 0; i < $scope.events.length; ++i) {
 							/*
@@ -161,12 +181,15 @@ app
 							$http
 									.get(
 											'project/registerForIndEvent/'
-													+ $sessionStorage.userId + '/' + eventId)
+													+ $sessionStorage.userId
+													+ '/' + eventId)
 									.then(
 											function(response) {
 												console.log(response.data);
-
-												if (response.data == -2) {
+												if (response.data == -3) {
+													bootbox
+															.alert("You have already registered for this event in other seed");
+												} else if (response.data == -2) {
 													bootbox
 															.alert("Someone from your class has already participated in this seed. Try your luck with other seed!");
 												} else if (response.data == -1) {
@@ -187,23 +210,28 @@ app
 											});
 						} else {
 
-							var modalInstance = $modal.open({
-								templateUrl : 'partials/teamRegister.html',
-								controller : 'teamCtrl',
-								windowClass : 'center-modal',
-								resolve : {
-									event : function($http) {
+							var modalInstance = $modal
+									.open({
+										templateUrl : 'partials/teamRegister.html',
+										controller : 'teamCtrl',
+										windowClass : 'center-modal',
+										resolve : {
+											event : function($http) {
 
-										return $http.get(
-												'project/getEventDetails/'
-														+ $sessionStorage.userId + '/'
-														+ eventId).then(
-												function(response) {
-													return response.data[0];
-												})
-									}
-								}
-							});
+												return $http
+														.get(
+																'project/getEventDetails/'
+																		+ $sessionStorage.userId
+																		+ '/'
+																		+ eventId)
+														.then(
+																function(
+																		response) {
+																	return response.data[0];
+																})
+											}
+										}
+									});
 
 							/*
 							 * modalInstance.result.then(function(selectedItems) { //
@@ -221,8 +249,9 @@ app
 
 						$http
 								.get(
-										'project/registerAsEventHead/' + $sessionStorage.userId
-												+ '/' + eventId)
+										'project/registerAsEventHead/'
+												+ $sessionStorage.userId + '/'
+												+ eventId)
 								.then(
 										function(response) {
 											console.log(response.data);
@@ -547,5 +576,30 @@ app
 						console.log("$scope.currEventWinners"
 								+ $scope.currEventWinners);
 					}
+
+					$scope.unregisterForEvent = function(eventId) {
+						// bootbox.alert(eventId);
+						$http.get(
+								'project/unregisterForIndEvent/'
+										+ $sessionStorage.userId + '/'
+										+ eventId).then(function(response) {
+							console.log(response.data);
+
+							if (response.data >= 0) {
+								bootbox.alert("Unregistration successful!");
+
+							} else {
+								bootbox.alert("Unregistration failed");
+
+							}
+							$route.reload();
+						}, function error(response) {
+							console.log(response);
+
+							bootbox.alert("Unregistration failed");
+
+						});
+
+					};
 
 				});

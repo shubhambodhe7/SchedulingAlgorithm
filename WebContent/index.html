@@ -134,10 +134,10 @@
 
 <style>
 .center-modal {
-	margin:0px auto;
+	margin: 0px auto;
 	top: 300px;
 	z-index: inherit;
-	height:500px;	
+	height: 500px;
 }
 </style>
 
@@ -187,6 +187,7 @@
 
 							<li><a href="#!register">Add Events</a></li>
 							<li><a href="#!displayEvents">View Events</a></li>
+							<li><a href="#!myRegistrations">My Registrations</a></li>
 							<li><a href="#!deleteEvents">Delete Events</a></li>
 							<li><a href="#!assignReferee">Assign Event Heads</a></li>
 
@@ -238,8 +239,9 @@
 				</ul>
 				<ul class="navbar-nav ml-auto">
 
-					<li class="nav-item"><a class="nav-link" data-toggle="modal"
-						data-target="#exampleModal" ng-bind="userName"> <i
+					<li class="nav-item"><a href="#!myRegistrations"
+						class="nav-link" data-toggle="modal" data-target="#exampleModal"
+						ng-bind="userName" style="text-transform: capitalize;"> <i
 							class="fa fa-fw fa-user"></i>
 					</a></li>
 					<li class="nav-item"><a class="nav-link" data-toggle="modal"

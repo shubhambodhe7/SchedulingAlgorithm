@@ -13,6 +13,7 @@ public class EventWinnerRowMapper implements RowMapper<EventWinner> {
 	public EventWinner mapRow(ResultSet rs, int rowSeq) throws SQLException {
 		// TODO Auto-generated method stub
 		EventWinner e = new EventWinner();
+		e.setEventId(rs.getInt("event_id"));
 		e.setEventName(rs.getString("event_name"));
 		e.setTeamName(rs.getString("team_name"));
 		e.setClassroom(rs.getString("classroom"));

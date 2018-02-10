@@ -53,6 +53,9 @@ public class EventService {
 	public List<EventWinner> getWinners(String userId) {
 		return ed.getWinners(userId);
 	}
+	public List<EventWinner> getMyRegistrations(String userId) {
+		return ed.getMyRegistrations(userId);
+	}
 
 	public List<MainEvent> getMainEvents() {
 		return ed.getMainEvents();
@@ -91,6 +94,11 @@ public class EventService {
 
 		
 		return ed.registerForIndEvent(userId, eventId);
+	}
+	public int unregisterForIndEvent(String userId, int eventId) {
+		// TODO Auto-generated method stub
+		
+		return ed.unregisterForIndEvent(userId, eventId);
 	}
 
 	public int registerForTeamEvent(String teamName, String classroom, String eventId, String json) {

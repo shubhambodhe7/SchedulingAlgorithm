@@ -85,10 +85,10 @@ public class LoginDao {
 
 	}
 
-	public List<Login> getAllUsers(String classroom) {
+	public List<Login> getAllUsers(String classroom,String gender) {
 		return jdbcTemplate.query(
-				"Select user_id, username, gender, rolename, contact,classroom from logindetails where classroom=?",
-				new Object[] { classroom }, new LoginRowMapper());
+				"Select user_id, username, gender, rolename, contact,classroom from logindetails where classroom=? and gender = ?",
+				new Object[] { classroom,gender }, new LoginRowMapper());
 
 	}
 
@@ -123,7 +123,7 @@ public class LoginDao {
 				"Select user_id, username, gender, rolename, contact,classroom from logindetails l where user_id = ? order by username desc ",
 				new Object[] { userId }, new LoginRowMapper());
 
-		return getAllUsers(userDetails.get(0).getClassroom());
+		return getAllUsers(userDetails.get(0).getClassroom(),userDetails.get(0).getGender());
 	}
 
 }
