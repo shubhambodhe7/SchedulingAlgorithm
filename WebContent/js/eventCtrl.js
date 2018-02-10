@@ -60,7 +60,6 @@ app
 						getAllEvents();
 						getEventList();
 						getMainEvents();
-						getWinners();
 						getClassPoints();
 						getMyRegistrations();
 						// getEligibleEventHeads(1);
@@ -82,18 +81,7 @@ app
 									$scope.myWelcome = response.statusText;
 								});
 					}
-					function getWinners() {
 
-						$http.get('project/getWinners/').then(
-								function(response) {
-									console.log(response.data);
-									$scope.winners = response.data;
-
-								}, function myError(response) {
-									$scope.myWelcome = response.statusText;
-								});
-					}
-					;
 					function getClassPoints() {
 
 						$http.get(
@@ -131,7 +119,9 @@ app
 										function(response) {
 											console.log(response.data);
 											$scope.eventListForDel = response.data;
-											for (var i = 0; i < response.data.length; i++) { //
+											$scope.eventListDisplay = response.data
+													.reverse();
+											for (var i = response.data.length - 1; i >= 0; i--) { //
 												$scope.allEventList
 														.push({
 															key : response.data[i].eventId,
@@ -613,17 +603,16 @@ app
 										});
 					}
 
-					$scope.getClickedEventWinners = function(eventName) {
-						$scope.currEventWinners = [];
-						for (var i = 0; i < $scope.winners.length; ++i) {
-							if ($scope.winners[i].eventName == eventName) {
-								$scope.currEventWinners.push($scope.winners[i]);
-								break;
-							}
+					$scope.getClickedEventWinners = function(eventId) {
+						// $scope.currEventWinners = [];
+						$http.get('project/getWinners/' + eventId).then(
+								function(response) {
+									console.log(response.data);
+									$scope.currEventWinners = response.data;
 
-						}
-						console.log("$scope.currEventWinners"
-								+ $scope.currEventWinners);
+								}, function myError(response) {
+									$scope.myWelcome = response.statusText;
+								});
 					}
 
 					$scope.unregisterForEvent = function(eventId) {

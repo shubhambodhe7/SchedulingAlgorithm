@@ -48,10 +48,11 @@ public class EventService {
 		return ed.getAllEvents();
 	}
 
-	public List<EventWinner> getWinners() {
-		return ed.getWinners();
+	
+	public List<EventWinner> getClickedEventWinners(String eventId) {
+		return ed.getClickedEventWinners(eventId);
 	}
-
+	
 	public List<EventWinner> getWinners(String userId) {
 		return ed.getWinners(userId);
 	}

@@ -8,15 +8,18 @@
 	</h2>
 	<table>
 		<tr>
+			<td>Event Name</td>
 			<td>TeamName</td>
 			<td>Classroom</td>
 			<td>Round</td>
 			<td>Points</td>
 		</tr>
 		<tr ng-repeat="c in classScore">
+			<td>{{c.eventName}}</td>
 			<td>{{c.teamName}}</td>
 			<td>{{c.classroom}}</td>
-			<td>{{c.round}}</td>
+			<td ng-show="c.round != null">{{c.round}}</td>
+			<td ng-show="c.round == null">Registered</td>
 			<td>{{c.points}}</td>
 		</tr>
 	</table>

@@ -49,18 +49,19 @@ public class EventDao {
 
 	}
 
-	public List<EventWinner> getWinners() {
+	
+
+	public List<EventWinner> getClickedEventWinners(String eventId) {
 		return jdbcTemplate.query(
-				"select e.event_id, event_name, team_name,classroom,round,points from event e, team t where t.event_id = e.event_id order by event_name asc, points desc",
-				new EventWinnerRowMapper());
+				"select distinct e.event_id, event_name, t.team_name, t.classroom,round,points from event e, team t,logindetails l where t.event_id = e.event_id and l.classroom = t.classroom and e.event_id = ? order by event_name asc, points desc",
+				new Object[] { eventId }, new EventWinnerRowMapper());
 
 	}
-
 	public List<EventWinner> getWinners(String userId) {
 		return jdbcTemplate.query(
-				"select e.event_id, event_name, t.team_name, t.classroom,round,points from event e, team t,logindetails l where t.event_id = e.event_id and l.classroom = t.classroom and l.user_id = ? order by event_name asc, points desc",
+				"select distinct e.event_id, event_name, t.team_name, t.classroom,round,points from event e, team t,logindetails l where t.event_id = e.event_id and l.classroom = t.classroom and l.user_id = ? order by event_name asc, points desc",
 				new Object[] { userId }, new EventWinnerRowMapper());
-
+		
 	}
 
 	public List<EventWinner> getMyRegistrations(String userId) {

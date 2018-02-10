@@ -7,9 +7,9 @@
 		<p>Winners</p>
 	</h2>
 	<uib-accordion>
-	<div ng-repeat="e in winners">
+	<div ng-repeat="e in eventListDisplay">
 		<div uib-accordion-group class="panel-info" heading="{{e.eventName}}"
-			ng-click="getClickedEventWinners(e.eventName)">
+			ng-click="getClickedEventWinners(e.eventId)">
 
 			<table>
 				<tr>
@@ -21,7 +21,8 @@
 				<tr ng-repeat="c in currEventWinners">
 					<td>{{c.teamName}}</td>
 					<td>{{c.classroom}}</td>
-					<td>{{c.round}}</td>
+					<td ng-show="c.round != null">{{c.round}}</td>
+					<td ng-show="c.round == null">Registered</td>
 					<td>{{c.points}}</td>
 				</tr>
 			</table>

@@ -40,9 +40,9 @@ public class EventController {
 		return es.getAllEvents();
 	}
 
-	@RequestMapping(value = "/getWinners", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<EventWinner> getWinners() throws NoSuchAlgorithmException {
-		return es.getWinners();
+	@RequestMapping(value = "/getWinners/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<EventWinner> getClickedEventWinners(@PathVariable String eventId) throws NoSuchAlgorithmException {
+		return es.getClickedEventWinners(eventId);
 	}
 
 	@RequestMapping(value = "/getClassPoints/{userId:.+}", method = RequestMethod.GET, produces = "application/json")
