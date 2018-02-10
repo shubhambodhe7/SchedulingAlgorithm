@@ -1,20 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
--- http://www.phpmyadmin.net
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 07, 2018 at 07:54 PM
--- Server version: 5.6.21
--- PHP Version: 5.6.3
+-- Generation Time: Feb 10, 2018 at 11:30 AM
+-- Server version: 10.1.30-MariaDB
+-- PHP Version: 5.6.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `vesit`
@@ -26,36 +28,38 @@ SET time_zone = "+00:00";
 -- Table structure for table `event`
 --
 
-CREATE TABLE IF NOT EXISTS `event` (
-`event_id` int(11) NOT NULL,
+CREATE TABLE `event` (
+  `event_id` int(11) NOT NULL,
   `main_event_id` double NOT NULL,
   `event_name` varchar(100) NOT NULL,
   `seed` int(11) NOT NULL DEFAULT '0',
   `gender` varchar(5) NOT NULL,
   `event_type` varchar(10) NOT NULL,
-  `details` varchar(1500) NOT NULL,
+  `details` varchar(3000) NOT NULL,
   `max_participate` int(11) NOT NULL,
   `teams_in_one_match` int(11) NOT NULL,
   `eventhead` varchar(50) NOT NULL DEFAULT 'none'
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `event`
 --
 
 INSERT INTO `event` (`event_id`, `main_event_id`, `event_name`, `seed`, `gender`, `event_type`, `details`, `max_participate`, `teams_in_one_match`, `eventhead`) VALUES
-(1, 1518025410314, 'dd Boys', 0, 'M', 'Indoor', '3', 3, 3, 'none'),
-(2, 1518025410314, 'dd Girls', 0, 'F', 'Indoor', '3', 3, 3, 'none'),
-(3, 1518025410314, 'dd Boys Seed 1', 1, 'M', 'Indoor', '3', 1, 3, 'none'),
-(4, 1518025410314, 'dd Boys Seed 2', 1, 'M', 'Indoor', '3', 1, 3, 'none'),
-(5, 1518025410314, 'dd Girls Seed 1', 2, 'F', 'Indoor', '3', 1, 3, 'none'),
-(6, 1518025410314, 'dd Girls Seed 2', 2, 'F', 'Indoor', '3', 1, 3, 'none'),
-(14, 1518027221755, 'test Boys', 0, 'M', 'Indoor', 'trewd', 2, 3, 'none'),
-(15, 1518027221755, 'test Girls', 0, 'F', 'Indoor', 'trewd', 2, 3, 'none'),
-(16, 1518027221755, 'test Boys Seed 1', 1, 'M', 'Indoor', 'trewd', 1, 3, 'none'),
-(17, 1518027221755, 'test Boys Seed 2', 1, 'M', 'Indoor', 'trewd', 1, 3, 'none'),
-(18, 1518027221755, 'test Girls Seed 1', 2, 'F', 'Indoor', 'trewd', 1, 3, 'none'),
-(19, 1518027221755, 'test Girls Seed 2', 2, 'F', 'Indoor', 'trewd', 1, 3, 'none');
+(20, 1518253481807, 'Carrom Boys', 0, 'M', 'Indoor', 'Fouls\nWhen a player commits a foul, the turn comes to an end immediately and a penalty is incurred.  The penalty is that one pocketed piece is returned to the board by the opponent anywhere within the main circle.  Any other pieces requiring to be returned to the board are also placed within the main circle by the opponent.  It is normal for pieces to be positioned in order to confer an advantage for the opponent.\n\nA foul is recorded in the following situations:\n\nThe striker is pocketed.\nThe striker or any other piece leaves the board.\nA player pockets an opponent\'s piece.  If the Queen was also pocketed, it is returned to the centre by the opponent together with the penalty piece.  Any other pieces pocketed in the same strike remain pocketed. \nA player pockets the final opponent\'s piece.  Regardless of whether the Queen has been covered, the opponent\'s piece is returned to the centre in addition to the penalty piece.\nA player pockets the final piece before the Queen has been covered.  In this case both the pocketed piece and a penalty piece are returned to the centre.\nA player contravenes the rules for striking.\nA player touches any piece in play, other than the striker.\nThe first player to strike fails to break the counters in three attempts.\nWhere a penalty is incurred but no pocketed pieces exist to return, the penalty is \"owed\" until a piece becomes available.  If a penalty is owed, when a piece becomes available due to being pocketed, the piece is returned to the centre by the opponent at the end of the turn.  Should the opponent forget to do this before the start of the next turn, any owed penalties are lost.', 3, 2, 'none'),
+(21, 1518253481807, 'Carrom Girls', 0, 'F', 'Indoor', 'Fouls\nWhen a player commits a foul, the turn comes to an end immediately and a penalty is incurred.  The penalty is that one pocketed piece is returned to the board by the opponent anywhere within the main circle.  Any other pieces requiring to be returned to the board are also placed within the main circle by the opponent.  It is normal for pieces to be positioned in order to confer an advantage for the opponent.\n\nA foul is recorded in the following situations:\n\nThe striker is pocketed.\nThe striker or any other piece leaves the board.\nA player pockets an opponent\'s piece.  If the Queen was also pocketed, it is returned to the centre by the opponent together with the penalty piece.  Any other pieces pocketed in the same strike remain pocketed. \nA player pockets the final opponent\'s piece.  Regardless of whether the Queen has been covered, the opponent\'s piece is returned to the centre in addition to the penalty piece.\nA player pockets the final piece before the Queen has been covered.  In this case both the pocketed piece and a penalty piece are returned to the centre.\nA player contravenes the rules for striking.\nA player touches any piece in play, other than the striker.\nThe first player to strike fails to break the counters in three attempts.\nWhere a penalty is incurred but no pocketed pieces exist to return, the penalty is \"owed\" until a piece becomes available.  If a penalty is owed, when a piece becomes available due to being pocketed, the piece is returned to the centre by the opponent at the end of the turn.  Should the opponent forget to do this before the start of the next turn, any owed penalties are lost.', 3, 2, 'none'),
+(22, 1518253481807, 'Carrom Boys Seed 1', 1, 'M', 'Indoor', 'Fouls\nWhen a player commits a foul, the turn comes to an end immediately and a penalty is incurred.  The penalty is that one pocketed piece is returned to the board by the opponent anywhere within the main circle.  Any other pieces requiring to be returned to the board are also placed within the main circle by the opponent.  It is normal for pieces to be positioned in order to confer an advantage for the opponent.\n\nA foul is recorded in the following situations:\n\nThe striker is pocketed.\nThe striker or any other piece leaves the board.\nA player pockets an opponent\'s piece.  If the Queen was also pocketed, it is returned to the centre by the opponent together with the penalty piece.  Any other pieces pocketed in the same strike remain pocketed. \nA player pockets the final opponent\'s piece.  Regardless of whether the Queen has been covered, the opponent\'s piece is returned to the centre in addition to the penalty piece.\nA player pockets the final piece before the Queen has been covered.  In this case both the pocketed piece and a penalty piece are returned to the centre.\nA player contravenes the rules for striking.\nA player touches any piece in play, other than the striker.\nThe first player to strike fails to break the counters in three attempts.\nWhere a penalty is incurred but no pocketed pieces exist to return, the penalty is \"owed\" until a piece becomes available.  If a penalty is owed, when a piece becomes available due to being pocketed, the piece is returned to the centre by the opponent at the end of the turn.  Should the opponent forget to do this before the start of the next turn, any owed penalties are lost.', 1, 2, 'none'),
+(23, 1518253481807, 'Carrom Boys Seed 2', 1, 'M', 'Indoor', 'Fouls\nWhen a player commits a foul, the turn comes to an end immediately and a penalty is incurred.  The penalty is that one pocketed piece is returned to the board by the opponent anywhere within the main circle.  Any other pieces requiring to be returned to the board are also placed within the main circle by the opponent.  It is normal for pieces to be positioned in order to confer an advantage for the opponent.\n\nA foul is recorded in the following situations:\n\nThe striker is pocketed.\nThe striker or any other piece leaves the board.\nA player pockets an opponent\'s piece.  If the Queen was also pocketed, it is returned to the centre by the opponent together with the penalty piece.  Any other pieces pocketed in the same strike remain pocketed. \nA player pockets the final opponent\'s piece.  Regardless of whether the Queen has been covered, the opponent\'s piece is returned to the centre in addition to the penalty piece.\nA player pockets the final piece before the Queen has been covered.  In this case both the pocketed piece and a penalty piece are returned to the centre.\nA player contravenes the rules for striking.\nA player touches any piece in play, other than the striker.\nThe first player to strike fails to break the counters in three attempts.\nWhere a penalty is incurred but no pocketed pieces exist to return, the penalty is \"owed\" until a piece becomes available.  If a penalty is owed, when a piece becomes available due to being pocketed, the piece is returned to the centre by the opponent at the end of the turn.  Should the opponent forget to do this before the start of the next turn, any owed penalties are lost.', 1, 2, 'none'),
+(24, 1518253481807, 'Carrom Girls Seed 1', 2, 'F', 'Indoor', 'Fouls\nWhen a player commits a foul, the turn comes to an end immediately and a penalty is incurred.  The penalty is that one pocketed piece is returned to the board by the opponent anywhere within the main circle.  Any other pieces requiring to be returned to the board are also placed within the main circle by the opponent.  It is normal for pieces to be positioned in order to confer an advantage for the opponent.\n\nA foul is recorded in the following situations:\n\nThe striker is pocketed.\nThe striker or any other piece leaves the board.\nA player pockets an opponent\'s piece.  If the Queen was also pocketed, it is returned to the centre by the opponent together with the penalty piece.  Any other pieces pocketed in the same strike remain pocketed. \nA player pockets the final opponent\'s piece.  Regardless of whether the Queen has been covered, the opponent\'s piece is returned to the centre in addition to the penalty piece.\nA player pockets the final piece before the Queen has been covered.  In this case both the pocketed piece and a penalty piece are returned to the centre.\nA player contravenes the rules for striking.\nA player touches any piece in play, other than the striker.\nThe first player to strike fails to break the counters in three attempts.\nWhere a penalty is incurred but no pocketed pieces exist to return, the penalty is \"owed\" until a piece becomes available.  If a penalty is owed, when a piece becomes available due to being pocketed, the piece is returned to the centre by the opponent at the end of the turn.  Should the opponent forget to do this before the start of the next turn, any owed penalties are lost.', 1, 2, 'none'),
+(25, 1518253481807, 'Carrom Girls Seed 2', 2, 'F', 'Indoor', 'Fouls\nWhen a player commits a foul, the turn comes to an end immediately and a penalty is incurred.  The penalty is that one pocketed piece is returned to the board by the opponent anywhere within the main circle.  Any other pieces requiring to be returned to the board are also placed within the main circle by the opponent.  It is normal for pieces to be positioned in order to confer an advantage for the opponent.\n\nA foul is recorded in the following situations:\n\nThe striker is pocketed.\nThe striker or any other piece leaves the board.\nA player pockets an opponent\'s piece.  If the Queen was also pocketed, it is returned to the centre by the opponent together with the penalty piece.  Any other pieces pocketed in the same strike remain pocketed. \nA player pockets the final opponent\'s piece.  Regardless of whether the Queen has been covered, the opponent\'s piece is returned to the centre in addition to the penalty piece.\nA player pockets the final piece before the Queen has been covered.  In this case both the pocketed piece and a penalty piece are returned to the centre.\nA player contravenes the rules for striking.\nA player touches any piece in play, other than the striker.\nThe first player to strike fails to break the counters in three attempts.\nWhere a penalty is incurred but no pocketed pieces exist to return, the penalty is \"owed\" until a piece becomes available.  If a penalty is owed, when a piece becomes available due to being pocketed, the piece is returned to the centre by the opponent at the end of the turn.  Should the opponent forget to do this before the start of the next turn, any owed penalties are lost.', 1, 2, 'none'),
+(26, 1518254008681, 'Table Tennis Boys', 0, 'M', 'Indoor', 'A set is when one of the players or pairs first score 11 points. In the event that both players/pairs score 10 points, a set is be won by the first player/pair to gain a 2-point lead. A full match is won when a player or pair wins the best of any odd number of sets (3,5,7).\n\nA point is scored when:\n1. an opponent fails to make a correct service,\n2. an opponent fails to make a return,\n3. the ball touches any part of an opponent’s body,\n4. an opponent strikes the ball twice in succession,\n5. if an opponent, or anything an opponent wears, touches the playing surface or net during play,\n6. if a doubles opponent strikes the ball out of the sequence established by the first server and first receiver.', 3, 2, 'none'),
+(27, 1518254008681, 'Table Tennis Girls', 0, 'F', 'Indoor', 'A set is when one of the players or pairs first score 11 points. In the event that both players/pairs score 10 points, a set is be won by the first player/pair to gain a 2-point lead. A full match is won when a player or pair wins the best of any odd number of sets (3,5,7).\n\nA point is scored when:\n1. an opponent fails to make a correct service,\n2. an opponent fails to make a return,\n3. the ball touches any part of an opponent’s body,\n4. an opponent strikes the ball twice in succession,\n5. if an opponent, or anything an opponent wears, touches the playing surface or net during play,\n6. if a doubles opponent strikes the ball out of the sequence established by the first server and first receiver.', 3, 2, 'none'),
+(28, 1518254008681, 'Table Tennis Boys Seed 1', 1, 'M', 'Indoor', 'A set is when one of the players or pairs first score 11 points. In the event that both players/pairs score 10 points, a set is be won by the first player/pair to gain a 2-point lead. A full match is won when a player or pair wins the best of any odd number of sets (3,5,7).\n\nA point is scored when:\n1. an opponent fails to make a correct service,\n2. an opponent fails to make a return,\n3. the ball touches any part of an opponent’s body,\n4. an opponent strikes the ball twice in succession,\n5. if an opponent, or anything an opponent wears, touches the playing surface or net during play,\n6. if a doubles opponent strikes the ball out of the sequence established by the first server and first receiver.', 1, 2, 'none'),
+(29, 1518254008681, 'Table Tennis Boys Seed 2', 1, 'M', 'Indoor', 'A set is when one of the players or pairs first score 11 points. In the event that both players/pairs score 10 points, a set is be won by the first player/pair to gain a 2-point lead. A full match is won when a player or pair wins the best of any odd number of sets (3,5,7).\n\nA point is scored when:\n1. an opponent fails to make a correct service,\n2. an opponent fails to make a return,\n3. the ball touches any part of an opponent’s body,\n4. an opponent strikes the ball twice in succession,\n5. if an opponent, or anything an opponent wears, touches the playing surface or net during play,\n6. if a doubles opponent strikes the ball out of the sequence established by the first server and first receiver.', 1, 2, 'none'),
+(30, 1518254008681, 'Table Tennis Girls Seed 1', 2, 'F', 'Indoor', 'A set is when one of the players or pairs first score 11 points. In the event that both players/pairs score 10 points, a set is be won by the first player/pair to gain a 2-point lead. A full match is won when a player or pair wins the best of any odd number of sets (3,5,7).\n\nA point is scored when:\n1. an opponent fails to make a correct service,\n2. an opponent fails to make a return,\n3. the ball touches any part of an opponent’s body,\n4. an opponent strikes the ball twice in succession,\n5. if an opponent, or anything an opponent wears, touches the playing surface or net during play,\n6. if a doubles opponent strikes the ball out of the sequence established by the first server and first receiver.', 1, 2, 'none'),
+(31, 1518254008681, 'Table Tennis Girls Seed 2', 2, 'F', 'Indoor', 'A set is when one of the players or pairs first score 11 points. In the event that both players/pairs score 10 points, a set is be won by the first player/pair to gain a 2-point lead. A full match is won when a player or pair wins the best of any odd number of sets (3,5,7).\n\nA point is scored when:\n1. an opponent fails to make a correct service,\n2. an opponent fails to make a return,\n3. the ball touches any part of an opponent’s body,\n4. an opponent strikes the ball twice in succession,\n5. if an opponent, or anything an opponent wears, touches the playing surface or net during play,\n6. if a doubles opponent strikes the ball out of the sequence established by the first server and first receiver.', 1, 2, 'none'),
+(33, 1518254159771, 'Volleyball', 0, 'M', 'Outdoor', '6 players on the floor at any one time - 3 in the front row and 3 in the back row\nMaximum of 3 hits per side\nPoints are made on every serve for wining team of rally (rally-point scoring).\nPlayer may not hit the ball twice in succession. (A block is not considered a hit.)\nBall may be played off the net during a volley and on a serve.\nA ball hitting a boundary line is in.\nA ball is out if it hits an antennae, the floor completely outside the court, any of the net or cables outside the antennae, the referee stand or pole, the ceiling above a non-playable area.\nIt is legal to contact the ball with any part of a player’s body.\nIt is illegal to catch, hold or throw the ball.\nA player cannot block or attack a serve from on or inside the 10-foot line.\nAfter the serve, front-line players may switch positions at the net.\nMatches are made up of sets; the number depends on level of play. 3-set matches are 2 sets to 25 points and a third set to 15. Each set must be won by two points. The winner is the first team to win 2 sets. 5-set matches are 4 sets to 25 points and fifth set to 15. The team must win by 2 unless tournament rules dictate otherwise. The winner is the first team to win three sets.', 6, 2, 'none'),
+(34, 1518254721295, 'Cricket', 0, 'M', 'Outdoor', 'There are a number of different ways a batsman can be given out in the game of cricket. When a bowler gets a batsman out it is said that the bowler gets a “wicket”. Following are the different ways a batsman can be given out according to the rules of cricket:\n\nBowled – Cricket rules state that if the ball is bowled and hits the striking batsman’s wickets the batsman is given out (as long as at least one bail is removed by the ball). It does not matter whether the ball has touched the batsman’s bat, gloves, body or any other part of the batsman. However the ball is not allowed to have touched another player or umpire before hitting the wickets.\nCaught – Cricket rules state that if a batsman hits the ball or touches the ball at all with his bat or hand/glove holding the bat then the batsman can be caught out. This is done by the fielders, wicket keeper or bowler catching the ball on the full (before it bounces). If this is done then cricket rules state the batsman is out.\nLeg Before Wicket (LBW) – If the ball is bowled and it hits the batsman first without the bat hitting it then an LBW decision is possible. However for the umpire to give this out he must first look at some of the factors stated in the cricket rules. The first thing the umpire need to decide is would the ball have hit the wickets if the batsman was not there. If his answer to this is yes and the ball was not pitched on the leg side of the wicket he can safely give the batsman out. However if the ball hits the batsman outside the line of off stump while he was attempting to play a stroke then he is not out.\nStumped – A batsman can be given out according to cricket rules when the wicketkeeper puts down his wicket while he is out of his crease and not attempting a run (if he is attempting a run it would be a runout).\nRun Out – Cricket rules state that a batsman is out if no part of his bat or body is grounded behind the popping crease while the ball is in play and the wicket is fairly put down by the fielding side.\nHit Wicket – Cricket rules specify that if a batsman hits his wicket down with his bat or body after the bowler has entered his delivery stried and the ball is in play then he is out. The striking batsman is also out if he hits his wicket down while setting off for his first run.\nHandled The Ball – Cricket rules allow the batsman to be given out if he willingly handles the ball with the hand that is not touching the bat without the consent of the opposition.\nTimed Out – An incoming batsman must be ready to face a ball or be at the non strikers end with his partner within three minutes of the outgoing batsman being dismissed. If this is not done the incoming batsman can be given out.\nHit The Ball Twice – Cricket rules state that if a batsman hits a ball twice other than for the purpose of protecting his wicket or with consent from the opposition he is out.\nObstructing The Field – A batsman is out if he willingly obstructs the opposition by word or action', 5, 2, 'none');
 
 -- --------------------------------------------------------
 
@@ -63,8 +67,8 @@ INSERT INTO `event` (`event_id`, `main_event_id`, `event_name`, `seed`, `gender`
 -- Table structure for table `event_head`
 --
 
-CREATE TABLE IF NOT EXISTS `event_head` (
-`row_id` int(11) NOT NULL,
+CREATE TABLE `event_head` (
+  `row_id` int(11) NOT NULL,
   `user_id` varchar(50) NOT NULL,
   `event_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -75,8 +79,8 @@ CREATE TABLE IF NOT EXISTS `event_head` (
 -- Table structure for table `game`
 --
 
-CREATE TABLE IF NOT EXISTS `game` (
-`game_id` int(11) NOT NULL,
+CREATE TABLE `game` (
+  `game_id` int(11) NOT NULL,
   `start_ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `end_ts` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `event_id` int(11) DEFAULT NULL,
@@ -89,10 +93,10 @@ CREATE TABLE IF NOT EXISTS `game` (
 -- Table structure for table `gameteammapping`
 --
 
-CREATE TABLE IF NOT EXISTS `gameteammapping` (
+CREATE TABLE `gameteammapping` (
   `game_id` int(11) NOT NULL,
   `team_id` int(11) DEFAULT NULL,
-`rowid` int(11) NOT NULL,
+  `rowid` int(11) NOT NULL,
   `schedule_id` decimal(10,0) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -102,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `gameteammapping` (
 -- Table structure for table `logindetails`
 --
 
-CREATE TABLE IF NOT EXISTS `logindetails` (
+CREATE TABLE `logindetails` (
   `user_id` varchar(50) NOT NULL,
   `username` varchar(50) DEFAULT NULL,
   `userpassword` varchar(50) DEFAULT NULL,
@@ -120,7 +124,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('aaditya.kulkarni@ves.ac.in', 'Aaditya Kulkarni', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '9022298522', 'd4'),
 ('aakash.bhangale@ves.ac.in', 'Aakash Bhangale', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '9004344473', 'd3'),
 ('aakash.patil@ves.ac.in', 'Aakash Patil', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '7276547998', 'd2c'),
-('aamirkhalid.khan@ves.ac.in', 'AAMIR KHAN', 'e77b6d755a5d1c10256c5ea335789f7b63e7d6f9', 'normal', 'm', '9869686622', 'd19c'),
+('aamirkhalid.khan@ves.ac.in', 'AAMIR KHAN', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '9869686622', 'd19c'),
 ('aarti.raghani@ves.ac.in', 'Aarti Raghani', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '8007312071', 'd12'),
 ('aarzu.shaha@ves.ac.in', 'aarzu shaha', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '8286593871', 'd18'),
 ('abhijeet.bhattacharya@ves.ac.in', 'Abhijeet	Bhattacharya', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '9960798718', 'd13'),
@@ -130,7 +134,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('abhinav.verma@ves.ac.in', 'abhinav verma', '2f36787491bd48f5218d9f548d6ee38f05405b4d', 'normal', 'm', '7021918191', 'd17c'),
 ('abhishek.basalge@ves.ac.in', 'Abhishek Basalge', '2637f1c47a1c499a9c6dc36a3977decc9bf0bf7a', 'normal', 'm', '9594526339', 'd7'),
 ('abhishek.chaube@ves.ac.in', 'abhishek chaube', '89816ab1a827fac63ca988e0d20fd75b043fad85', 'normal', 'm', '8976626703', 'd17c'),
-('abhishek.gurav@ves.ac.in', 'Abhishek Gurav', 'd8a60a455114951503bc76f7cdf2693dd08b4f6c', 'normal', 'm', '9870580234', 'd13'),
+('abhishek.gurav@ves.ac.in', 'Abhishek Gurav', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '9870580234', 'd13'),
 ('abhishek.kuvar@ves.ac.in', 'Abhishek Kuvar', '7c8d1a8174b2c481cc94f556df6dc88ee7425bf0', 'normal', 'm', '7506698934', 'd14C'),
 ('abhishek.nambiar@ves.ac.in', 'abhishek nambiar', '111d5a16f1044e6428c244a01a315df59e16bc15', 'normal', 'm', '9004361769', 'd9c'),
 ('abhishek.nemade@ves.ac.in', 'Abhishek Nemade', 'dc3d486837d299dd809bf00315fb0e8e0cb03bf6', 'normal', 'm', '9769047167', 'd14'),
@@ -145,7 +149,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('aditi.sawant@ves.ac.in', 'Aditi Sawant', 'e25d97f504a30143b33615563ec5fb6dc1bd6507', 'normal', 'f', '9594945692', 'd6'),
 ('aditya.bhanage@ves.ac.in', 'ADITYA BHANAGE', '44a96606ddef817cb47223acf00f2ddcc6d0393a', 'normal', 'm', '7208214464', 'd9'),
 ('aditya.chandorkar@ves.ac.in', 'Aditya  Chandorkar', 'cbf6e0e688d0a97a637a26ff54d18f67be6da749', 'normal', 'm', '7558496898', 'd17'),
-('aditya.gavane@ves.ac.in', 'Aditya Gavane', '03b632382e6eeb0433e334c0f97928ef88477517', 'normal', 'm', '9821270584', 'd20'),
+('aditya.gavane@ves.ac.in', 'Aditya Gavane', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '9821270584', 'd20'),
 ('aditya.gogwekar@ves.ac.in', 'Aditya Gogwekar', '7075c811d97a027eaa5705ac0a59d45a960bd4d4', 'normal', 'm', '9969496297', 'd4'),
 ('aditya.krishnan@ves.ac.in', 'Aditya krishnan', '88ccf88c58d78d3aa9697f382c72b048a9a6f630', 'normal', 'm', '9769215694', 'd15'),
 ('aditya.subramanian@ves.ac.in', 'ADITYA MAKHIJA', '6898b33ccf071778cd1a7ab6cb8d5ad84c3fe352', 'normal', 'm', '9869002977', 'd12C'),
@@ -211,10 +215,10 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('aradhana.gupta@ves.ac.in', 'Aradhana Gupta', 'c03bd5e9ab885f355cf25a80cff85a294bfb2ddb', 'normal', 'f', '9920684415', 'd1'),
 ('arbaz.kadri@ves.ac.in', 'Mohd Arbaz	 Kadri', 'ae6cea0a98f6e7e358027b0bcfcae3c1791c684a', 'normal', 'm', '8291864826', 'd8'),
 ('aroosa.ghole@ves.ac.in', 'AROOSA GHOLE', '18ca5934a57d7c8971cf48e6b1c634ce83c07b7e', 'normal', 'f', '9757485107', 'd6'),
-('arpan.gulrajani@ves.ac.in', 'Arpan Gulrajani', 'f795b5f4a69bee9b7be71eb4d3cc401a18ef0a31', 'normal', 'f', '7303447925', 'd20'),
+('arpan.gulrajani@ves.ac.in', 'Arpan Gulrajani', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '7303447925', 'd20'),
 ('arpita.ambavane@ves.ac.in', 'Arpita	Ambavane', '2732041dbdb57b47305e18efaf674aeddc883acd', 'normal', 'f', '9004633243', 'd20'),
 ('arun.venkatachalam@ves.ac.in', 'arun venkatachalam', 'c0024d642494ee93dbcbf2efd81c505c6dec99dc', 'normal', 'm', '9619630562', 'd10'),
-('ashish.mhatre@ves.ac.in', 'Ashish Mhatre', '242cdca60fbb469af0a643fedfd78c23831f1930', 'normal', 'm', '9833999052', 'd14'),
+('ashish.mhatre@ves.ac.in', 'Ashish Mhatre', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '9833999052', 'd14'),
 ('ashish.mishra@ves.ac.in', 'ASHISH	MISHRA', '2da94b098f02d410de17f6d8fc7f3631944ced72', 'normal', 'm', '9619511704', 'd7C'),
 ('ashishkumar.saiwal@ves.ac.in', 'Ashishkumar Saiwal', '2413234881497cd926543b24cf117988f565d3eb', 'normal', 'm', '8275556819', 'd2'),
 ('ashitosh.joshi@ves.ac.in', 'ashitosh joshi', '6a57052f9b458880cc713e0cc3798dff6240af5e', 'normal', 'm', '9167472178', 'd19c'),
@@ -228,7 +232,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('asmita.kadam@ves.ac.in', 'asmita kadam', '6b1cec7818d3ddacf96bfe85b23d4a111087b640', 'normal', 'f', '8149259251', 'd17'),
 ('atul.bhalerao@ves.ac.in', 'ATUL	 BHALERAO', '6eedc8a2510dd902b22b8f5a4c752bf1e67319a2', 'normal', 'm', '9527098936', 'd7'),
 ('avinash.salian@ves.ac.in', 'Avinash Salian', '2f64b08996be72663423e5f18ca9ef4eb028b50f', 'normal', 'm', '7738482832', 'd14'),
-('aysha.jagiasi@ves.ac.in', 'Aysha	Jagiasi', '71ecac7dc2852fb4fcd9f9958797db99af726ace', 'normal', 'f', '7066282572', 'd13'),
+('aysha.jagiasi@ves.ac.in', 'Aysha	Jagiasi', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '7066282572', 'd13'),
 ('ayush.kalla@ves.ac.in', 'Ayush Kalla', 'd22297eb95473593481f0e4d68d8102adae2913a', 'normal', 'm', '9619220943', 'd19'),
 ('ayush.shukla@ves.ac.in', 'Ayush Shukla', '7354317cb77b313bd05042152e8be53069e00082', 'normal', 'm', '9695490991', 'd2'),
 ('balaji.velmani@ves.ac.in', 'balaji velmani', 'd36180d6c605a333153886ff7cb977295987758b', 'normal', 'm', '9892207853', 'd10'),
@@ -248,7 +252,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('chaitanya.attarde@ves.ac.in', 'Chaitanya Attarde', '1c1955457b844d4bc4677c562b9b814b58d680fb', 'normal', 'm', '7506847333', 'd3'),
 ('chaitanya.bhure@ves.ac.in', 'Chaitanya Bhure', 'f911b4e7c08320ee393460fefabeb443cb080161', 'normal', 'm', '9619046757', 'd3'),
 ('chayan.agrawal@ves.ac.in', 'chayan agrawal', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'admin', 'm', '9405412921', 'd20'),
-('chetan.gupta@ves.ac.in', 'chetan	gupta', '5a5951e2438347aa02b1d6b3165d687bc4444235', 'normal', 'm', '7208932397', 'd13'),
+('chetan.gupta@ves.ac.in', 'chetan	gupta', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '7208932397', 'd13'),
 ('chetan.mhaske@ves.ac.in', 'Chetan Mhaske', 'b5df5c0e2d97b70b013ae5a3eeae5544b76dfbb4', 'normal', 'm', '8108436034', 'd4'),
 ('chetan.motwani@ves.ac.in', 'chetan	motwani', 'a6ad3f9af1850de6957d107758f767ce17447dbe', 'normal', 'm', '7666634545', 'd12'),
 ('chhaya.patil@ves.ac.in', 'Chhaya Patil', 'ebc4c93f89096ef32cbec57adb0b2d9be9fb99ba', 'normal', 'f', '8082494722', 'd5'),
@@ -261,7 +265,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('deepak.desai@ves.ac.in', 'Deepak Desai', '99a9d72456ec16580fdf5e6e929ea565d17c47c5', 'normal', 'm', '8097589675', 'd9'),
 ('deepak.malik@ves.ac.in', 'deepak malik', '8f26bb7cf6abe8f72cd1b709faf3e7ed77450dff', 'normal', 'm', '9820688922', 'd9c'),
 ('deepanshu.garg@ves.ac.in', 'Deepanshu Garg', '4f78306f3820d3b916778f0ebdc66cbd3ded3ce3', 'normal', 'm', '7208294015', 'd15'),
-('deepesh.garg@ves.ac.in', 'Deepesh	Garg', 'ab34213be278a542b41ef6a19cc8633f13d08b6c', 'normal', 'm', '7208590487', 'd15'),
+('deepesh.garg@ves.ac.in', 'Deepesh	Garg', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '7208590487', 'd15'),
 ('deepika.khithani@ves.ac.in', 'Deepika  Khithani', 'a482877097c3e59ff8e2949a8c88ea182c08275d', 'normal', 'f', '9833300761', 'd7C'),
 ('deepkumar.magar@ves.ac.in', 'deepkumar magar', '8b3c4c0d4704114624f09839a886910afaa6d269', 'normal', 'm', '7045446685', 'mca1a'),
 ('deesha.ramchandani@ves.ac.in', 'Deesha	Ramchandani', 'e36af902002213678c1438fa4a8785d8a3d4d3c4', 'normal', 'f', '9619889420', 'd11'),
@@ -297,7 +301,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('gautam.pamnani@ves.ac.in', 'Gautam Pamnani', 'a0389d49dbc30abe37c7fba94adee97be326d94d', 'normal', 'm', '9011138339', 'd12'),
 ('gayatri.devadiga@ves.ac.in', 'GAYATRI DEVADIGA', '771c358afe188b722ce2fc712a78d9bd119c9208', 'normal', 'f', '8097694730', 'd3'),
 ('gayatri.mulchandani@ves.ac.in', 'Gayatri Mulchandani', '5055227bff821fd2e9a7e8f8351f7558e66ae650', 'normal', 'f', '9730778844', 'd12'),
-('gayatri.pawar@ves.ac.in', 'GAYATRI PAWAR', '9860ddc79950c600ca7156162168b338470c1c61', 'normal', 'f', '9967880199', 'd12'),
+('gayatri.pawar@ves.ac.in', 'GAYATRI PAWAR', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '9967880199', 'd12'),
 ('gayatri.ramrakhiani@ves.ac.in', 'Gayatri Ramrakhiani', '6cc35c1201772d2ba909a1aad05a926d0ec27f0d', 'normal', 'f', '9833955699', 'd2c'),
 ('gokul.kizhakkeppattu@ves.ac.in', 'Gokul Kizhakkeppattu', '197c104ed0acb5ed9a6556c90956063c23b14704', 'normal', 'm', '9869155588', 'd4'),
 ('gurneetsingh.banga@ves.ac.in', 'Gurneet Singh Banga', '471b81b6994fb5c4a24cf61d8f965feb597d1a89', 'normal', 'm', '9664726028', 'd3'),
@@ -316,7 +320,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('hemant.singh@ves.ac.in', 'hemant singh', 'ecddd06f7edd345573dcdf519d6caf9aa1a7236d', 'normal', 'm', '9833348608', 'mca1b'),
 ('himanshu.rawlani@ves.ac.in', 'Himanshu Rawlani', '7265fc3cba48baaf5213b534c34beccbd0e7c60b', 'normal', 'm', '9322596372', 'd6'),
 ('hitender.pahuja@ves.ac.in', 'Hitender Pahuja', '94295785fadc2a3b0d4833c94f70547259b289b3', 'normal', 'm', '9130428445', 'd2c'),
-('hitendra.mhatre@ves.ac.in', 'Hitendra  Mhatre', 'fc731dd02dc1170fb730646ee1b8d2e282cb9895', 'normal', 'm', '8446398714', 'd14'),
+('hitendra.mhatre@ves.ac.in', 'Hitendra  Mhatre', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '8446398714', 'd14'),
 ('hitesh.balani@ves.ac.in', 'hitesh balani', '8f092070ddf88fc424e16df746781d47a6fd8178', 'normal', 'm', '8149290757', 'd17c'),
 ('hitesh.seedani@ves.ac.in', 'Hitesh Seedani', 'd1091dd36f59a2d997311ff6df837a031b0528bf', 'normal', 'm', '8149828059', 'd6'),
 ('hitesh.shahani@ves.ac.in', 'hitesh shahani', '5bbb808831f96c2bc779bed543d4572150337ffb', 'normal', 'm', '9699526262', 'd16'),
@@ -333,16 +337,16 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('jayesh.nagpal@ves.ac.in', 'jayesh nagpal', '6a5c60cfc7e7f21071a940543d20f12569681cdf', 'normal', 'm', '9561488246', 'd19'),
 ('jayesh.saita@ves.ac.in', 'Jayesh Saita', '1e927ee01f533c5516e9b9b0eb56bf3194536cc6', 'normal', 'm', '9730598390', 'd6'),
 ('jayesh.sawale@ves.ac.in', 'Jayesh	Sawale', '93ac88dbad6a6c93fb8ed7c76cb70efed146c367', 'normal', 'm', '8655473702', 'd11'),
-('jeetiksha.chandiramani@ves.ac.in', 'Jeetiksha Chandiramani', 'd37ad4d024e429705886bab1c309f5d15f2fd311', 'normal', 'f', '9167058445', 'd20'),
+('jeetiksha.chandiramani@ves.ac.in', 'Jeetiksha Chandiramani', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '9167058445', 'd20'),
 ('jewel.murpani@ves.ac.in', 'KARAN	RUPREL', 'a7a3a6c864d539f97df3005c1108aca8b903af5b', 'normal', 'm', '9699283884', 'd11'),
 ('jigar.ajmera@ves.ac.in', 'Jigar Ajmera', '929a5923763d6392c391745be85c9f1a8d9c118f', 'normal', 'm', '9867297927', 'd15'),
 ('jimit.patel@ves.ac.in', 'JIMIT PATEL', '1b586ccfd948d6495654400a70586aaea979fdfd', 'normal', 'm', '9769457498', 'd14'),
 ('jitesh.h.ahuja@ves.ac.in', 'Jitesh Ahuja', 'd9257f0303f8396e6f983701d59ecdf6024efced', 'normal', 'm', '8806010475', 'd20'),
 ('jitesh.thazhak@ves.ac.in', 'jitesh thazhak', '5f60c5fd79162eb33016876de8d14db12f55a762', 'normal', 'm', '9029850593', 'd17c'),
-('juhi.bhagtani@ves.ac.in', 'Juhi Bhagtani', '38240f60d1a72fd99ca64c38cd7cc3c4948eb858', 'normal', 'f', '9920710525', 'd13'),
+('juhi.bhagtani@ves.ac.in', 'Juhi Bhagtani', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '9920710525', 'd13'),
 ('juhi.purswani@ves.ac.in', 'juhi purswani', '7323be30ed389a57c0bd8e690364a3a0a42b8613', 'normal', 'f', '9619220943', 'd16'),
 ('juilee.kulkarni@ves.ac.in', 'Juilee Kulkarni', '9d1a94c2372d63b8829d6d418c0de973735e59a0', 'normal', 'f', '9819058113', 'd7C'),
-('jyoti.singh@ves.ac.in', 'Jyoti	Singh', '1fbadbf22fb481403cefa0997ed7f8742af63703', 'normal', 'f', '8857893230', 'd11'),
+('jyoti.singh@ves.ac.in', 'Jyoti	Singh', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '8857893230', 'd11'),
 ('kadambari.kaskar@ves.ac.in', 'KADAMBARI KASKAR', 'bfeae935c6984b9e23f9c92ebaf31c0078e27f89', 'normal', 'f', '7302464313', 'd8'),
 ('kajal.khatwani@ves.ac.in', 'Kajal	Khatwani', '6c1462511f92d3503b50f90ffe38d3cc1bf6e780', 'normal', 'f', '8149983404', 'd7C'),
 ('kajol.chawla@ves.ac.in', 'Kajol Chawla', '9a63be0741523c6fa6892e870e990656ef82d1cb', 'normal', 'f', '8446645400', 'd12C'),
@@ -365,7 +369,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('keyur.prabhu@ves.ac.in', 'Keyur Prabhu', 'cc05ed4ac2003f073f857d7083e0e29eed0f6d0b', 'normal', 'm', '9594148824', 'd12'),
 ('khushal.sahita@ves.ac.in', 'khushal sahita', 'c12b8b21a3ba881d0a9e6e3cb45a346be17c0879', 'normal', 'm', '8149540985', 'd9c'),
 ('kiran.parte@ves.ac.in', 'Kiran Parte', '6b2d64efa8cc974accd343cb14df8ebd562f3804', 'normal', 'm', '9967468497', 'd2c'),
-('kiran.solapure@ves.ac.in', 'Kiran Solapure', 'd8b6f28150d08f689befc3ebd71f8925d4473455', 'normal', 'f', '9820756537', 'd11'),
+('kiran.solapure@ves.ac.in', 'Kiran Solapure', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '9820756537', 'd11'),
 ('krima.shah@ves.ac.in', 'krima shah', 'a53d801335b7b56282135180deca0589cd40d4d4', 'normal', 'f', '8007152289', 'd18'),
 ('krishna.boddu@ves.ac.in', 'KRISHNA BODDU', '2bed87663d4c5c58a35fdf065098c7036795089f', 'normal', 'm', '9029585886', 'd15'),
 ('krishna.shahri@ves.ac.in', 'KRISHNA SHAHRI', '5766a393cb2a97001e82229f1922fe014d25c036', 'normal', 'm', '8452816575', 'd6'),
@@ -395,7 +399,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('mandar.kharde@ves.ac.in', 'Mandar Kharde', '248b89eb4d4426dd166ce88a4ba60085cca7a1ba', 'normal', 'm', '9820934083', 'd4'),
 ('mane.akshay@ves.ac.in', 'Akshay Mane', '09a228a801173ea714e2834f7d345ea8f7854683', 'normal', 'm', '9029003075', 'd4'),
 ('manish.chandwani@ves.ac.in', 'MANISH CHANDWANI', 'cc906df0f8fcbca3716430e2395b30ccc6c7ea75', 'normal', 'm', '8793248809', 'd15'),
-('manish.madhwani@ves.ac.in', 'Manish Madhwani', 'b5e6cd990cf6ef32088a1844d50b6bb2e7f497d6', 'normal', 'm', '8087344468', 'd12'),
+('manish.madhwani@ves.ac.in', 'Manish Madhwani', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '8087344468', 'd12'),
 ('manish.panjwani@ves.ac.in', 'Manish Panjwani', '74c0882269abd93a4ff42320060a2cf99922849c', 'normal', 'm', '7039109245', 'd12'),
 ('manjiri.bhat@ves.ac.in', 'Manjiri Bhat', '7ea594179ace71ac12e3b9479f40276c610161b9', 'normal', 'f', '8879105570', 'd12C'),
 ('manoj.kamarajan@ves.ac.in', 'Manoj kamarajan ', 'd868f09e2c567c4c24784613eb9c157d5ae4212b', 'normal', 'm', '9819668793', 'd2c'),
@@ -404,7 +408,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('mayur.neve@ves.ac.in', 'mayur neve', '9edad27270ac7302512529778a1f224e403436d9', 'normal', 'm', '8862000060', 'd9c'),
 ('mayur.sawant@ves.ac.in', 'mayur sawant', '02b67cf049803f7fec234406387d24193b70e89e', 'normal', 'm', '9702389559', 'MCA2A'),
 ('mayuri.kate@ves.ac.in', 'Mayuri Kate', 'f0a2afe74f01c018a026ae34910ffd6c6b300652', 'normal', 'f', '7498043525', 'd7C'),
-('meenu.bhatia@ves.ac.in', 'MEENU BHATIA', '6ccf5eb014a8e7bd7918785a83449d93c579727f', 'normal', 'f', '8888582524', 'd15'),
+('meenu.bhatia@ves.ac.in', 'MEENU BHATIA', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '8888582524', 'd15'),
 ('megha.manglani@ves.ac.in', 'Megha Manglani', '93bb2f6139e0cc149dfb05c34e263f89d8bc59e9', 'normal', 'f', '8108823860', 'd12'),
 ('mihir.joshi1@ves.ac.in', 'Mihir Joshi', '339c81463eda0a03d165f201312b539847fad492', 'normal', 'm', '9167711441', 'd14C'),
 ('mihir.joshi@ves.ac.in', 'mihir joshi', '1f4f3bc2e3eeb2360346404acc41f74a2c8c375c', 'normal', 'm', '9820223634', 'd4'),
@@ -501,7 +505,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('pooja.vsingh@ves.ac.in', 'pooja singh', 'dbdf1e70026e64ec226267344ca37f2e1f0579d8', 'normal', 'f', '9870566811', 'd18'),
 ('poonam.yadav@ves.ac.in', 'poonam	yadav', 'eb10e2881c1ff1c425ac9891ea595a55cf5c8f26', 'normal', 'f', '9768539736', 'd5'),
 ('prachi.gupta@ves.ac.in', 'Prachi Gupta', '9b62de5f46ac45b6cfaa27d8e55722c1a31c082f', 'normal', 'f', '7666555390', 'd9'),
-('pradnya.pujare@ves.ac.in', 'Pradnya	 Pujare', '73f4882bda5005290df81f40ba87d3631c67fe83', 'normal', 'f', '9819574232', 'd14'),
+('pradnya.pujare@ves.ac.in', 'Pradnya	 Pujare', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '9819574232', 'd14'),
 ('prajakta.bhosale@ves.ac.in', 'PRAJAKTA BHOSALE', 'd8e3426e8d208774594098b2a4b5f39a3514d555', 'normal', 'f', '9892128436', 'd7'),
 ('prajakta.kamer@ves.ac.in', 'prajakta kamer', '82aa1216e58d31fe8ed5e591227e45f03cc88ea9', 'normal', 'f', '9920202759', 'd19c'),
 ('pramod.mehta@ves.ac.in', 'Pramod Mehta', 'b58a452229c2ceb6c71a0df0b71e27cea2565d39', 'normal', 'm', '9820833594', 'd14'),
@@ -525,7 +529,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('pratik.watwani@ves.ac.in', 'Pratik	Watwani', '2a4b2d57945b72cf271430edc6c2f3b98b1be093', 'normal', 'm', '7709796200', 'd11'),
 ('praveen.dung@ves.ac.in', 'PRAVEEN DUNG', 'e3746966c2ebe8a8fe7feadea9bad73d4b04b034', 'normal', 'm', '8767662291', 'd14C'),
 ('pravin.tahiliani@ves.ac.in', 'PRAVIN	TAHILIANI', 'e2773b280967aafe4eb141db587200fc1898fbc1', 'normal', 'm', '9004195884', 'd11'),
-('pravin.tripathi@ves.ac.in', 'Pravin Tripathi', '75cde8477b93e478d2f6fea8c6a7bd3a30e9ed04', 'normal', 'm', '8108787884', 'd11'),
+('pravin.tripathi@ves.ac.in', 'Pravin Tripathi', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '8108787884', 'd11'),
 ('preeti.ramesh@ves.ac.in', 'preeti ramesh', 'e7fe23a6eec72f6bd4839127625622fb7d187693', 'normal', 'f', '9920380273', 'mca1b'),
 ('prem.chachlani@ves.ac.in', 'Prem Chachlani', '0d12c342f5cd5cb55810e5de1515d3d1764390e6', 'normal', 'm', '8806344161', 'd12C'),
 ('prem.kalwani@ves.ac.in', 'Prem Kalwani', '71bd096b1785ca64834328db0bd5db2dff12f698', 'normal', 'm', '8655211780', 'd7C'),
@@ -542,7 +546,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('rahul.datir@ves.ac.in', 'Rahul Datir', '8934caea2707912d558a62e8f2d57324b93494a4', 'normal', 'm', '7738510735', 'd9'),
 ('rahul.dudhande@ves.ac.in', 'RAHUL DUDHANDE', '6c91ea12d2063a9b1b0123a2d06fc3acee0ac0df', 'normal', 'm', '8805962395', 'd3'),
 ('rahul.kalwar@ves.ac.in', 'Rahul Kalwar', '71320e74a704efb27105b46c4627bab4a8a12edf', 'normal', 'm', '9619320474', 'd4'),
-('rahul.nagdev@ves.ac.in', 'RAHUL NAGDEV', '2a800985c298ba4b86563913c891e80a2ade8b0f', 'normal', 'm', '9922974725', 'd12'),
+('rahul.nagdev@ves.ac.in', 'RAHUL NAGDEV', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '9922974725', 'd12'),
 ('rahul.shetty@ves.ac.in', 'rahul shetty', '02192e6f2034a60babe09c1bc072f04e181c1b70', 'normal', 'm', '8655189780', 'd18'),
 ('rahul.talwar@ves.ac.in', 'rahul talwar ', '6359a33f6176144b221eef75953ee00ea3ced5ab', 'normal', 'm', '7738930300', 'MCA2A'),
 ('raj.ahuja@ves.ac.in', 'raj ahuja', '3551aef5a62aba4a9038fb6f0928a9206ce6e39b', 'normal', 'm', '9765203510', 'd17c'),
@@ -561,7 +565,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('ravishankar.gupta@ves.ac.in', 'Ravishankar 	Gupta', '3c8b5018070497052d64f501acad714c3a319bf8', 'normal', 'm', '9819370335', 'd17'),
 ('reena.epili@ves.ac.in', 'Reena Epili', 'cac4b3ef5f2145b60d6c51377202ed7dfbb061d5', 'normal', 'f', '9757386883', 'd1'),
 ('rekha.kumawat@ves.ac.in', 'REKHA KUMAWAT', '07118837f0694ee0bbb807efc7c92a5276a92894', 'normal', 'f', '9699425291', 'd1'),
-('revati.pathak@ves.ac.in', 'Revati Pathak', '32261cf01648f48f21a1ce245204f630ff17f0fe', 'normal', 'f', '9920211096', 'd12'),
+('revati.pathak@ves.ac.in', 'Revati Pathak', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '9920211096', 'd12'),
 ('rhea.chowdhry@ves.ac.in', 'Rhea kaur chowdhry', '279938204b2bd7ce4624d33b4b09eea11453e9aa', 'normal', 'f', '7977468414', 'd9'),
 ('richa.shetty@ves.ac.in', 'richa shetty', '85fadddd6746c6219fa51c7473265919f1b13ce7', 'normal', 'f', '9421410496', 'd9c'),
 ('riddhi.karkera@ves.ac.in', 'Riddhi Karkera', 'c824e8194b9889d4e0ab4c1576bb2a0545f2393b', 'normal', 'f', '9930336495', 'd14C'),
@@ -569,7 +573,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('rishabh.nankani@ves.ac.in', 'Rishabh Nankani', '52389faaab31cc36e185357fad2c0e5c11f340ba', 'normal', 'm', '7028260656', 'd12'),
 ('rishabh.rizwani@ves.ac.in', 'rishabh rizwani', '3db862a756da4e61bd0b38f61b16d54c12cc909d', 'normal', 'm', '9820472789', 'd9c'),
 ('ritika.mendjoge@ves.ac.in', 'Ritika Mendjoge', '805f47993a8013336a410e902641182a879cc6cc', 'normal', 'f', '9987430278', 'd12'),
-('riya.bhavnani@ves.ac.in', 'Riya Bhavnani', 'd9ca2a700bbc9a7a4be7d2c7f99f7d0483e8a687', 'normal', 'f', '9673860716', 'd15'),
+('riya.bhavnani@ves.ac.in', 'Riya Bhavnani', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '9673860716', 'd15'),
 ('rohan.jagiasi@ves.ac.in', 'Rohan Jagiasi', '1e64765d3ba0bf2aaeecf5bc0cb08aea0a215df4', 'normal', 'm', '8080834122', 'd16'),
 ('rohan.shende@ves.ac.in', 'ROHAN	SHENDE', '6f093856d5ad78c1ed1c2f208b0cfa8c6a6b40a2', 'normal', 'm', '8888396254', 'd11'),
 ('rohini.yedelli@ves.ac.in', 'Rohini Yedelli', 'fd644cc6da4e193430548d6b90c4012e5e10f031', 'normal', 'f', '9702117603', 'd18'),
@@ -624,7 +628,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('santosh.patkar@ves.ac.in', 'Santosh  Patkar', '636811b358fce5eb0fddcefadef9900349418d7f', 'normal', 'm', '8390588443', 'd2'),
 ('sarvesh.dhage@ves.ac.in', 'Sarvesh Dhage', '8adc04e2c5de7766766e1aefb3ce90a49ea7b3d1', 'normal', 'm', '9029971447', 'd3'),
 ('sashwin.adnani@ves.ac.in', 'Sashwin Adnani', '317ac190372580b7b6e93ce2c53fafcc926d1ae4', 'normal', 'm', '9022358080', 'd11'),
-('satish.fulwani@ves.ac.in', 'Satish Fulwani', 'd9d0c696987109efa73f6530edd8421fde4c8458', 'normal', 'm', '9145175111', 'd15'),
+('satish.fulwani@ves.ac.in', 'Satish Fulwani', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '9145175111', 'd15'),
 ('satyam.yadav@ves.ac.in', 'satyam yadav', '78ee6b302935387451825f8935ba20ddb5e425e0', 'normal', 'm', '7045133844', 'd10'),
 ('saurabh.band@ves.ac.in', 'Saurabh Band', '3b53a702103e32d16476493ebf15dc588e351600', 'normal', 'm', '8082188091', 'd6'),
 ('saurabh.gulhane@ves.ac.in', 'SAURABH	GULHANE', 'ca2acdbd723b586aadb82920f63429e7cfbff2a6', 'normal', 'm', '7030715187', 'd19c'),
@@ -694,7 +698,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('soumya.kommajosyula@ves.ac.in', 'SOUMYA KOMMAJOSYULA', 'fee16f66424e9436b126ab3a8d23360d060a995d', 'normal', 'f', '9869955763', 'd19c'),
 ('srishti.dubey@ves.ac.in', 'Srishti  Dubey', '2d1f1724e7c5a6a27ec776e94f2d062b81ee8f82', 'normal', 'f', '9969467113', 'd9'),
 ('srushti.avhad@ves.ac.in', 'SRUSHTI AVHAD', '6dfd8df04dee49f8efc4631c67a9b31451778840', 'normal', 'f', '8425890669', 'd6'),
-('srushti.pawar@ves.ac.in', 'Srushti Pawar', '2b6dcb457a0de8768c1495dea0ad2f0d17c3903c', 'normal', 'f', '8097718825', 'd14'),
+('srushti.pawar@ves.ac.in', 'Srushti Pawar', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'f', '8097718825', 'd14'),
 ('stella.jenifer@ves.ac.in', 'stella jenifer ', '47ff94c5fd1d7df9a4a6ff252137b281622ff827', 'normal', 'f', '9769238017', 'MCA2B'),
 ('subhdra.jaisinghani@ves.ac.in', 'subhdra jaisinghani', 'af14ee458f1cdfde9fb5b17683d3b70d67f9d43f', 'normal', 'f', '9175566187', 'd15'),
 ('suchita.wani@ves.ac.in', 'suchita wani', '5d268eee2910e3dea2d0d67b5b35ffcdcd8b117f', 'normal', 'f', '9096957239', 'd17c'),
@@ -728,7 +732,7 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 ('swastika.thakur@ves.ac.in', 'Swastika Thakur', '4a6969e909d7d4d2985cc4ec1c3aa3e3498343fb', 'normal', 'f', '9594412372', 'd11'),
 ('sweta.amodkar@ves.ac.in', 'Sweta Ambodkar', 'fc4887dafc8d0db4b4d72b51b26760190b773f42', 'normal', 'f', '8879815621', 'd9C'),
 ('tanmay.jagtap@ves.ac.in', 'Tanmay	Jagtap', '08add7b1b40b38f5829e6ec1bae56cb9c3fb5292', 'normal', 'm', '845428', 'd8'),
-('tanmay.rauth@ves.ac.in', 'Tanmay	Rauth', '1a733747e66bf071046d2792c1e91a225fcfe805', 'normal', 'm', '8108252865', 'd11'),
+('tanmay.rauth@ves.ac.in', 'Tanmay	Rauth', '22ea1c649c82946aa6e479e1ffd321e4a318b1b0', 'normal', 'm', '8108252865', 'd11'),
 ('tanmay.zope@ves.ac.in', 'tanmay zope', '553079dafd23fd95ecb3b1afe9b3732d02a502e5', 'normal', 'm', '9833384735', 'd10'),
 ('tarun.mangtani@ves.ac.in', 'tarun mangtani', '00923ba5f7b317a8c8c62f7684c7b242ea8906bd', 'normal', 'm', '9850009283', 'd9c'),
 ('tejas.ingale@ves.ac.in', 'Tejas Ingale', '7b9842a0db16bc83b091fdcf74ef36b1f2fc72f3', 'normal', 'm', '9527082165', 'd14C'),
@@ -787,32 +791,47 @@ INSERT INTO `logindetails` (`user_id`, `username`, `userpassword`, `rolename`, `
 -- Table structure for table `mainevent`
 --
 
-CREATE TABLE IF NOT EXISTS `mainevent` (
-`rowid` int(11) NOT NULL,
+CREATE TABLE `mainevent` (
+  `rowid` int(11) NOT NULL,
   `main_event_id` double NOT NULL,
   `main_event_name` varchar(50) NOT NULL,
   `main_event_parallel_matches` int(11) NOT NULL DEFAULT '0',
   `temp_counter` int(11) NOT NULL,
   `slot` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `mainevent`
 --
 
 INSERT INTO `mainevent` (`rowid`, `main_event_id`, `main_event_name`, `main_event_parallel_matches`, `temp_counter`, `slot`) VALUES
-(1, 1518025410314, 'dd', 3, 3, 1),
-(2, 1518025410314, 'dd', 3, 3, 2),
-(3, 1518025410314, 'dd', 3, 3, 3),
-(4, 1518025690628, 'tesst', 46, 46, 1),
-(5, 1518025690628, 'tesst', 46, 46, 2),
-(6, 1518025690628, 'tesst', 46, 46, 3),
-(7, 1518025724448, 'asdf', 44, 44, 1),
-(8, 1518025724448, 'asdf', 44, 44, 2),
-(9, 1518025724448, 'asdf', 44, 44, 3),
-(10, 1518027221755, 'test', 3, 3, 1),
-(11, 1518027221755, 'test', 3, 3, 2),
-(12, 1518027221755, 'test', 3, 3, 3);
+(13, 1518253332877, 'Carrom', 3, 3, 1),
+(14, 1518253332877, 'Carrom', 3, 3, 2),
+(15, 1518253332877, 'Carrom', 3, 3, 3),
+(16, 1518253337008, 'Carrom', 3, 3, 1),
+(17, 1518253337008, 'Carrom', 3, 3, 2),
+(18, 1518253337008, 'Carrom', 3, 3, 3),
+(19, 1518253352757, 'Carrom', 3, 3, 1),
+(20, 1518253352757, 'Carrom', 3, 3, 2),
+(21, 1518253352757, 'Carrom', 3, 3, 3),
+(22, 1518253352930, 'Carrom', 3, 3, 1),
+(23, 1518253352930, 'Carrom', 3, 3, 2),
+(24, 1518253352930, 'Carrom', 3, 3, 3),
+(25, 1518253481807, 'Carrom', 3, 3, 1),
+(26, 1518253481807, 'Carrom', 3, 3, 2),
+(27, 1518253481807, 'Carrom', 3, 3, 3),
+(28, 1518254008681, 'Table Tennis', 3, 3, 1),
+(29, 1518254008681, 'Table Tennis', 3, 3, 2),
+(30, 1518254008681, 'Table Tennis', 3, 3, 3),
+(31, 1518254094259, 'Cricket', 1, 1, 1),
+(32, 1518254094259, 'Cricket', 1, 1, 2),
+(33, 1518254094259, 'Cricket', 1, 1, 3),
+(34, 1518254159771, 'Volleyball', 1, 1, 1),
+(35, 1518254159771, 'Volleyball', 1, 1, 2),
+(36, 1518254159771, 'Volleyball', 1, 1, 3),
+(37, 1518254721295, 'Cricket', 1, 1, 1),
+(38, 1518254721295, 'Cricket', 1, 1, 2),
+(39, 1518254721295, 'Cricket', 1, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -820,20 +839,208 @@ INSERT INTO `mainevent` (`rowid`, `main_event_id`, `main_event_name`, `main_even
 -- Table structure for table `player`
 --
 
-CREATE TABLE IF NOT EXISTS `player` (
-`row_id` int(11) NOT NULL,
+CREATE TABLE `player` (
+  `row_id` int(11) NOT NULL,
   `player_id` varchar(50) DEFAULT NULL,
   `team_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `player`
 --
 
 INSERT INTO `player` (`row_id`, `player_id`, `team_id`) VALUES
-(1, 'chayan.agrawal@ves.ac.in', 1),
-(2, 'chayan.agrawal@ves.ac.in', 2),
-(3, 'chayan.agrawal@ves.ac.in', 3);
+(1, 'aditya.gavane@ves.ac.in', 1),
+(2, 'ajay.gurumurthy@ves.ac.in', 1),
+(3, 'chayan.agrawal@ves.ac.in', 1),
+(4, 'aditya.gavane@ves.ac.in', 2),
+(5, 'ajay.gurumurthy@ves.ac.in', 2),
+(6, 'amit.fatnani@ves.ac.in', 2),
+(7, 'ankita.dharne@ves.ac.in', 2),
+(8, 'arpan.gulrajani@ves.ac.in', 2),
+(9, 'arpita.ambavane@ves.ac.in', 2),
+(10, 'aditya.gavane@ves.ac.in', 3),
+(11, 'ajay.gurumurthy@ves.ac.in', 3),
+(12, 'amit.fatnani@ves.ac.in', 3),
+(13, 'chayan.agrawal@ves.ac.in', 3),
+(14, 'jai.hinduja@ves.ac.in', 3),
+(15, 'chayan.agrawal@ves.ac.in', 4),
+(16, 'chayan.agrawal@ves.ac.in', 5),
+(17, 'chayan.agrawal@ves.ac.in', 6),
+(18, 'aditya.gavane@ves.ac.in', 7),
+(19, 'ajay.gurumurthy@ves.ac.in', 7),
+(20, 'amit.fatnani@ves.ac.in', 7),
+(21, 'chayan.agrawal@ves.ac.in', 8),
+(22, 'aditya.gavane@ves.ac.in', 9),
+(23, 'ajay.gurumurthy@ves.ac.in', 9),
+(24, 'amit.fatnani@ves.ac.in', 9),
+(25, 'aditya.gavane@ves.ac.in', 10),
+(26, 'aditya.gavane@ves.ac.in', 11),
+(27, 'jeetiksha.chandiramani@ves.ac.in', 12),
+(28, 'ankita.dharne@ves.ac.in', 13),
+(29, 'arpan.gulrajani@ves.ac.in', 13),
+(30, 'arpita.ambavane@ves.ac.in', 13),
+(31, 'jeetiksha.chandiramani@ves.ac.in', 14),
+(32, 'ankita.dharne@ves.ac.in', 15),
+(33, 'arpan.gulrajani@ves.ac.in', 15),
+(34, 'arpita.ambavane@ves.ac.in', 15),
+(35, 'arpan.gulrajani@ves.ac.in', 16),
+(36, 'arpan.gulrajani@ves.ac.in', 17),
+(37, 'abhishek.patil@ves.ac.in', 18),
+(38, 'abhishekkumar.mehta@ves.ac.in', 18),
+(39, 'chetan.motwani@ves.ac.in', 18),
+(40, 'dinesh.nandi@ves.ac.in', 18),
+(41, 'dinesh.panchi@ves.ac.in', 18),
+(42, 'abhishek.patil@ves.ac.in', 19),
+(43, 'abhishekkumar.mehta@ves.ac.in', 19),
+(44, 'chetan.motwani@ves.ac.in', 19),
+(45, 'dinesh.nandi@ves.ac.in', 19),
+(46, 'dinesh.panchi@ves.ac.in', 19),
+(47, 'ganesh.kukreja@ves.ac.in', 19),
+(48, 'manish.madhwani@ves.ac.in', 20),
+(49, 'abhishek.patil@ves.ac.in', 21),
+(50, 'abhishekkumar.mehta@ves.ac.in', 21),
+(51, 'chetan.motwani@ves.ac.in', 21),
+(52, 'manish.madhwani@ves.ac.in', 22),
+(53, 'abhishek.patil@ves.ac.in', 23),
+(54, 'abhishekkumar.mehta@ves.ac.in', 23),
+(55, 'chetan.motwani@ves.ac.in', 23),
+(56, 'rahul.nagdev@ves.ac.in', 24),
+(57, 'rahul.nagdev@ves.ac.in', 25),
+(58, 'revati.pathak@ves.ac.in', 26),
+(59, 'aarti.raghani@ves.ac.in', 27),
+(60, 'aditi.parab@ves.ac.in', 27),
+(61, 'gayatri.mulchandani@ves.ac.in', 27),
+(62, 'revati.pathak@ves.ac.in', 28),
+(63, 'aarti.raghani@ves.ac.in', 29),
+(64, 'aditi.parab@ves.ac.in', 29),
+(65, 'gayatri.mulchandani@ves.ac.in', 29),
+(66, 'gayatri.pawar@ves.ac.in', 30),
+(67, 'gayatri.pawar@ves.ac.in', 31),
+(68, 'ajitesh.singh@ves.ac.in', 32),
+(69, 'anand.vaswani@ves.ac.in', 32),
+(70, 'ankit.shaw@ves.ac.in', 32),
+(71, 'dinesh.purswani@ves.ac.in', 32),
+(72, 'harshal.talreja@ves.ac.in', 32),
+(73, 'ajitesh.singh@ves.ac.in', 33),
+(74, 'anand.vaswani@ves.ac.in', 33),
+(75, 'ankit.shaw@ves.ac.in', 33),
+(76, 'dinesh.purswani@ves.ac.in', 33),
+(77, 'harshal.talreja@ves.ac.in', 33),
+(78, 'jayesh.sawale@ves.ac.in', 33),
+(79, 'tanmay.rauth@ves.ac.in', 34),
+(80, 'ajitesh.singh@ves.ac.in', 35),
+(81, 'anand.vaswani@ves.ac.in', 35),
+(82, 'ankit.shaw@ves.ac.in', 35),
+(83, 'tanmay.rauth@ves.ac.in', 36),
+(84, 'ajitesh.singh@ves.ac.in', 37),
+(85, 'anand.vaswani@ves.ac.in', 37),
+(86, 'ankit.shaw@ves.ac.in', 37),
+(87, 'pravin.tripathi@ves.ac.in', 38),
+(88, 'pravin.tripathi@ves.ac.in', 39),
+(89, 'jyoti.singh@ves.ac.in', 40),
+(90, 'deesha.ramchandani@ves.ac.in', 41),
+(91, 'jyoti.singh@ves.ac.in', 41),
+(92, 'kiran.solapure@ves.ac.in', 41),
+(93, 'jyoti.singh@ves.ac.in', 42),
+(94, 'deesha.ramchandani@ves.ac.in', 43),
+(95, 'jyoti.singh@ves.ac.in', 43),
+(96, 'kiran.solapure@ves.ac.in', 43),
+(97, 'kiran.solapure@ves.ac.in', 44),
+(98, 'kiran.solapure@ves.ac.in', 45),
+(99, 'abhijeet.bhattacharya@ves.ac.in', 46),
+(100, 'abhishek.gurav@ves.ac.in', 46),
+(101, 'anshul.agarwal@ves.ac.in', 46),
+(102, 'chetan.gupta@ves.ac.in', 46),
+(103, 'dinesh.ahuja@ves.ac.in', 46),
+(104, 'abhijeet.bhattacharya@ves.ac.in', 47),
+(105, 'abhishek.gurav@ves.ac.in', 47),
+(106, 'anshul.agarwal@ves.ac.in', 47),
+(107, 'chetan.gupta@ves.ac.in', 47),
+(108, 'dinesh.ahuja@ves.ac.in', 47),
+(109, 'jai.amesar@ves.ac.in', 47),
+(110, 'abhishek.gurav@ves.ac.in', 48),
+(111, 'abhijeet.bhattacharya@ves.ac.in', 49),
+(112, 'abhishek.gurav@ves.ac.in', 49),
+(113, 'anshul.agarwal@ves.ac.in', 49),
+(114, 'abhishek.gurav@ves.ac.in', 50),
+(115, 'abhijeet.bhattacharya@ves.ac.in', 51),
+(116, 'abhishek.gurav@ves.ac.in', 51),
+(117, 'anshul.agarwal@ves.ac.in', 51),
+(118, 'chetan.gupta@ves.ac.in', 52),
+(119, 'chetan.gupta@ves.ac.in', 53),
+(120, 'aysha.jagiasi@ves.ac.in', 54),
+(121, 'aishwarya.chandak@ves.ac.in', 55),
+(122, 'aysha.jagiasi@ves.ac.in', 55),
+(123, 'harshada.hotwani@ves.ac.in', 55),
+(124, 'aysha.jagiasi@ves.ac.in', 56),
+(125, 'aishwarya.chandak@ves.ac.in', 57),
+(126, 'aysha.jagiasi@ves.ac.in', 57),
+(127, 'harshada.hotwani@ves.ac.in', 57),
+(128, 'juhi.bhagtani@ves.ac.in', 58),
+(129, 'juhi.bhagtani@ves.ac.in', 59),
+(130, 'anjali.patil@ves.ac.in', 60),
+(131, 'pradnya.pujare@ves.ac.in', 60),
+(132, 'rutuja.more@ves.ac.in', 60),
+(133, 'srushti.pawar@ves.ac.in', 61),
+(134, 'srushti.pawar@ves.ac.in', 62),
+(135, 'anjali.patil@ves.ac.in', 63),
+(136, 'pradnya.pujare@ves.ac.in', 63),
+(137, 'rutuja.more@ves.ac.in', 63),
+(138, 'pradnya.pujare@ves.ac.in', 64),
+(139, 'pradnya.pujare@ves.ac.in', 65),
+(140, 'abhishek.nemade@ves.ac.in', 66),
+(141, 'abhishek.patil6@ves.ac.in', 66),
+(142, 'aniket.nair@ves.ac.in', 66),
+(143, 'ashish.mhatre@ves.ac.in', 66),
+(144, 'avinash.salian@ves.ac.in', 66),
+(145, 'abhishek.nemade@ves.ac.in', 67),
+(146, 'abhishek.patil6@ves.ac.in', 67),
+(147, 'aniket.nair@ves.ac.in', 67),
+(148, 'ashish.mhatre@ves.ac.in', 67),
+(149, 'avinash.salian@ves.ac.in', 67),
+(150, 'gauresh.mestry@ves.ac.in', 67),
+(151, 'hitendra.mhatre@ves.ac.in', 68),
+(152, 'abhishek.nemade@ves.ac.in', 69),
+(153, 'abhishek.patil6@ves.ac.in', 69),
+(154, 'aniket.nair@ves.ac.in', 69),
+(155, 'hitendra.mhatre@ves.ac.in', 70),
+(156, 'abhishek.nemade@ves.ac.in', 71),
+(157, 'abhishek.patil6@ves.ac.in', 71),
+(158, 'aniket.nair@ves.ac.in', 71),
+(159, 'ashish.mhatre@ves.ac.in', 72),
+(160, 'ashish.mhatre@ves.ac.in', 73),
+(161, 'riya.bhavnani@ves.ac.in', 74),
+(162, 'aishwarya.aryamane@ves.ac.in', 75),
+(163, 'hanisha.jamtani@ves.ac.in', 75),
+(164, 'meenu.bhatia@ves.ac.in', 75),
+(165, 'riya.bhavnani@ves.ac.in', 76),
+(166, 'aishwarya.aryamane@ves.ac.in', 77),
+(167, 'hanisha.jamtani@ves.ac.in', 77),
+(168, 'meenu.bhatia@ves.ac.in', 77),
+(169, 'meenu.bhatia@ves.ac.in', 78),
+(170, 'meenu.bhatia@ves.ac.in', 79),
+(171, 'aditya.krishnan@ves.ac.in', 80),
+(172, 'akshay.gunani@ves.ac.in', 80),
+(173, 'deepanshu.garg@ves.ac.in', 80),
+(174, 'deepesh.garg@ves.ac.in', 80),
+(175, 'jigar.ajmera@ves.ac.in', 80),
+(176, 'aditya.krishnan@ves.ac.in', 81),
+(177, 'akshay.gunani@ves.ac.in', 81),
+(178, 'deepanshu.garg@ves.ac.in', 81),
+(179, 'deepesh.garg@ves.ac.in', 81),
+(180, 'jigar.ajmera@ves.ac.in', 81),
+(181, 'krishna.boddu@ves.ac.in', 81),
+(182, 'satish.fulwani@ves.ac.in', 82),
+(183, 'aditya.krishnan@ves.ac.in', 83),
+(184, 'akshay.gunani@ves.ac.in', 83),
+(185, 'deepanshu.garg@ves.ac.in', 83),
+(186, 'satish.fulwani@ves.ac.in', 84),
+(187, 'aditya.krishnan@ves.ac.in', 85),
+(188, 'akshay.gunani@ves.ac.in', 85),
+(189, 'deepanshu.garg@ves.ac.in', 85),
+(190, 'deepesh.garg@ves.ac.in', 86),
+(191, 'deepesh.garg@ves.ac.in', 87);
 
 -- --------------------------------------------------------
 
@@ -841,8 +1048,8 @@ INSERT INTO `player` (`row_id`, `player_id`, `team_id`) VALUES
 -- Table structure for table `schedule`
 --
 
-CREATE TABLE IF NOT EXISTS `schedule` (
-`schedule_id` int(11) NOT NULL,
+CREATE TABLE `schedule` (
+  `schedule_id` int(11) NOT NULL,
   `game_id` int(11) DEFAULT NULL,
   `seed` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -853,8 +1060,8 @@ CREATE TABLE IF NOT EXISTS `schedule` (
 -- Table structure for table `scoretable`
 --
 
-CREATE TABLE IF NOT EXISTS `scoretable` (
-`rowid` int(11) NOT NULL,
+CREATE TABLE `scoretable` (
+  `rowid` int(11) NOT NULL,
   `classroom` varchar(10) DEFAULT NULL,
   `score` int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -865,24 +1072,106 @@ CREATE TABLE IF NOT EXISTS `scoretable` (
 -- Table structure for table `team`
 --
 
-CREATE TABLE IF NOT EXISTS `team` (
-`team_id` int(11) NOT NULL,
+CREATE TABLE `team` (
+  `team_id` int(11) NOT NULL,
   `team_name` varchar(50) DEFAULT NULL,
   `classroom` varchar(10) NOT NULL,
   `scheduled` tinyint(1) NOT NULL DEFAULT '0',
   `event_id` int(11) DEFAULT NULL,
   `round` varchar(30) DEFAULT NULL,
   `points` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `team`
 --
 
 INSERT INTO `team` (`team_id`, `team_name`, `classroom`, `scheduled`, `event_id`, `round`, `points`) VALUES
-(1, 'chayan agrawal', 'd20', 0, 10, NULL, 0),
-(2, 'chayan agrawal', 'd20', 0, 11, NULL, 0),
-(3, 'chayan agrawal', 'd20', 0, 6, NULL, 0);
+(1, 'teamname', 'd20', 0, 1, 'Participated', 1),
+(2, 'teamname', 'd20', 0, 33, NULL, 0),
+(3, 'teamname', 'd20', 0, 34, NULL, 0),
+(4, 'chayan agrawal', 'd20', 0, 29, NULL, 0),
+(7, 'teamname', 'd20', 0, 26, NULL, 0),
+(8, 'chayan agrawal', 'd20', 0, 23, NULL, 0),
+(9, 'teamname', 'd20', 0, 20, NULL, 0),
+(10, 'Aditya Gavane', 'd20', 0, 28, NULL, 0),
+(11, 'Aditya Gavane', 'd20', 0, 22, NULL, 0),
+(12, 'Jeetiksha Chandiramani', 'd20', 0, 31, NULL, 0),
+(13, 'teamname', 'd20', 0, 27, NULL, 0),
+(14, 'Jeetiksha Chandiramani', 'd20', 0, 25, NULL, 0),
+(15, 'teamname', 'd20', 0, 21, NULL, 0),
+(16, 'Arpan Gulrajani', 'd20', 0, 30, NULL, 0),
+(17, 'Arpan Gulrajani', 'd20', 0, 24, NULL, 0),
+(18, 'd12', 'd12', 0, 34, NULL, 0),
+(19, 'd12', 'd12', 0, 33, NULL, 0),
+(20, 'Manish Madhwani', 'd12', 0, 29, NULL, 0),
+(21, 'd12', 'd12', 0, 26, NULL, 0),
+(22, 'Manish Madhwani', 'd12', 0, 23, NULL, 0),
+(23, 'd12', 'd12', 0, 20, NULL, 0),
+(24, 'RAHUL NAGDEV', 'd12', 0, 28, NULL, 0),
+(25, 'RAHUL NAGDEV', 'd12', 0, 22, NULL, 0),
+(26, 'Revati Pathak', 'd12', 0, 31, NULL, 0),
+(27, 'd12', 'd12', 0, 27, NULL, 0),
+(28, 'Revati Pathak', 'd12', 0, 25, NULL, 0),
+(29, 'd12', 'd12', 0, 21, NULL, 0),
+(30, 'GAYATRI PAWAR', 'd12', 0, 30, NULL, 0),
+(31, 'GAYATRI PAWAR', 'd12', 0, 24, NULL, 0),
+(32, 'd11', 'd11', 0, 34, NULL, 0),
+(33, 'd11', 'd11', 0, 33, NULL, 0),
+(34, 'Tanmay	Rauth', 'd11', 0, 29, NULL, 0),
+(35, 'd11', 'd11', 0, 26, NULL, 0),
+(36, 'Tanmay	Rauth', 'd11', 0, 23, NULL, 0),
+(37, 'd11', 'd11', 0, 20, NULL, 0),
+(38, 'Pravin Tripathi', 'd11', 0, 28, NULL, 0),
+(39, 'Pravin Tripathi', 'd11', 0, 22, NULL, 0),
+(40, 'Jyoti	Singh', 'd11', 0, 31, NULL, 0),
+(41, 'd11', 'd11', 0, 27, NULL, 0),
+(42, 'Jyoti	Singh', 'd11', 0, 25, NULL, 0),
+(43, 'd11', 'd11', 0, 21, NULL, 0),
+(44, 'Kiran Solapure', 'd11', 0, 30, NULL, 0),
+(45, 'Kiran Solapure', 'd11', 0, 24, NULL, 0),
+(46, 'd13', 'd13', 0, 34, NULL, 0),
+(47, 'd13', 'd13', 0, 33, NULL, 0),
+(48, 'Abhishek Gurav', 'd13', 0, 29, NULL, 0),
+(49, 'd13', 'd13', 0, 26, NULL, 0),
+(50, 'Abhishek Gurav', 'd13', 0, 23, NULL, 0),
+(51, 'd13', 'd13', 0, 20, NULL, 0),
+(52, 'chetan	gupta', 'd13', 0, 28, NULL, 0),
+(53, 'chetan	gupta', 'd13', 0, 22, NULL, 0),
+(54, 'Aysha	Jagiasi', 'd13', 0, 31, NULL, 0),
+(55, 'd13', 'd13', 0, 27, NULL, 0),
+(56, 'Aysha	Jagiasi', 'd13', 0, 25, NULL, 0),
+(57, 'd13', 'd13', 0, 21, NULL, 0),
+(58, 'Juhi Bhagtani', 'd13', 0, 30, NULL, 0),
+(59, 'Juhi Bhagtani', 'd13', 0, 24, NULL, 0),
+(60, 'd14', 'd14', 0, 27, NULL, 0),
+(61, 'Srushti Pawar', 'd14', 0, 31, NULL, 0),
+(62, 'Srushti Pawar', 'd14', 0, 25, NULL, 0),
+(63, 'd14', 'd14', 0, 21, NULL, 0),
+(64, 'Pradnya	 Pujare', 'd14', 0, 30, NULL, 0),
+(65, 'Pradnya	 Pujare', 'd14', 0, 24, NULL, 0),
+(66, 'd14', 'd14', 0, 34, NULL, 0),
+(67, 'd14', 'd14', 0, 33, NULL, 0),
+(68, 'Hitendra  Mhatre', 'd14', 0, 29, NULL, 0),
+(69, 'd14', 'd14', 0, 26, NULL, 0),
+(70, 'Hitendra  Mhatre', 'd14', 0, 23, NULL, 0),
+(71, 'd14', 'd14', 0, 20, NULL, 0),
+(72, 'Ashish Mhatre', 'd14', 0, 28, NULL, 0),
+(73, 'Ashish Mhatre', 'd14', 0, 22, NULL, 0),
+(74, 'Riya Bhavnani', 'd15', 0, 31, NULL, 0),
+(75, 'd15', 'd15', 0, 27, NULL, 0),
+(76, 'Riya Bhavnani', 'd15', 0, 25, NULL, 0),
+(77, 'd15', 'd15', 0, 21, NULL, 0),
+(78, 'MEENU BHATIA', 'd15', 0, 30, NULL, 0),
+(79, 'MEENU BHATIA', 'd15', 0, 24, NULL, 0),
+(80, 'd15', 'd15', 0, 34, NULL, 0),
+(81, 'd15', 'd15', 0, 33, NULL, 0),
+(82, 'Satish Fulwani', 'd15', 0, 29, NULL, 0),
+(83, 'd15', 'd15', 0, 26, NULL, 0),
+(84, 'Satish Fulwani', 'd15', 0, 23, NULL, 0),
+(85, 'd15', 'd15', 0, 20, NULL, 0),
+(86, 'Deepesh	Garg', 'd15', 0, 28, NULL, 0),
+(87, 'Deepesh	Garg', 'd15', 0, 22, NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -892,61 +1181,61 @@ INSERT INTO `team` (`team_id`, `team_name`, `classroom`, `scheduled`, `event_id`
 -- Indexes for table `event`
 --
 ALTER TABLE `event`
- ADD PRIMARY KEY (`event_id`);
+  ADD PRIMARY KEY (`event_id`);
 
 --
 -- Indexes for table `event_head`
 --
 ALTER TABLE `event_head`
- ADD PRIMARY KEY (`row_id`);
+  ADD PRIMARY KEY (`row_id`);
 
 --
 -- Indexes for table `game`
 --
 ALTER TABLE `game`
- ADD PRIMARY KEY (`game_id`);
+  ADD PRIMARY KEY (`game_id`);
 
 --
 -- Indexes for table `gameteammapping`
 --
 ALTER TABLE `gameteammapping`
- ADD PRIMARY KEY (`rowid`);
+  ADD PRIMARY KEY (`rowid`);
 
 --
 -- Indexes for table `logindetails`
 --
 ALTER TABLE `logindetails`
- ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- Indexes for table `mainevent`
 --
 ALTER TABLE `mainevent`
- ADD PRIMARY KEY (`rowid`);
+  ADD PRIMARY KEY (`rowid`);
 
 --
 -- Indexes for table `player`
 --
 ALTER TABLE `player`
- ADD PRIMARY KEY (`row_id`);
+  ADD PRIMARY KEY (`row_id`);
 
 --
 -- Indexes for table `schedule`
 --
 ALTER TABLE `schedule`
- ADD PRIMARY KEY (`schedule_id`);
+  ADD PRIMARY KEY (`schedule_id`);
 
 --
 -- Indexes for table `scoretable`
 --
 ALTER TABLE `scoretable`
- ADD PRIMARY KEY (`rowid`);
+  ADD PRIMARY KEY (`rowid`);
 
 --
 -- Indexes for table `team`
 --
 ALTER TABLE `team`
- ADD PRIMARY KEY (`team_id`);
+  ADD PRIMARY KEY (`team_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -956,47 +1245,57 @@ ALTER TABLE `team`
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
 --
 -- AUTO_INCREMENT for table `event_head`
 --
 ALTER TABLE `event_head`
-MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `game`
 --
 ALTER TABLE `game`
-MODIFY `game_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `game_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `gameteammapping`
 --
 ALTER TABLE `gameteammapping`
-MODIFY `rowid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `rowid` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `mainevent`
 --
 ALTER TABLE `mainevent`
-MODIFY `rowid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+  MODIFY `rowid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
 --
 -- AUTO_INCREMENT for table `player`
 --
 ALTER TABLE `player`
-MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `row_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
+
 --
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `scoretable`
 --
 ALTER TABLE `scoretable`
-MODIFY `rowid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `rowid` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `team`
 --
 ALTER TABLE `team`
-MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
