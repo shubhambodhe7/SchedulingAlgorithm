@@ -78,6 +78,11 @@ public class EventController {
 		return es.getPendingEventsForRefreeAssignment();
 	}
 
+	@RequestMapping(value = "/checkIfTeamAlreadyRegistered/{userId:.+}/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody boolean checkIfTeamAlreadyRegistered(@PathVariable String userId, @PathVariable int eventId)
+			throws NoSuchAlgorithmException {
+		return es.checkIfTeamAlreadyRegistered(userId, eventId);
+	}
 	@RequestMapping(value = "/registerAsEventHead/{userId:.+}/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody int registerAsEventHead(@PathVariable String userId, @PathVariable int eventId)
 			throws NoSuchAlgorithmException {

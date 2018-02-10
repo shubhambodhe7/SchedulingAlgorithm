@@ -209,29 +209,78 @@ app
 
 											});
 						} else {
+							$http
+									.get(
+											'project/checkIfTeamAlreadyRegistered/'
+													+ $sessionStorage.userId
+													+ '/' + eventId)
+									.then(
+											function(response) {
+												console.log(response.data);
 
-							var modalInstance = $modal
-									.open({
-										templateUrl : 'partials/teamRegister.html',
-										controller : 'teamCtrl',
-										windowClass : 'center-modal',
-										resolve : {
-											event : function($http) {
+												if (!response.data) {
+													var modalInstance = $modal
+															.open({
+																templateUrl : 'partials/teamRegister.html',
+																controller : 'teamCtrl',
+																windowClass : 'center-modal',
+																resolve : {
+																	checkIfTeamAlreadyRegistered : function() {
 
-												return $http
-														.get(
-																'project/getEventDetails/'
-																		+ $sessionStorage.userId
-																		+ '/'
-																		+ eventId)
-														.then(
-																function(
-																		response) {
-																	return response.data[0];
-																})
+																		return $http
+																				.get(
+																						'project/checkIfTeamAlreadyRegistered/'
+																								+ $sessionStorage.userId
+																								+ '/'
+																								+ eventId)
+																				.then(
+																						function(
+																								response) {
+																							console
+																									.log(response.data);
+
+																							return response.data;
+
+																						},
+																						function error(
+																								response) {
+																							console
+																									.log(response);
+
+																						}
+
+																				);
+
+																	},
+																	event : function(
+																			$http) {
+
+																		return $http
+																				.get(
+																						'project/getEventDetails/'
+																								+ $sessionStorage.userId
+																								+ '/'
+																								+ eventId)
+																				.then(
+																						function(
+																								response) {
+																							return response.data[0];
+																						})
+																	}
+																}
+															});
+
+												} else {
+													bootbox
+															.alert("Team from your class has already registered of this event!");
+												}
+
+											}, function error(response) {
+												console.log(response);
+
 											}
-										}
-									});
+
+									);
 
 							/*
 							 * modalInstance.result.then(function(selectedItems) { //
@@ -579,27 +628,48 @@ app
 
 					$scope.unregisterForEvent = function(eventId) {
 						// bootbox.alert(eventId);
-						$http.get(
-								'project/unregisterForIndEvent/'
-										+ $sessionStorage.userId + '/'
-										+ eventId).then(function(response) {
-							console.log(response.data);
+						bootbox
+								.confirm(
+										"Are you sure?",
+										function(result) {
+											if (result) {
+												$http
+														.get(
+																'project/unregisterForIndEvent/'
+																		+ $sessionStorage.userId
+																		+ '/'
+																		+ eventId)
+														.then(
+																function(
+																		response) {
+																	console
+																			.log(response.data);
 
-							if (response.data >= 0) {
-								bootbox.alert("Unregistration successful!");
+																	if (response.data >= 0) {
+																		bootbox
+																				.alert("Unregistration successful!");
 
-							} else {
-								bootbox.alert("Unregistration failed");
+																	} else {
+																		bootbox
+																				.alert("Unregistration failed");
 
-							}
-							$route.reload();
-						}, function error(response) {
-							console.log(response);
+																	}
+																	$route
+																			.reload();
+																},
+																function error(
+																		response) {
+																	console
+																			.log(response);
 
-							bootbox.alert("Unregistration failed");
+																	bootbox
+																			.alert("Unregistration failed");
 
-						});
+																});
 
-					};
+											}
+											;
+										})
+					}
 
 				});

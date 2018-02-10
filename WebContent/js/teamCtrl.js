@@ -1,11 +1,10 @@
 app
 		.controller(
 				'teamCtrl',
-				function(event, $scope, $http, $localStorage, $location,
-						$modalInstance,$sessionStorage) {
-
-					// var userId = 3;
-					//$scope.userId = 'chayan.agrawal@ves.ac.in';
+				function(event, $scope, $http,
+						$localStorage, $location, $modalInstance,
+						$sessionStorage) {
+					
 					console.log(event);
 					$scope.maxPlayers = event.maxPlayers;
 					$scope.eventName = event.eventName;

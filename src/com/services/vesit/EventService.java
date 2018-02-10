@@ -47,12 +47,15 @@ public class EventService {
 	public List<Event> getAllEvents() {
 		return ed.getAllEvents();
 	}
+
 	public List<EventWinner> getWinners() {
 		return ed.getWinners();
 	}
+
 	public List<EventWinner> getWinners(String userId) {
 		return ed.getWinners(userId);
 	}
+
 	public List<EventWinner> getMyRegistrations(String userId) {
 		return ed.getMyRegistrations(userId);
 	}
@@ -64,6 +67,7 @@ public class EventService {
 	public List<Event> getEventDetails(String userId, int eventId) {
 		return ed.getEventDetails(userId, eventId);
 	}
+
 	public List<Event> getEventDetailsAsPerUser(String userId) {
 		return ed.getEventDetailsAsPerUser(userId);
 	}
@@ -89,15 +93,21 @@ public class EventService {
 			return -1;
 	}
 
+	public boolean checkIfTeamAlreadyRegistered(String userId, int eventId) {
+		// TODO Auto-generated method stub
+
+		return ed.checkIfTeamAlreadyRegistered(userId, eventId);
+	}
+
 	public int registerForIndEvent(String userId, int eventId) {
 		// TODO Auto-generated method stub
 
-		
 		return ed.registerForIndEvent(userId, eventId);
 	}
+
 	public int unregisterForIndEvent(String userId, int eventId) {
 		// TODO Auto-generated method stub
-		
+
 		return ed.unregisterForIndEvent(userId, eventId);
 	}
 

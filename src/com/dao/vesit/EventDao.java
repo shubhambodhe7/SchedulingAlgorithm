@@ -51,14 +51,14 @@ public class EventDao {
 
 	public List<EventWinner> getWinners() {
 		return jdbcTemplate.query(
-				"select event_name, team_name,classroom,round,points from event e, team t where t.event_id = e.event_id order by event_name asc, points desc",
+				"select e.event_id, event_name, team_name,classroom,round,points from event e, team t where t.event_id = e.event_id order by event_name asc, points desc",
 				new EventWinnerRowMapper());
 
 	}
 
 	public List<EventWinner> getWinners(String userId) {
 		return jdbcTemplate.query(
-				"select event_name, t.team_name, t.classroom,round,points from event e, team t,logindetails l where t.event_id = e.event_id and l.classroom = t.classroom and l.user_id = ? order by event_name asc, points desc",
+				"select e.event_id, event_name, t.team_name, t.classroom,round,points from event e, team t,logindetails l where t.event_id = e.event_id and l.classroom = t.classroom and l.user_id = ? order by event_name asc, points desc",
 				new Object[] { userId }, new EventWinnerRowMapper());
 
 	}
@@ -188,6 +188,22 @@ public class EventDao {
 
 	}
 
+	public boolean checkIfTeamAlreadyRegistered(String userId, int eventId) {
+
+		LoginDao ld = new LoginDao(jdbcTemplate);
+		String classroom = ld.getUser(userId).get(0).getClassroom();
+
+		List<Map<String, Object>> checklist = jdbcTemplate.queryForList(
+				"SELECT t.team_id FROM team t where t.classroom = ? and t.event_id=?",
+				new Object[] { classroom, eventId });
+		System.out.println(checklist);
+		if (null != checklist && !checklist.isEmpty()) {
+			System.out.println(checklist);
+			return true;
+		}
+		return false;
+	}
+
 	public boolean checkIfAlreadyRegisteredEventHead(String userId, int eventId) {
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(
 				"Select * from event_head where user_id = ? and event_id=?", new Object[] { userId, eventId });
@@ -236,7 +252,7 @@ public class EventDao {
 		// other seed
 		Event event = getEventDetails(userId, eventId).get(0);
 		int otherSeedEventId = 0;
-		if ("1".equals(event.getEventName().charAt(event.getEventName().length() - 1))) {
+		if ("1".equals(event.getEventName().substring(event.getEventName().length() - 1))) {
 			otherSeedEventId = eventId + 1;
 		} else {
 			otherSeedEventId = eventId - 1;

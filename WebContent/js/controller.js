@@ -22,19 +22,22 @@ app
 						console.log('chnged');
 						console.log($sessionStorage.userId);
 						$scope.sessionActive = accessFac.checkIfUser();
+						$scope.userId = $sessionStorage.userId;
 						console.log("$scope.sessionActive",
 								$scope.sessionActive)
 					});
 					$scope.$watch(function() {
 						return $sessionStorage.userName;
-					}, function(newVal, oldVal) {
-						if (oldVal !== newVal && newVal === undefined) {
-							console.log('It is undefined');
-						}
+					},
+							function(newVal, oldVal) {
+								if (oldVal !== newVal && newVal === undefined) {
+									console.log('It is undefined');
+								}
 
-						$scope.userName = 'Welcome ' + $sessionStorage.userName;
+								$scope.userName = 'Welcome '
+										+ $sessionStorage.userName;
 
-					})
+							})
 
 					// $sessionStorage.userId = "chayan123";
 
@@ -151,6 +154,7 @@ app
 					$scope.changePass = function(change) {
 						debugger;
 						console.log(change);
+						change.userId = $sessionStorage.userId;
 						$http
 								.post('project/changePass', change)
 								.then(
