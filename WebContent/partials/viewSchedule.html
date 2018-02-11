@@ -1,0 +1,26 @@
+
+<div ng-controller="eventCtrl">
+
+	<uib-accordion>
+	<div ng-repeat="s in schedule">
+		<div uib-accordion-group class="panel-info"
+			heading="{{s.eventName}} #{{s.gameId}}">
+			<!-- <p>{{s.gameId}}</p>
+			<p>{{s.eventName}}</p>
+			 -->
+			<p ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+			<p ng-show=" s.eventHead == null ">Event Head yet to be assigned</p>
+			<p>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+				{{s.endTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}}</p>
+			<p>Teams</p>
+			<table>
+				<tr ng-repeat="t in s.teams">
+					<td>{{t.teamName}}</td>
+				</tr>
+			</table>
+
+		</div>
+	</div>
+	</uib-accordion>
+	<!-- <pre ng-bind="schedule|json"></pre> -->
+</div>

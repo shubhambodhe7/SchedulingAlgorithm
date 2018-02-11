@@ -13,6 +13,7 @@ import com.dto.vesit.EventWinner;
 import com.dto.vesit.Login;
 import com.dto.vesit.MainEvent;
 import com.dto.vesit.Player;
+import com.dto.vesit.Schedule;
 import com.dto.vesit.Team;
 import com.google.gson.Gson;
 
@@ -48,11 +49,14 @@ public class EventService {
 		return ed.getAllEvents();
 	}
 
-	
+	public List<Schedule> getSchedule() {
+		return ed.getSchedule();
+	}
+
 	public List<EventWinner> getClickedEventWinners(String eventId) {
 		return ed.getClickedEventWinners(eventId);
 	}
-	
+
 	public List<EventWinner> getWinners(String userId) {
 		return ed.getWinners(userId);
 	}
@@ -128,7 +132,7 @@ public class EventService {
 		// return 1;
 	}
 
-	public int assignReferee(int eventId, int userId) {
+	public int assignReferee(int eventId, String userId) {
 		return ed.assignReferee(eventId, userId);
 	}
 

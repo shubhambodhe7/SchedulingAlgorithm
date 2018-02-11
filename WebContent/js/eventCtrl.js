@@ -62,6 +62,7 @@ app
 						getMainEvents();
 						getClassPoints();
 						getMyRegistrations();
+						getSchedule();
 						// getEligibleEventHeads(1);
 
 						console.log("view method");
@@ -76,6 +77,17 @@ app
 								function(response) {
 									console.log(response.data);
 									$scope.events = response.data.reverse();
+
+								}, function myError(response) {
+									$scope.myWelcome = response.statusText;
+								});
+					}
+					function getSchedule() {
+
+						$http.get('project/getSchedule').then(
+								function(response) {
+									console.log("getSchedule" + response.data);
+									$scope.schedule = response.data;
 
 								}, function myError(response) {
 									$scope.myWelcome = response.statusText;
@@ -476,7 +488,7 @@ app
 												+ data.eventId)
 								.then(function(response) {
 									console.log(response.data);
-									if (response.data == 1) {
+									if (response.data > 0) {
 										bootbox.alert("Assignment successful");
 									} else {
 										bootbox.alert("Assignment failed");

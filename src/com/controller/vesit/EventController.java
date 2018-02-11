@@ -23,6 +23,7 @@ import com.dto.vesit.MainEvent;
 import com.dto.vesit.Team;
 import com.google.gson.Gson;
 import com.dto.vesit.Player;
+import com.dto.vesit.Schedule;
 import com.services.vesit.EventService;
 
 @Controller
@@ -40,8 +41,14 @@ public class EventController {
 		return es.getAllEvents();
 	}
 
+	@RequestMapping(value = "/getSchedule", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<Schedule> getSchedule() throws NoSuchAlgorithmException {
+		return es.getSchedule();
+	}
+
 	@RequestMapping(value = "/getWinners/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<EventWinner> getClickedEventWinners(@PathVariable String eventId) throws NoSuchAlgorithmException {
+	public @ResponseBody List<EventWinner> getClickedEventWinners(@PathVariable String eventId)
+			throws NoSuchAlgorithmException {
 		return es.getClickedEventWinners(eventId);
 	}
 
@@ -50,8 +57,10 @@ public class EventController {
 		System.out.println(" getClassPoints " + userId);
 		return es.getWinners(userId);
 	}
+
 	@RequestMapping(value = "/getMyRegistrations/{userId:.+}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<EventWinner> getMyRegistrations(@PathVariable String userId) throws NoSuchAlgorithmException {
+	public @ResponseBody List<EventWinner> getMyRegistrations(@PathVariable String userId)
+			throws NoSuchAlgorithmException {
 		System.out.println(" getClassPoints " + userId);
 		return es.getMyRegistrations(userId);
 	}
@@ -83,6 +92,7 @@ public class EventController {
 			throws NoSuchAlgorithmException {
 		return es.checkIfTeamAlreadyRegistered(userId, eventId);
 	}
+
 	@RequestMapping(value = "/registerAsEventHead/{userId:.+}/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody int registerAsEventHead(@PathVariable String userId, @PathVariable int eventId)
 			throws NoSuchAlgorithmException {
@@ -94,6 +104,7 @@ public class EventController {
 			throws NoSuchAlgorithmException {
 		return es.registerForIndEvent(userId, eventId);
 	}
+
 	@RequestMapping(value = "/unregisterForIndEvent/{userId:.+}/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody int unregisterForIndEvent(@PathVariable String userId, @PathVariable int eventId)
 			throws NoSuchAlgorithmException {
@@ -123,7 +134,7 @@ public class EventController {
 	@RequestMapping(value = "/assignRefereeForEvent/{userId:.+}/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody int assignReferee(@PathVariable String userId, @PathVariable String eventId)
 			throws NoSuchAlgorithmException {
-		return es.assignReferee(Integer.parseInt(eventId), Integer.parseInt(userId));
+		return es.assignReferee(Integer.parseInt(eventId), userId);
 	}
 
 	@RequestMapping(value = "/advanceTeam/{round:.+}/{eventId:.+}/{json:.+}", method = RequestMethod.GET, produces = "application/json")

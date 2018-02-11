@@ -14,11 +14,13 @@ import com.dto.vesit.EventWinner;
 import com.dto.vesit.Login;
 import com.dto.vesit.MainEvent;
 import com.dto.vesit.Player;
+import com.dto.vesit.Schedule;
 import com.dto.vesit.Team;
 import com.mapper.vesit.EventRowMapper;
 import com.mapper.vesit.EventWinnerRowMapper;
 import com.mapper.vesit.LoginRowMapper;
 import com.mapper.vesit.MainEventRowMapper;
+import com.mapper.vesit.ScheduleRowMapper;
 
 @Repository
 public class EventDao {
@@ -49,7 +51,32 @@ public class EventDao {
 
 	}
 
-	
+	public List<Schedule> getSchedule() {
+		List<Schedule> list = jdbcTemplate.query(
+				"SELECT distinct  s.schedule_id , gt.game_id ,g.start_ts,g.end_ts  , g.event_head_id,e.event_id, e.event_name FROM schedule s,gameteammapping gt,game g,event e where s.game_id = gt.game_id and gt.game_id = g.game_id and e.event_id = g.event_id ",
+				new ScheduleRowMapper());
+		// fetch teams and event had name.
+
+		for (Schedule s : list) {
+			List<Map<String, Object>> qList = jdbcTemplate.queryForList(
+					"SELECT distinct gt.team_id,t.team_name FROM gameteammapping gt,team t where t.team_id = gt.team_id and gt.game_id = ? ORDER BY t.team_name",
+					new Object[] { s.getGameId() });
+
+			List<Team> teamList = new ArrayList<>();
+			for (Map<String, Object> m : qList) {
+				Team t = new Team((int) m.get("team_id"), (String) m.get("team_name"));
+				teamList.add(t);
+
+			}
+			s.setTeams(teamList);
+			if (null != s.getEventHead()) {
+				LoginDao ld = new LoginDao(jdbcTemplate);
+				s.setEventHead(ld.getUser(s.getEventHead()).get(0).getUserName());
+			}
+		}
+
+		return list;
+	}
 
 	public List<EventWinner> getClickedEventWinners(String eventId) {
 		return jdbcTemplate.query(
@@ -57,11 +84,12 @@ public class EventDao {
 				new Object[] { eventId }, new EventWinnerRowMapper());
 
 	}
+
 	public List<EventWinner> getWinners(String userId) {
 		return jdbcTemplate.query(
 				"select distinct e.event_id, event_name, t.team_name, t.classroom,round,points from event e, team t,logindetails l where t.event_id = e.event_id and l.classroom = t.classroom and l.user_id = ? order by event_name asc, points desc",
 				new Object[] { userId }, new EventWinnerRowMapper());
-		
+
 	}
 
 	public List<EventWinner> getMyRegistrations(String userId) {
@@ -95,7 +123,7 @@ public class EventDao {
 
 	public List<Login> getEligibleEventHeads(int eventId) {
 		return jdbcTemplate.query(
-				"SELECT l.user_id, username, userpassword, rolename, gender, contact,classroomvv  FROM logindetails l, event_head eh where l.user_id = eh.user_id and event_id = ? order by l.username desc",
+				"SELECT l.user_id, username, userpassword, rolename, gender, contact,classroom  FROM logindetails l, event_head eh where l.user_id = eh.user_id and event_id = ? order by l.username desc",
 				new Object[] { eventId }, new LoginRowMapper());
 
 	}
@@ -342,9 +370,9 @@ public class EventDao {
 
 	}
 
-	public int assignReferee(int eventId, int userId) {
+	public int assignReferee(int eventId, String userId) {
 
-		return jdbcTemplate.update("UPDATE event  SET eventhead= ? WHERE  event_id = ?",
+		return jdbcTemplate.update("UPDATE game  SET event_head_id= ? WHERE  event_id = ?",
 				new Object[] { userId, eventId });
 
 	}

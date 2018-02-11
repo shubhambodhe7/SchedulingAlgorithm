@@ -53,10 +53,10 @@ public class MainDBNew {
 				Event e = i.next();
 
 				System.out.println("Event Name : " + e.getEventName());
-				while (!e.schedulingCmplt() && e.getMaxPlayers() != 1) {
+				while (!e.schedulingCmplt() &&  e.getSeed() == 0) {
 					ListIterator<Team> itr = e.getTeams().listIterator();
 
-					// int index = 0;
+					
 					List<Team> selectedTeams = new ArrayList<Team>();
 					while (itr.hasNext()) {
 						boolean conflict = false;
@@ -96,8 +96,8 @@ public class MainDBNew {
 								&& null != selectedTeams.get(e.getTeamsInOneMatch() - 1)) {
 							System.out.println(selectedTeams);
 
-							saveGames(selectedTeams, e.getEventId(), new Timestamp(System.currentTimeMillis()),
-									new Timestamp(System.currentTimeMillis() + 60 * 60 * 1000), schedule_index);
+							saveGames(selectedTeams, e.getEventId(), getSchedule(e, false),
+									new Timestamp(getSchedule(e, false).getTime() + 1000 * 60 * 60), schedule_index);
 
 							for (Team team : selectedTeams) {
 								team.setScheduled(true);
@@ -139,7 +139,8 @@ public class MainDBNew {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("UPDATE team SET scheduled=false ");
+			stmt = c.prepareStatement("UPDATE team SET scheduled=false where 1 ");
+			stmt.executeUpdate();
 
 			stmt.close();
 			c.close();
@@ -226,11 +227,11 @@ public class MainDBNew {
 
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT event_id, event_name, gender,  details, max_participate,  teams_in_one_match, eventhead FROM event");
+					"SELECT event_id, event_name, gender,  details, max_participate,  teams_in_one_match, eventhead,seed FROM event");
 			while (rs.next()) {
 
 				Event e = new Event(rs.getInt(1), rs.getString(2), rs.getString(3), 0, rs.getString(4), rs.getInt(5), 0,
-						rs.getInt(6), rs.getString(7));
+						rs.getInt(6), rs.getString(7),rs.getInt(8));
 				// System.out.println(e);
 				sportList.add(e);
 			}
@@ -252,7 +253,7 @@ public class MainDBNew {
 
 	public static List<Team> getTeams(Event event) {
 
-		System.out.println("MainDB | getTeams start");
+		// System.out.println("MainDB | getTeams start");
 		Connection c = null;
 		PreparedStatement stmt = null;
 		List<Team> teamList = new ArrayList<>();
@@ -278,12 +279,12 @@ public class MainDBNew {
 			e.printStackTrace();
 
 		}
-		System.out.println("MainDB | getTeams ends");
+		// System.out.println("MainDB | getTeams ends");
 		return teamList;
 	}
 
 	public static List<Player> getPlayers(Team t) {
-		System.out.println("MainDB | getPlayers start");
+		// System.out.println("MainDB | getPlayers start");
 
 		Connection c = null;
 		PreparedStatement stmt = null;
@@ -308,7 +309,7 @@ public class MainDBNew {
 
 		}
 
-		System.out.println("MainDB | getPlayers ends");
+		// System.out.println("MainDB | getPlayers ends");
 		return playerList;
 	}
 
@@ -357,9 +358,10 @@ public class MainDBNew {
 
 			}
 
-			stmt = c.prepareStatement("INSERT INTO schedule(schedule_id, game_id)   VALUES (?, ?)");
+			stmt = c.prepareStatement("INSERT INTO schedule(schedule_id, game_id,seed)   VALUES (?, ?,?)");
 			stmt.setLong(1, schedule_index);
 			stmt.setInt(2, gameId);
+			stmt.setInt(3, seed);
 
 			stmt.executeUpdate();
 

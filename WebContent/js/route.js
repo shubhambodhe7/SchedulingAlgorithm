@@ -175,6 +175,19 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 				}
 			}
 		}
+	}).when("/viewSchedule", {
+		templateUrl : "partials/viewSchedule.html",
+		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfUser()) {
+					$location.path('/login');
+				}
+			}
+		}
 	})
 
 	.when(
