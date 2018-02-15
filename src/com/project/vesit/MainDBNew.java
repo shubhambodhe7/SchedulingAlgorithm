@@ -29,6 +29,7 @@ public class MainDBNew {
 	static int slot = 0;
 	static Timestamp startTime = new Timestamp(
 			new DateTime().toDateMidnight().toDateTime().plusDays(1).plusHours(15).getMillis());
+	static String round = "registered";
 
 	public static void main(String areg[]) {
 		/*----- */
@@ -51,14 +52,24 @@ public class MainDBNew {
 
 			while (i.hasNext()) {
 				Event e = i.next();
+				resetStartTime();
 
 				System.out.println("Event Name : " + e.getEventName());
-				while (!e.schedulingCmplt() &&  e.getSeed() == 0) {
+				int numConflicts = 0;
+				while (!e.schedulingCmplt() && remainingTeams(e, round) >= e.getTeamsInOneMatch()) {
+					seed = e.getSeed();
 					ListIterator<Team> itr = e.getTeams().listIterator();
 
-					
 					List<Team> selectedTeams = new ArrayList<Team>();
+
 					while (itr.hasNext()) {
+						if (remainingTeams(e, round) < e.getTeamsInOneMatch()) {
+							break;
+						}
+
+						if (numConflicts > (remainingTeams(e, round) - e.getTeamsInOneMatch() - 1)) {
+							getSchedule(e, true);
+						}
 						boolean conflict = false;
 						Team t = itr.next();
 						System.out.println("Team Name : " + t.getTeamName());
@@ -76,6 +87,8 @@ public class MainDBNew {
 
 							int n = rand.nextInt(5) + 1;
 							if (conflict) {
+								numConflicts++;
+								System.out.println("conflict : " + numConflicts);
 								break;
 							}
 							/*
@@ -109,6 +122,9 @@ public class MainDBNew {
 						}
 
 					}
+					if (remainingTeams(e, round) < e.getTeamsInOneMatch()) {
+						break;
+					}
 
 					// System.out.println(e.getSportName());
 
@@ -127,6 +143,39 @@ public class MainDBNew {
 		}
 
 		// getScheduleCost();
+
+	}
+
+	public static void resetStartTime() {
+		startTime = new Timestamp(new DateTime().toDateMidnight().toDateTime().plusDays(1).plusHours(15).getMillis());
+
+	}
+
+	static int remainingTeams(Event e, String round) {
+		Connection c = null;
+		PreparedStatement stmt = null;
+		int remainingTeams = 0;
+		try {
+			c = getConnection();
+			stmt = c.prepareStatement(
+					"SELECT count(1) from team t  where t.scheduled = false and t.event_id = ? and round = ?");
+			stmt.setDouble(1, e.getEventId());
+			stmt.setString(2, round);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				remainingTeams = rs.getInt(1);
+				break;
+			}
+
+			stmt.close();
+			rs.close();
+			c.close();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+
+		}
+		return remainingTeams;
 
 	}
 
@@ -199,7 +248,11 @@ public class MainDBNew {
 		e.setCurrentTime(startTime);
 		if (update) {
 			if (0 == getMainEventParallelMatches(e.getMainEventId())) {
-				startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60);
+				if (17 == startTime.getHours()) {
+					startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60 * 22);
+				} else {
+					startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60);
+				}
 				resetMainEventParallelMatches(e.getMainEventId());
 				e.setCounter(e.getCounter() + 1);
 			}
@@ -231,7 +284,7 @@ public class MainDBNew {
 			while (rs.next()) {
 
 				Event e = new Event(rs.getInt(1), rs.getString(2), rs.getString(3), 0, rs.getString(4), rs.getInt(5), 0,
-						rs.getInt(6), rs.getString(7),rs.getInt(8));
+						rs.getInt(6), rs.getString(7), rs.getInt(8));
 				// System.out.println(e);
 				sportList.add(e);
 			}
@@ -239,7 +292,7 @@ public class MainDBNew {
 			stmt.close();
 			c.close();
 			for (Event e : sportList) {
-				e.setTeams(getTeams(e));
+				e.setTeams(getTeams(e, round));
 			}
 
 		} catch (Exception e) {
@@ -251,7 +304,7 @@ public class MainDBNew {
 		return sportList;
 	}
 
-	public static List<Team> getTeams(Event event) {
+	public static List<Team> getTeams(Event event, String round) {
 
 		// System.out.println("MainDB | getTeams start");
 		Connection c = null;
@@ -260,11 +313,14 @@ public class MainDBNew {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("SELECT * FROM team t where t.event_id = ?");
+			stmt = c.prepareStatement(
+					"SELECT `team_id`, `team_name`, `classroom`, `scheduled`, `event_id`, `round`, `points` FROM `team` t where t.event_id = ? and t.round = ?");
 			stmt.setInt(1, event.getEventId());
+			stmt.setString(2, round);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				Team t = new Team(rs.getInt(1), rs.getString(2), rs.getBoolean(3), rs.getInt(4), 0);
+				Team t = new Team(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getInt(5),
+						rs.getString(6), rs.getInt(7));
 				// System.out.println(t);
 				teamList.add(t);
 			}

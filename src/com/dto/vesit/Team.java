@@ -10,6 +10,8 @@ public class Team {
 	private int eventId;
 	private int gameId;
 	private String classroom;
+	private String round;
+	private int points;
 
 	public Team() {
 		super();
@@ -78,6 +80,22 @@ public class Team {
 		this.classroom = classroom;
 	}
 
+	public String getRound() {
+		return round;
+	}
+
+	public void setRound(String round) {
+		this.round = round;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
 	public Team(int teamId, String teamName, boolean scheduled, int eventId, int gameId) {
 		super();
 		this.teamId = teamId;
@@ -85,6 +103,20 @@ public class Team {
 		this.scheduled = scheduled;
 		this.eventId = eventId;
 		this.gameId = gameId;
+		
+	}
+
+	public Team(int teamId, String teamName, String classroom, boolean scheduled, int eventId, 
+			String round,int points) {
+		super();
+		this.teamId = teamId;
+		this.teamName = teamName;
+		this.scheduled = scheduled;
+		this.eventId = eventId;
+		//this.gameId = gameId;
+		this.classroom = classroom;
+		this.round = round;
+		this.points = points;
 	}
 
 	@Override
