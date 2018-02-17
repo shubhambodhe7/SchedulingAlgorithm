@@ -1,30 +1,25 @@
 <div ng-controller="DatepickerCtrl">
-    <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
+	<h4>HOLIDAYS</h4>
 
-    <h4>Inline</h4>
-    <div style="display:inline-block; min-height:290px;">
-        <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
-    </div>
-<!-- 
-    <h4>Popup</h4>
-    <div class="row">
-        <div class="col-md-6">
-            <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <label>Format:</label> <select class="form-control" ng-model="format" ng-options="f for f in formats"><option></option></select>
-        </div>
-    </div> -->
-
-    <hr />
-    <button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
-    <button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
-    <button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>
+	<div>
+		Occasion: <input type="text" ng-model="holiday.occasion">
+		Select Date: <input type="date" ng-model="holiday.dt" min-date="minDate"
+			show-weeks="true" class="" />
+	</div>
+	<div><button type="button" class=""
+		ng-click="addPublicHoliday(holiday)">Submit</button></div>
+		
+		
+	<pre><table class="table table-striped table-responsive">
+    <tr>
+        <th>OCCASION</th><th>DAY</th><th></th>
+    </tr>
+    <tr ng-repeat="ph in publicHolidays">
+        <td>{{ph.occasion}}</td><td>{{ph.date}}</td>        
+        <td><button type="submit" ng-click="deleteHoliday(ph.rowId)">Delete</td>
+    </tr>
+</table>
+	</pre>
+	
+	
 </div>
