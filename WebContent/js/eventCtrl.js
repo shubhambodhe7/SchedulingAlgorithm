@@ -225,7 +225,6 @@ app
 															.open({
 																templateUrl : 'partials/teamRegister.html',
 																controller : 'teamCtrl',
-																windowClass : 'center-modal',
 																resolve : {
 																	checkIfTeamAlreadyRegistered : function() {
 

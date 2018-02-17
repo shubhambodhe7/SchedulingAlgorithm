@@ -19,7 +19,7 @@
 
 
 						<div class="form-bottom">
-							<form role="form" class="registration-form" name="teamRegForm">
+							<form role="form" class="registration-form" name="teamRegForm" style="width: 468px;">
 								
 								<div class="form-group">
 									<label class="sr-only" for="form-first-name"></label> Event
@@ -36,7 +36,7 @@
 
 								<div class="form-group">
 									<multiselect class="input-xlarge multiselect"
-										ng-model="data.option"
+										ng-model="data.selectedPlayers"
 										options="p.key as p.value for p in options"
 										select-limit="{{maxPlayers}}" header="--Select Participants--"
 										selected-header="participants selected" multiple="true"
@@ -50,7 +50,7 @@
 								<div class="form-group">
 									Selected Participants :
 									<ul>
-										<li ng-repeat="x in data.option">{{x.value}}</li>
+										<li ng-repeat="x in data.selectedPlayers">{{x.value}}</li>
 									</ul>
 								</div>
 

@@ -13,7 +13,7 @@ app
 					$scope.dept;
 					$scope.classroom;
 					$scope.options = [];
-					$scope.selectedPlayers = [];
+					
 
 					getEligiblePlayers($sessionStorage.userId);
 
@@ -52,12 +52,12 @@ app
 
 						$scope.data = data;
 
-						console.log("data" + $scope.data.option[0]);
+						console.log("data" + $scope.data.selectedPlayers[0].key);
 						var temp = [];
-						for (var i = 0; i < $scope.data.option.length; i++) { //
+						for (var i = 0; i < $scope.data.selectedPlayers.length; i++) { //
 							temp.push({
-								playerId : $scope.options[i].key,
-								playerName : $scope.options[i].value
+								playerId : $scope.data.selectedPlayers[i].key,
+								playerName : $scope.data.selectedPlayers[i].value
 
 							});
 						}
