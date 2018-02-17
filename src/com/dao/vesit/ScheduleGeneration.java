@@ -1,4 +1,4 @@
-package com.project.vesit;
+package com.dao.vesit;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,20 +20,23 @@ import org.joda.time.DateTime;
 import com.dto.vesit.Event;
 import com.dto.vesit.Game;
 import com.dto.vesit.Player;
+import com.dto.vesit.PublicHoliday;
 import com.dto.vesit.Team;
 
-public class MainDBNew {
-
+public class ScheduleGeneration {
+	// hange resetdate
 	public static final int NO_OF_ITERATION = 1;
 	static int seed = 0;
 	static int slot = 0;
 	static Timestamp startTime = new Timestamp(
 			new DateTime().toDateMidnight().toDateTime().plusDays(1).plusHours(15).getMillis());
 	static String round = "registered";
+	static List<PublicHoliday> holidays = new ArrayList<>();
 
-	public static void runMain(String areg[]) {
+	public static void runMain(String date, String round) {
 		/*----- */
-
+		// startTime = new TimeStamp()
+		System.out.println(date);
 		clearDB();
 
 		int loop = 0;
@@ -52,7 +55,7 @@ public class MainDBNew {
 
 			while (i.hasNext()) {
 				Event e = i.next();
-				resetStartTime();
+				resetStartTime(date);
 
 				System.out.println("Event Name : " + e.getEventName());
 				int numConflicts = 0;
@@ -146,7 +149,8 @@ public class MainDBNew {
 
 	}
 
-	public static void resetStartTime() {
+	public static void resetStartTime(String date) {
+
 		startTime = new Timestamp(new DateTime().toDateMidnight().toDateTime().plusDays(1).plusHours(15).getMillis());
 
 	}
@@ -271,7 +275,9 @@ public class MainDBNew {
 	}
 
 	private static boolean isPublicHoliday(Timestamp startTime2) {
-
+		for (PublicHoliday h : holidays) {
+//if(h.getDate())
+		}
 		return false;
 	}
 

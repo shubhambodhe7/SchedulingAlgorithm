@@ -165,5 +165,9 @@ public class EventService {
 		// TODO Auto-generated method stub
 		return ed.deletePublicHoliday(rowId);
 	}
+	public int generateSchedule(String date,String round) {
+		// TODO Auto-generated method stub
+		return ed.generateSchedule(date,round);
+	}
 
 }

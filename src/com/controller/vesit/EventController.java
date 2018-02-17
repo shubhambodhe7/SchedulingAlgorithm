@@ -177,5 +177,10 @@ public class EventController {
 	public @ResponseBody int deletePublicHoliday(@PathVariable int rowId) throws NoSuchAlgorithmException {
 		return es.deletePublicHoliday(rowId);
 	}
+	
+	@RequestMapping(value = "/generateSchedule/{date:.+}/{round:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody int generateSchedule(@PathVariable String date,@PathVariable String round) throws NoSuchAlgorithmException {
+		return es.generateSchedule(date,round);
+	}
 
 }

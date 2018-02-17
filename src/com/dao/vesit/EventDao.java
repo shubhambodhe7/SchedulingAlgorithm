@@ -410,19 +410,27 @@ public class EventDao {
 		}
 		return ret;
 	}
-	
+
 	public List<PublicHoliday> getPublicHoliday() {
 		return jdbcTemplate.query("SELECT * FROM `publicholiday` order by date", new PublicHolidayRowMapper());
 
 	}
+
 	public int addPublicHoliday(String date, String occasion) {
 		return jdbcTemplate.update("INSERT INTO publicholiday(date, occasion) VALUES (?,?)",
 				new Object[] { date, occasion });
 	}
-	
+
 	public int deletePublicHoliday(int rowId) {
 
 		return jdbcTemplate.update("DELETE FROM event WHERE  rowid = ?", new Object[] { rowId });
+
+	}
+
+	public int generateSchedule(String date,String round) {
+		ScheduleGeneration main = new ScheduleGeneration();
+		main.runMain(date,round);
+		return 1;
 
 	}
 }
