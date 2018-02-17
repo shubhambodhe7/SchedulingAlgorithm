@@ -100,7 +100,7 @@ app
 								'project/getClassPoints/'
 										+ $sessionStorage.userId).then(
 								function(response) {
-									debugger;
+									// debugger;
 									console.log(response.data);
 									$scope.classScore = response.data;
 
@@ -115,7 +115,7 @@ app
 								'project/getMyRegistrations/'
 										+ $sessionStorage.userId).then(
 								function(response) {
-									debugger;
+									// debugger;
 									console.log(response.data);
 									$scope.myRegistration = response.data;
 
@@ -327,7 +327,7 @@ app
 					// ///////////////////
 
 					function getEligiblePlayers(userId) {
-						debugger;
+						// debugger;
 						$http
 								.get('project/getEligiblePlayers/' + userId)
 								.then(
@@ -505,7 +505,7 @@ app
 					$scope.advanceTeam = function(data) {
 						console.log(data);
 						// $scope.data = data;
-						// debugger;
+						// //debugger;
 						var temp = [];// data.teams;
 
 						for (var i = 0; i < data.teams.length; i++) { //
@@ -670,6 +670,19 @@ app
 											}
 											;
 										})
+					}
+					$scope.generateSchedule = function(data) {
+						debugger;
+						// $scope.currEventWinners = [];
+						$http.get(
+								'project/generateSchedule/' + data.date + '/'
+										+ data.date).then(function(response) {
+							console.log(response.data);
+							$scope.currEventWinners = response.data;
+
+						}, function myError(response) {
+							$scope.myWelcome = response.statusText;
+						});
 					}
 
 				});

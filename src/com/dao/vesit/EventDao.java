@@ -1,7 +1,9 @@
 package com.dao.vesit;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -427,9 +429,8 @@ public class EventDao {
 
 	}
 
-	public int generateSchedule(String date,String round) {
-		ScheduleGeneration main = new ScheduleGeneration();
-		main.runMain(date,round);
+	public int generateSchedule(String date, String round) {
+		ScheduleGeneration.runMain(new Timestamp(new Date(date).getTime()), round);
 		return 1;
 
 	}

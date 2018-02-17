@@ -172,15 +172,19 @@ public class EventController {
 			throws NoSuchAlgorithmException {
 		return es.addPublicHoliday(date, occasion);
 	}
-	
+
 	@RequestMapping(value = "/deletePublicHoliday/{rowId}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody int deletePublicHoliday(@PathVariable int rowId) throws NoSuchAlgorithmException {
 		return es.deletePublicHoliday(rowId);
 	}
-	
+
 	@RequestMapping(value = "/generateSchedule/{date:.+}/{round:.+}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody int generateSchedule(@PathVariable String date,@PathVariable String round) throws NoSuchAlgorithmException {
-		return es.generateSchedule(date,round);
+	public @ResponseBody int generateSchedule(@PathVariable String date, @PathVariable String round)
+			throws NoSuchAlgorithmException {
+		System.out.println(date);
+		System.out.println(round);
+
+		return es.generateSchedule(date, round);
 	}
 
 }

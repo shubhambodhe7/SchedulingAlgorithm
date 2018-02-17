@@ -5,9 +5,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -19,24 +21,28 @@ import org.joda.time.DateTime;
 
 import com.dto.vesit.Event;
 import com.dto.vesit.Game;
+import com.dto.vesit.MainEvent;
 import com.dto.vesit.Player;
 import com.dto.vesit.PublicHoliday;
 import com.dto.vesit.Team;
 
 public class ScheduleGeneration {
-	// hange resetdate
+	// change public holiday
 	public static final int NO_OF_ITERATION = 1;
 	static int seed = 0;
 	static int slot = 0;
 	static Timestamp startTime = new Timestamp(
 			new DateTime().toDateMidnight().toDateTime().plusDays(1).plusHours(15).getMillis());
 	static String round = "registered";
-	static List<PublicHoliday> holidays = new ArrayList<>();
+	static List<PublicHoliday> holidays = getPublicHolidays();
 
-	public static void runMain(String date, String round) {
-		/*----- */
-		// startTime = new TimeStamp()
-		System.out.println(date);
+	public static void main(String args[]) {
+		runMain(startTime, round);
+	}
+
+	public static void runMain(Timestamp date, String round) {
+		resetStartTime(date);
+		System.out.println("converted starttime : " + startTime);
 		clearDB();
 
 		int loop = 0;
@@ -149,9 +155,9 @@ public class ScheduleGeneration {
 
 	}
 
-	public static void resetStartTime(String date) {
+	public static void resetStartTime(Timestamp date) {
 
-		startTime = new Timestamp(new DateTime().toDateMidnight().toDateTime().plusDays(1).plusHours(15).getMillis());
+		startTime = new Timestamp(date.getTime() + 1000 * 60 * 60 * 15);
 
 	}
 
@@ -251,10 +257,13 @@ public class ScheduleGeneration {
 		System.out.println("MainDB | getSchedule starts");
 		e.setCurrentTime(startTime);
 		if (update) {
-			if (0 == getMainEventParallelMatches(e.getMainEventId())) {
-				if (17 == startTime.getHours()) {
+			if (0 == getMainEventParallelMatches(e, slot, startTime,
+					new Timestamp(startTime.getTime() + 1000 * 60 * 60))) {
+				if (17 == startTime.getHours()) {// evening 6pm advance to next
+													// day
 
 					startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60 * 22);
+					slot = 1;
 
 					while (0 == new Timestamp(startTime.getTime()).getDay() || isPublicHoliday(startTime)) {
 						startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60 * 24);
@@ -264,8 +273,9 @@ public class ScheduleGeneration {
 
 				} else {
 					startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60);
+					slot++;
 				}
-				resetMainEventParallelMatches(e.getMainEventId());
+				// resetMainEventParallelMatches(e.getMainEventId());
 				e.setCounter(e.getCounter() + 1);
 			}
 		}
@@ -274,9 +284,17 @@ public class ScheduleGeneration {
 
 	}
 
-	private static boolean isPublicHoliday(Timestamp startTime2) {
+	private static boolean isPublicHoliday(Timestamp st) {
 		for (PublicHoliday h : holidays) {
-//if(h.getDate())
+
+			Calendar cal1 = Calendar.getInstance();
+			Calendar cal2 = Calendar.getInstance();
+			cal1.setTime(st);
+			cal2.setTime(h.getDate());
+			if (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+					&& cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -562,18 +580,57 @@ public class ScheduleGeneration {
 		System.out.println("MainDB | clearDB ends");
 	}
 
-	static int getMainEventParallelMatches(double mainEventId) {
+	static int getMainEventParallelMatches(Event e, int slot, Timestamp st, Timestamp et) {
 		System.out.println("MainDB | getMainEventParallelMatches start");
 		int parallelMatches = 0;
 		Connection c = null;
 		PreparedStatement stmt = null;
+		boolean add = false;
 
 		try {
 			c = getConnection();
-			stmt = c.prepareStatement("SELECT  temp_counter FROM mainevent WHERE main_event_id = ?  and slot =?");
-			stmt.setDouble(1, mainEventId);
+			stmt = c.prepareStatement(
+					"SELECT count(1) FROM mainevent WHERE main_event_id = ? and slot = ? and start_ts = ? and end_ts= ?");
+			stmt.setDouble(1, e.getMainEventId());
 			stmt.setInt(2, slot);
+			stmt.setTimestamp(3, st);
+			stmt.setTimestamp(4, et);
 			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				if (rs.getInt(1) == 0) {
+					add = true;
+					System.out.println("Add : " + add);
+					break;
+				}
+
+			}
+			if (add) {
+				MainEvent me = null;
+				stmt = c.prepareStatement(
+						"SELECT `main_event_name`, `main_event_parallel_matches` FROM `mainevent` where `main_event_id` = ? ");
+				stmt.setDouble(1, e.getMainEventId());
+				rs = stmt.executeQuery();
+				while (rs.next()) {
+					me = new MainEvent(e.getMainEventId(), rs.getString(1), rs.getInt(2));
+					break;
+
+				}
+				stmt = c.prepareStatement(
+						"INSERT INTO `mainevent`(`main_event_id`,`main_event_name`, `main_event_parallel_matches`,`temp_counter`,`slot`,`start_ts`,`end_ts`) VALUES (?,?,?,?,?,?,?)");
+				stmt.setDouble(1, e.getMainEventId());
+				stmt.setString(2, me.getMainEventName());
+				stmt.setInt(3, me.getMainEventParallelMatches());
+				stmt.setInt(4, me.getMainEventParallelMatches());
+				stmt.setInt(5, slot);
+				stmt.setTimestamp(6, st);
+				stmt.setTimestamp(7, st);
+				stmt.executeUpdate();
+			}
+			stmt = c.prepareStatement(
+					"SELECT  temp_counter FROM mainevent WHERE main_event_id = ?  and slot =? and start_ts = ? and end_ts= ?");
+			stmt.setDouble(1, e.getMainEventId());
+			stmt.setInt(2, slot);
+			rs = stmt.executeQuery();
 			while (rs.next()) {
 				parallelMatches = rs.getInt(1);
 				break;
@@ -581,7 +638,7 @@ public class ScheduleGeneration {
 
 			stmt = c.prepareStatement(
 					"UPDATE mainevent SET temp_counter=temp_counter -1 WHERE main_event_id = ? and slot =?");
-			stmt.setDouble(1, mainEventId);
+			stmt.setDouble(1, e.getMainEventId());
 			stmt.setInt(2, slot);
 			stmt.executeUpdate();
 
@@ -589,36 +646,55 @@ public class ScheduleGeneration {
 			rs.close();
 			c.close();
 
-		} catch (
-
-		Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 
 		}
 		System.out.println("MainDB | getMainEventParallelMatches ends");
 		return parallelMatches;
 	}
 
-	static void resetMainEventParallelMatches(double mainEventId) {
+	/*
+	 * static void resetMainEventParallelMatches(double mainEventId) {
+	 * Connection c = null; PreparedStatement stmt = null;
+	 * 
+	 * try { c = getConnection();
+	 * 
+	 * stmt = c.prepareStatement(
+	 * "UPDATE mainevent SET temp_counter=main_event_parallel_matches WHERE main_event_id = ? and slot =?"
+	 * ); stmt.setDouble(1, mainEventId); stmt.setInt(2, slot);
+	 * stmt.executeUpdate();
+	 * 
+	 * stmt.close(); c.close();
+	 * 
+	 * } catch (Exception e) { e.printStackTrace();
+	 * 
+	 * } }
+	 */
+	public static List<PublicHoliday> getPublicHolidays() {
+
 		Connection c = null;
 		PreparedStatement stmt = null;
-
+		List<PublicHoliday> list = new ArrayList<>();
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement(
-					"UPDATE mainevent SET temp_counter=main_event_parallel_matches WHERE main_event_id = ? and slot =?");
-			stmt.setDouble(1, mainEventId);
-			stmt.setInt(2, slot);
-			stmt.executeUpdate();
-
+			stmt = c.prepareStatement("SELECT * FROM `publicholiday` order by date");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				PublicHoliday h = new PublicHoliday(rs.getInt(1), rs.getTimestamp(2), rs.getString(3));
+				list.add(h);
+			}
+			rs.close();
 			stmt.close();
 			c.close();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
-	}
+		System.out.println(list);
 
+		// System.out.println("MainDB | getPlayers ends");
+		return list;
+	}
 }

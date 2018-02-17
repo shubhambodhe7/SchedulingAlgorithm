@@ -43,4 +43,9 @@ public class PublicHoliday {
 		this.occasion = occasion;
 	}
 
+	@Override
+	public String toString() {
+		return "\nPublicHoliday [rowId=" + rowId + ", date=" + date + ", occasion=" + occasion + "]";
+	}
+
 }

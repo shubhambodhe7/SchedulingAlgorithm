@@ -1,6 +1,6 @@
 var app = angular.module("app", [ "ngRoute", "ngStorage", 'ui.bootstrap',
 		'ngSanitize', 'ngAnimate', 'long2know', 'ui.bootstrap', 'ui.router',
-		'ui', 'ngMessages', 'ngCookies','ui.bootstrap.datetimepicker' ]);
+		'ui', 'ngMessages', 'ngCookies', 'ui.bootstrap.datetimepicker' ]);
 /*
  * window.onbeforeunload = function() {
  * localStorage.removeItem("_f7c2e09ca07304e85f9563435e6ca31534ee2ca1");
@@ -162,7 +162,9 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 				}
 			}
 		}
-	}).when("/changePassword", {
+	})
+
+	.when("/changePassword", {
 		templateUrl : "partials/changePassword.html",
 		resolve : {
 			sessionActive : function(accessFac) {
@@ -175,7 +177,22 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 				}
 			}
 		}
-	}).when("/datePicker", {
+	}).when("/generateSchedule", {
+		templateUrl : "partials/generateSchedule.html",
+		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfUser()) {
+					$location.path('/login');
+				}
+			}
+		}
+	}).
+
+	when("/datePicker", {
 		templateUrl : "partials/date.html",
 		resolve : {
 			sessionActive : function(accessFac) {
@@ -188,7 +205,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 				}
 			}
 		}
-	
+
 	}).when("/viewSchedule", {
 		templateUrl : "partials/viewSchedule.html",
 		resolve : {
