@@ -19,9 +19,9 @@ public class PublicHolidayRowMapper implements RowMapper<PublicHoliday> {
 	public PublicHoliday mapRow(ResultSet rs, int rowSeq) throws SQLException {
 		// TODO Auto-generated method stub
 		PublicHoliday h = new PublicHoliday();
-		h.setRowId(rs.getInt(0));
-		h.setDate(rs.getTimestamp(0));
-		h.setOccasion(rs.getString(2));
+		h.setRowId(rs.getInt(1));
+		h.setDate(rs.getTimestamp(2));
+		h.setOccasion(rs.getString(3));
 		return h;
 	}
 
