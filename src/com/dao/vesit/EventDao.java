@@ -420,7 +420,7 @@ public class EventDao {
 
 	public int addPublicHoliday(String date, String occasion) {
 		return jdbcTemplate.update("INSERT INTO publicholiday(date, occasion) VALUES (?,?)",
-				new Object[] { date, occasion });
+				new Object[] { new Timestamp(new Date(date).getTime()), occasion });
 	}
 
 	public int deletePublicHoliday(int rowId) {
