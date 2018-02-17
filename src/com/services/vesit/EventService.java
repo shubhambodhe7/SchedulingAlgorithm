@@ -13,9 +13,11 @@ import com.dto.vesit.EventWinner;
 import com.dto.vesit.Login;
 import com.dto.vesit.MainEvent;
 import com.dto.vesit.Player;
+import com.dto.vesit.PublicHoliday;
 import com.dto.vesit.Schedule;
 import com.dto.vesit.Team;
 import com.google.gson.Gson;
+import com.mapper.vesit.PublicHolidayRowMapper;
 
 @Service
 public class EventService {
@@ -147,6 +149,21 @@ public class EventService {
 
 	public int deleteEvent(int eventId) {
 		return ed.deleteEvent(eventId);
+	}
+
+	public List<PublicHoliday> getPublicHoliday() {
+		return ed.getPublicHoliday();
+
+	}
+
+	public int addPublicHoliday(String date, String occasion) {
+		// TODO Auto-generated method stub
+		return ed.addPublicHoliday(date, occasion);
+	}
+
+	public int deletePublicHoliday(int rowId) {
+		// TODO Auto-generated method stub
+		return ed.deletePublicHoliday(rowId);
 	}
 
 }

@@ -14,12 +14,14 @@ import com.dto.vesit.EventWinner;
 import com.dto.vesit.Login;
 import com.dto.vesit.MainEvent;
 import com.dto.vesit.Player;
+import com.dto.vesit.PublicHoliday;
 import com.dto.vesit.Schedule;
 import com.dto.vesit.Team;
 import com.mapper.vesit.EventRowMapper;
 import com.mapper.vesit.EventWinnerRowMapper;
 import com.mapper.vesit.LoginRowMapper;
 import com.mapper.vesit.MainEventRowMapper;
+import com.mapper.vesit.PublicHolidayRowMapper;
 import com.mapper.vesit.ScheduleRowMapper;
 
 @Repository
@@ -408,9 +410,19 @@ public class EventDao {
 		}
 		return ret;
 	}
-	// select * from schedule s,event e, game g, gameteammapping gt, team t
-	// where s.game_id = g.game_id and g.event_id = e.event_id and g.game_id =
-	// gt.game_id and gt.team_id = t.team_id
-	// select event_name, team_name,classroom,round,points from event e, team t
-	// where t.event_id = e.event_id order by points desc
+	
+	public List<PublicHoliday> getPublicHoliday() {
+		return jdbcTemplate.query("SELECT * FROM `publicholiday` order by date", new PublicHolidayRowMapper());
+
+	}
+	public int addPublicHoliday(String date, String occasion) {
+		return jdbcTemplate.update("INSERT INTO publicholiday(date, occasion) VALUES (?,?)",
+				new Object[] { date, occasion });
+	}
+	
+	public int deletePublicHoliday(int rowId) {
+
+		return jdbcTemplate.update("DELETE FROM event WHERE  rowid = ?", new Object[] { rowId });
+
+	}
 }

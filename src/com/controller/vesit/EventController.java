@@ -22,7 +22,9 @@ import com.dto.vesit.Login;
 import com.dto.vesit.MainEvent;
 import com.dto.vesit.Team;
 import com.google.gson.Gson;
+import com.mapper.vesit.PublicHolidayRowMapper;
 import com.dto.vesit.Player;
+import com.dto.vesit.PublicHoliday;
 import com.dto.vesit.Schedule;
 import com.services.vesit.EventService;
 
@@ -157,4 +159,23 @@ public class EventController {
 	public @ResponseBody int deleteEvent(@PathVariable int eventId) throws NoSuchAlgorithmException {
 		return es.deleteEvent(eventId);
 	}
+
+	@RequestMapping(value = "/getPublicHoliday", method = RequestMethod.GET, produces = "application/json")
+
+	public @ResponseBody List<PublicHoliday> getPublicHoliday() {
+		return es.getPublicHoliday();
+
+	}
+
+	@RequestMapping(value = "/addPublicHoliday/{date:.+}/{occasion:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody int addPublicHoliday(@PathVariable String date, @PathVariable String occasion)
+			throws NoSuchAlgorithmException {
+		return es.addPublicHoliday(date, occasion);
+	}
+	
+	@RequestMapping(value = "/deletePublicHoliday/{rowId}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody int deletePublicHoliday(@PathVariable int rowId) throws NoSuchAlgorithmException {
+		return es.deletePublicHoliday(rowId);
+	}
+
 }
