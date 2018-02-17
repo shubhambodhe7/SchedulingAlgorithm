@@ -103,17 +103,17 @@ public class Team {
 		this.scheduled = scheduled;
 		this.eventId = eventId;
 		this.gameId = gameId;
-		
+
 	}
 
-	public Team(int teamId, String teamName, String classroom, boolean scheduled, int eventId, 
-			String round,int points) {
+	public Team(int teamId, String teamName, String classroom, boolean scheduled, int eventId, String round,
+			int points) {
 		super();
 		this.teamId = teamId;
 		this.teamName = teamName;
 		this.scheduled = scheduled;
 		this.eventId = eventId;
-		//this.gameId = gameId;
+		// this.gameId = gameId;
 		this.classroom = classroom;
 		this.round = round;
 		this.points = points;
@@ -121,7 +121,7 @@ public class Team {
 
 	@Override
 	public String toString() {
-		return "Team [" + teamId + " : " + teamName + "]";
+		return "Team [" + teamId + " : " + teamName + " : " + scheduled + "]";
 	}
 
 }

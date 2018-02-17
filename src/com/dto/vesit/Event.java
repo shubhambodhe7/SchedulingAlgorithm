@@ -26,7 +26,7 @@ public class Event {
 	private int seed;
 
 	public Event(int eventId, String eventName, String gender, int parallelMatches, String details, int maxPlayers,
-			int maxTeams, int teamsInOneMatch, String eventHead, int seed) {
+			int maxTeams, int teamsInOneMatch, String eventHead, int seed, double mainEventId) {
 		super();
 		this.eventId = eventId;
 		this.eventName = eventName;
@@ -38,6 +38,7 @@ public class Event {
 		this.eventHead = eventHead;
 		this.teamsInOneMatch = teamsInOneMatch;
 		this.seed = seed;
+		this.mainEventId = mainEventId;
 	}
 
 	public Event(int eventId, String eventName, List<Team> teams, String gender, int parallelMatches, String details,

@@ -40,20 +40,23 @@ public class ScheduleGeneration {
 		runMain(startTime, round);
 	}
 
-	public static void runMain(Timestamp date, String round) {
+	public static int runMain(Timestamp date, String round) {
+		System.out.println("::::::::::::::::::::START:::::::::::::::::::::::");
 		resetStartTime(date);
+		round = "registered";
 		System.out.println("converted starttime : " + startTime);
 		clearDB();
 
 		int loop = 0;
 		while (loop < NO_OF_ITERATION) {
 			++loop;
+			resetTeamScheduleFlag();
+
 			List<Event> events = getAllEvents();
 			System.out.println("::::::::::::::::" + events);
 
 			System.out.println("loop  : " + loop);
 			long schedule_index = System.currentTimeMillis();
-			resetTeamScheduleFlag();
 
 			Collections.shuffle(events);
 
@@ -62,6 +65,7 @@ public class ScheduleGeneration {
 			while (i.hasNext()) {
 				Event e = i.next();
 				resetStartTime(date);
+				resetTeamScheduleFlag();
 
 				System.out.println("Event Name : " + e.getEventName());
 				int numConflicts = 0;
@@ -76,11 +80,15 @@ public class ScheduleGeneration {
 							break;
 						}
 
-						if (numConflicts > (remainingTeams(e, round) - e.getTeamsInOneMatch() - 1)) {
+						if (numConflicts > (remainingTeams(e, round) - e.getTeamsInOneMatch())) {
 							getSchedule(e, true);
 						}
 						boolean conflict = false;
 						Team t = itr.next();
+
+						if (selectedTeams.contains(t)) {
+							continue;
+						}
 						System.out.println("Team Name : " + t.getTeamName());
 						Iterator<Player> playItr = t.getPlayers().iterator();
 
@@ -152,12 +160,39 @@ public class ScheduleGeneration {
 		}
 
 		// getScheduleCost();
+		System.out.println("::::::::::::::::::::END:::::::::::::::::::::::");
+		return scheduleTableSize();
 
 	}
 
 	public static void resetStartTime(Timestamp date) {
 
 		startTime = new Timestamp(date.getTime() + 1000 * 60 * 60 * 15);
+
+	}
+
+	static int scheduleTableSize() {
+		Connection c = null;
+		PreparedStatement stmt = null;
+		int scheduleTableSize = 0;
+		try {
+			c = getConnection();
+			stmt = c.prepareStatement("SELECT count(1) from schedule ");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				scheduleTableSize = rs.getInt(1);
+				break;
+			}
+
+			stmt.close();
+			rs.close();
+			c.close();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+
+		}
+		return scheduleTableSize;
 
 	}
 
@@ -198,7 +233,7 @@ public class ScheduleGeneration {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("UPDATE team SET scheduled=false where 1 ");
+			stmt = c.prepareStatement("UPDATE team SET scheduled=false");
 			stmt.executeUpdate();
 
 			stmt.close();
@@ -254,7 +289,7 @@ public class ScheduleGeneration {
 
 	public static Timestamp getSchedule(Event e, boolean update) {
 
-		System.out.println("MainDB | getSchedule starts");
+		// System.out.println("MainDB | getSchedule starts");
 		e.setCurrentTime(startTime);
 		if (update) {
 			if (0 == getMainEventParallelMatches(e, slot, startTime,
@@ -279,7 +314,7 @@ public class ScheduleGeneration {
 				e.setCounter(e.getCounter() + 1);
 			}
 		}
-		System.out.println("MainDB | getSchedule ends");
+		// System.out.println("MainDB | getSchedule ends");
 		return e.getCurrentTime();
 
 	}
@@ -317,11 +352,11 @@ public class ScheduleGeneration {
 
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery(
-					"SELECT event_id, event_name, gender,  details, max_participate,  teams_in_one_match, eventhead,seed FROM event");
+					"SELECT event_id, event_name, gender,  details, max_participate,  teams_in_one_match, eventhead,seed,main_event_id FROM event");
 			while (rs.next()) {
 
 				Event e = new Event(rs.getInt(1), rs.getString(2), rs.getString(3), 0, rs.getString(4), rs.getInt(5), 0,
-						rs.getInt(6), rs.getString(7), rs.getInt(8));
+						rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getDouble(9));
 				// System.out.println(e);
 				sportList.add(e);
 			}
@@ -473,7 +508,7 @@ public class ScheduleGeneration {
 	}
 
 	public static boolean checkConflict(Player p, Timestamp st, Timestamp et) {
-		System.out.println("MainDB | checkConflict starts");
+		// System.out.println("MainDB | checkConflict starts");
 
 		Connection c = null;
 		PreparedStatement stmt = null; // List<Team>
@@ -502,7 +537,7 @@ public class ScheduleGeneration {
 
 		}
 
-		System.out.println("MainDB | checkConflict ends");
+		// System.out.println("MainDB | checkConflict ends");
 		return false;
 
 	}
@@ -630,6 +665,8 @@ public class ScheduleGeneration {
 					"SELECT  temp_counter FROM mainevent WHERE main_event_id = ?  and slot =? and start_ts = ? and end_ts= ?");
 			stmt.setDouble(1, e.getMainEventId());
 			stmt.setInt(2, slot);
+			stmt.setTimestamp(3, st);
+			stmt.setTimestamp(4, st);
 			rs = stmt.executeQuery();
 			while (rs.next()) {
 				parallelMatches = rs.getInt(1);
@@ -637,9 +674,11 @@ public class ScheduleGeneration {
 			}
 
 			stmt = c.prepareStatement(
-					"UPDATE mainevent SET temp_counter=temp_counter -1 WHERE main_event_id = ? and slot =?");
+					"UPDATE mainevent SET temp_counter=temp_counter -1 WHERE main_event_id = ? and slot =?  and start_ts = ? and end_ts= ?");
 			stmt.setDouble(1, e.getMainEventId());
 			stmt.setInt(2, slot);
+			stmt.setTimestamp(3, st);
+			stmt.setTimestamp(4, st);
 			stmt.executeUpdate();
 
 			stmt.close();

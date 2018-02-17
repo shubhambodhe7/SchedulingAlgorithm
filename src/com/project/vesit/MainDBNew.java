@@ -297,7 +297,7 @@ public class MainDBNew {
 			while (rs.next()) {
 
 				Event e = new Event(rs.getInt(1), rs.getString(2), rs.getString(3), 0, rs.getString(4), rs.getInt(5), 0,
-						rs.getInt(6), rs.getString(7), rs.getInt(8));
+						rs.getInt(6), rs.getString(7),rs.getInt(8), rs.getDouble(9));
 				// System.out.println(e);
 				sportList.add(e);
 			}

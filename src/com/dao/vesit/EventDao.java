@@ -419,19 +419,20 @@ public class EventDao {
 	}
 
 	public int addPublicHoliday(String date, String occasion) {
-		return jdbcTemplate.update("INSERT INTO publicholiday(date, occasion) VALUES (?,?)",
+		return jdbcTemplate.update("INSERT INTO publicholiday (date, occasion) VALUES (?,?)",
 				new Object[] { new Timestamp(new Date(date).getTime()), occasion });
 	}
 
 	public int deletePublicHoliday(int rowId) {
 
-		return jdbcTemplate.update("DELETE FROM event WHERE  rowid = ?", new Object[] { rowId });
+		return jdbcTemplate.update("DELETE FROM publicholiday WHERE  rowid = ?", new Object[] { rowId });
 
 	}
 
 	public int generateSchedule(String date, String round) {
-		ScheduleGeneration.runMain(new Timestamp(new Date(date).getTime()), round);
-		return 1;
+
+		return ScheduleGeneration.runMain(new Timestamp(new Date(date).getTime()), round);
+		
 
 	}
 }
