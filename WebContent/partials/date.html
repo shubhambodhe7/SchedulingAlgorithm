@@ -3,8 +3,8 @@
 
 	<div>
 		Occasion: <input type="text" ng-model="holiday.occasion">
-		Select Date: <input type="date" ng-model="holiday.dt" min-date="{{currDate | date:'yyyy-MM-dd'}}"
-			show-weeks="true" class="" />
+		Select Date: <input type="date" ng-model="holiday.dt" min="{{currDate | date:'yyyy-MM-dd'}}"
+			 class="" />
 	</div>
 	<div><button type="button" class=""
 		ng-click="addPublicHoliday(holiday)">Submit</button></div>
