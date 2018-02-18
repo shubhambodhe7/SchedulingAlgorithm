@@ -10,6 +10,21 @@ app
 						getEligibleEventHeads($scope.data.eventId);
 
 					});
+					
+					$scope.allRounds= [ 'Final Winner',
+										'Finalists',
+										'Semi Finalists',
+										'Quarter Finalists',
+										'Pre quarter finalists ',
+										'Participated',
+										'Seed Final Winner',
+										'Seed Finalists',
+										'Seed Semi Finalists',
+										'Seed Quarter Finalists',
+										'Seed Pre quarter finalists ',
+										'Seed Participated'];
+					
+					
 					$scope
 							.$watch(
 									'data.allEventId',
@@ -671,18 +686,31 @@ app
 											;
 										})
 					}
-					$scope.generateSchedule = function(data) {
+					$scope.generateSchedule = function(genSch) {
 						debugger;
 						// $scope.currEventWinners = [];
 						$http.get(
-								'project/generateSchedule/' + data.date + '/'
-										+ data.date).then(function(response) {
-							console.log(response.data);
-							$scope.currEventWinners = response.data;
+								'project/generateSchedule/' 
+								+ genSch.date + '/'
+								+ genSch.round)
+							  .then(
+								function(response) {
+									
+									console.log(response.data);
+									$scope.currEventWinners = response.data;
+									if (response.data > 0){
+										bootbox.alert("Schedule generated.");
+										getSchedule();
+											
+									} else if (response.data == 0){
+										bootbox.alert("Schedule generation failed!");
+									} else {
+										bootbox.alert("Error occured while generating schedule!")
+									}
 
-						}, function myError(response) {
-							$scope.myWelcome = response.statusText;
-						});
+								}, function myError(response) {
+									$scope.myWelcome = response.statusText;
+								});
 					}
 
 				});

@@ -2,6 +2,17 @@
 
 
 <div ng-controller="eventCtrl">
-	<input type="date" ng-model="data.date" />
-	<button ng-click="generateSchedule(data)">Generate</button>
+	
+	
+	<div>
+	Select Date: <input type="date" ng-model="genSch.date" />
+	
+	<div class="form-group">
+			Round:<multiselect class="input-xlarge multiselect" ng-model="genSch.round"
+				options="p as p for p in allRounds " header="Select Round"
+				multiple="false" required> </multiselect>
+		</div>
+		
+	</div>
+	<button ng-click="generateSchedule(genSch)">Generate</button>
 </div>
