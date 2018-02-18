@@ -3,7 +3,7 @@
 
 	<div>
 		Occasion: <input type="text" ng-model="holiday.occasion">
-		Select Date: <input type="date" ng-model="holiday.dt" min-date="minDate"
+		Select Date: <input type="date" ng-model="holiday.dt" min-date="{{currDate | date:'yyyy-MM-dd'}}"
 			show-weeks="true" class="" />
 	</div>
 	<div><button type="button" class=""
@@ -16,7 +16,7 @@
     </tr>
     <tr ng-repeat="ph in publicHolidays">
         <td>{{ph.occasion}}</td><td>{{ph.date}}</td>        
-        <td><button type="submit" ng-click="deleteHoliday(ph.rowId)">Delete</td>
+        <td><button type="submit" ng-click="deleteHoliday(ph)">Delete</td>
     </tr>
 </table>
 	</pre>

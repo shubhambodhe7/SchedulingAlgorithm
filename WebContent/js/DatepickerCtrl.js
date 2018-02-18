@@ -1,42 +1,69 @@
 app
 		.controller(
 				'DatepickerCtrl',
-				function($scope, $http) {
+				function($scope, $http) {			
+			
+			$scope.currDate = new Date();
 					
-					
-					
-			$scope.holiday = { dt : new Date(),
-					occasion : "" };
+			$scope.holiday = { dt : null,
+							occasion : "" };
 	
-					$scope.clear = function() {
-						$scope.dt = null;
+		
+		function resetHoliday() {
+						$scope.holiday = { dt : null,
+								occasion : "" };
 					};
 
-					$scope.deleteHoliday = function(rowId) {
-						$http
-						.get('project/deletePublicHoliday/' + rowId)
-						.then(
-								function(response) {
-									console.log(response.data);
-									if (response.data > 0) {
-										bootbox
-												.alert("Public holiday deleted successful");
-												getAllPublicHoliday();
-									} else {
-										bootbox
-												.alert("Public holiday deletion failed");
+					$scope.deleteHoliday = function(del) {
+						bootbox
+								.confirm({
+									title : "Are you sure you want to delete this day from public holidays?",
+									message : "Day: " + del.date + "  Occasion: " + del.occasion,
+									buttons : {
+										cancel : {
+											label: 'No',
+								            className: 'btn-danger'
+										},
+										confirm : {
+											label: 'Yes',
+								            className: 'btn-success'
+										}
+									},
+									callback : function(result) {
+										console
+												.log('This was logged in the callback: '
+														+ result);
+										if (result){
+											$http
+										.get('project/deletePublicHoliday/' + del.rowId)
+										.then(
+												function(response) {
+													console.log(response.data);
+													if (response.data > 0) {
+														bootbox
+																.alert("Public holiday deleted successfully.");
+																getAllPublicHoliday();
+																
+																
+													} else {
+														bootbox
+																.alert("Public holiday deletion failed!");
+													}
+													
+												},
+												function error(response) {
+													console.log(response);
+
+													bootbox
+															.alert("Error in deleting holiday!");
+
+												});
+									};
 									}
-									
-									
-								
-								},
-								function error(response) {
-									console.log(response);
-
-									bootbox
-											.alert("Error in deleting holiday!");
-
 								});
+								
+
+						
 					};
 
 					$scope.addPublicHoliday = function(holiday) {
@@ -63,6 +90,7 @@ app
 												bootbox
 														.alert("Public holiday added successfully");
 														getAllPublicHoliday();
+														resetHoliday();
 											} else {
 												bootbox
 														.alert("Public holiday addition failed");
@@ -80,7 +108,7 @@ app
 					};
 					getAllPublicHoliday();
 					function getAllPublicHoliday() {
-
+						
 						$http
 								.get('project/getPublicHoliday')
 								.then(
