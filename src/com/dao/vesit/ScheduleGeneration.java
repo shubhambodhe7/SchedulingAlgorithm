@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,48 +14,48 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Random;
 
 import org.joda.time.DateTime;
 
 import com.dto.vesit.Event;
-import com.dto.vesit.Game;
 import com.dto.vesit.MainEvent;
 import com.dto.vesit.Player;
 import com.dto.vesit.PublicHoliday;
 import com.dto.vesit.Team;
 
 public class ScheduleGeneration {
-	// change public holiday
-	public static final int NO_OF_ITERATION = 1;
+
+	public static final int NO_OF_ITERATION = 5;
 	static int seed = 0;
-	static int slot = 0;
-	static Timestamp startTime = new Timestamp(
-			new DateTime().toDateMidnight().toDateTime().plusDays(1).plusHours(15).getMillis());
+	static int slot = 1;
+	static Timestamp startTime = new Timestamp(new DateTime().toDateMidnight().toDateTime().plusDays(1).getMillis());
 	static String round = "registered";
 	static List<PublicHoliday> holidays = getPublicHolidays();
+	static long globalCost = Long.MAX_VALUE;
 
 	public static void main(String args[]) {
+		round = "registered";
 		runMain(startTime, round);
 	}
 
-	public static int runMain(Timestamp date, String round) {
-		System.out.println("::::::::::::::::::::START:::::::::::::::::::::::");
+	public static int runMain(Timestamp date, String r) {
+		long exeStartTime = System.currentTimeMillis();
 		resetStartTime(date);
-		round = "registered";
+		round = r;
 		System.out.println("converted starttime : " + startTime);
-		clearDB();
+		System.out.println("::::::::::::::::::::START:::::::::::::::::::::::");
+		clearDB(round);
 
 		int loop = 0;
 		while (loop < NO_OF_ITERATION) {
 			++loop;
 			resetTeamScheduleFlag();
-
+			clearMainEventDB();
 			List<Event> events = getAllEvents();
-			System.out.println("::::::::::::::::" + events);
+			// System.out.println("::::::::::::::::" + events);
 
 			System.out.println("loop  : " + loop);
-			long schedule_index = System.currentTimeMillis();
+			long scheduleIndex = System.currentTimeMillis();
 
 			Collections.shuffle(events);
 
@@ -64,8 +63,13 @@ public class ScheduleGeneration {
 
 			while (i.hasNext()) {
 				Event e = i.next();
+				if (!e.getEventName().equalsIgnoreCase("Carrom")) {
+					// continue;
+				}
 				resetStartTime(date);
-				resetTeamScheduleFlag();
+				// resetTeamScheduleFlag();
+				slot = 1;
+				Collections.shuffle(e.getTeams());
 
 				System.out.println("Event Name : " + e.getEventName());
 				int numConflicts = 0;
@@ -81,6 +85,7 @@ public class ScheduleGeneration {
 						}
 
 						if (numConflicts > (remainingTeams(e, round) - e.getTeamsInOneMatch())) {
+							System.out.println("---------numConflicts--------------");
 							getSchedule(e, true);
 						}
 						boolean conflict = false;
@@ -89,20 +94,20 @@ public class ScheduleGeneration {
 						if (selectedTeams.contains(t)) {
 							continue;
 						}
-						System.out.println("Team Name : " + t.getTeamName());
+						// System.out.println("Team Name : " + t.getTeamName());
 						Iterator<Player> playItr = t.getPlayers().iterator();
 
 						// while (playItr.hasNext()) {
 						while (playItr.hasNext() && !t.isScheduled()) {
 
 							Player p = playItr.next();
-							System.out.print(p.getPlayerName() + " : ");
+							// System.out.print(p.getPlayerName() + " : ");
 
-							Random rand = new Random();
+							// Random rand = new Random();
 							conflict = checkConflict(p, getSchedule(e, false),
 									new Timestamp(getSchedule(e, false).getTime() + 1000 * 60 * 60));
 
-							int n = rand.nextInt(5) + 1;
+							// int n = rand.nextInt(5) + 1;
 							if (conflict) {
 								numConflicts++;
 								System.out.println("conflict : " + numConflicts);
@@ -127,22 +132,32 @@ public class ScheduleGeneration {
 							System.out.println(selectedTeams);
 
 							saveGames(selectedTeams, e.getEventId(), getSchedule(e, false),
-									new Timestamp(getSchedule(e, false).getTime() + 1000 * 60 * 60), schedule_index);
+									new Timestamp(getSchedule(e, false).getTime() + 1000 * 60 * 60), scheduleIndex,
+									round);
 
 							for (Team team : selectedTeams) {
 								team.setScheduled(true);
 
 							}
 							selectedTeams.clear();
+							System.out.println("-------outside---------");
+							if (checkIfEligibleForPruning(scheduleIndex)) {
+								deleteScheduleData(scheduleIndex);
+								break;
+							}
 							getSchedule(e, true);
 
 						}
-
+						if (checkIfEligibleForPruning(scheduleIndex)) {
+							break;
+						}
 					}
 					if (remainingTeams(e, round) < e.getTeamsInOneMatch()) {
 						break;
 					}
-
+					if (checkIfEligibleForPruning(scheduleIndex)) {
+						break;
+					}
 					// System.out.println(e.getSportName());
 
 					// System.out.println(games);
@@ -151,17 +166,22 @@ public class ScheduleGeneration {
 				// e.setGames(games);
 			}
 
-			/*
-			 * for (Event e : events) {
-			 * 
-			 * System.out.println(e.getEventName());
-			 * System.out.println("--------"); }
-			 */
+			if (updateGlobalCost(scheduleIndex)) {
+				deleteScheduleData(scheduleIndex);
+			}
+			if (checkIfEligibleForPruning(scheduleIndex)) {
+				continue;
+			}
+
 		}
 
-		// getScheduleCost();
+		long exeEndTime = System.currentTimeMillis();
+		long elapsedTime = exeEndTime - exeStartTime;
+		long seconds = (elapsedTime / 1000) % 60;
+		long minutes = (elapsedTime / 1000) / 60;
+		System.out.println("ExecutionTime : " + minutes + "min :" + seconds + "sec");
 		System.out.println("::::::::::::::::::::END:::::::::::::::::::::::");
-		return scheduleTableSize();
+		return scheduleTableSize(round);
 
 	}
 
@@ -171,13 +191,15 @@ public class ScheduleGeneration {
 
 	}
 
-	static int scheduleTableSize() {
+	// check -- del sc
+	static int scheduleTableSize(String round) {
 		Connection c = null;
 		PreparedStatement stmt = null;
 		int scheduleTableSize = 0;
 		try {
 			c = getConnection();
-			stmt = c.prepareStatement("SELECT count(1) from schedule ");
+			stmt = c.prepareStatement("SELECT count(1) from schedule where round = ?");
+			stmt.setString(1, round);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				scheduleTableSize = rs.getInt(1);
@@ -225,8 +247,7 @@ public class ScheduleGeneration {
 	}
 
 	private static void resetTeamScheduleFlag() {
-		// TODO Auto-generated method stub
-		System.out.println("MainDB | resetTeamScheduleFlag starts");
+		// System.out.println("MainDB | resetTeamScheduleFlag starts");
 		Connection c = null;
 		PreparedStatement stmt = null;
 		// List<Team> teamList = new ArrayList<>();
@@ -244,7 +265,7 @@ public class ScheduleGeneration {
 
 		}
 
-		System.out.println("MainDB | resetTeamScheduleFlag ends");
+		// System.out.println("MainDB | resetTeamScheduleFlag ends");
 
 	}
 
@@ -287,13 +308,19 @@ public class ScheduleGeneration {
 		return c;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static Timestamp getSchedule(Event e, boolean update) {
 
 		// System.out.println("MainDB | getSchedule starts");
 		e.setCurrentTime(startTime);
 		if (update) {
-			if (0 == getMainEventParallelMatches(e, slot, startTime,
-					new Timestamp(startTime.getTime() + 1000 * 60 * 60))) {
+			int getMainEventParallelMatches = getMainEventParallelMatches(e.getMainEventId(), slot, startTime,
+					new Timestamp(startTime.getTime() + 1000 * 60 * 60));
+			if (0 < getMainEventParallelMatches)
+				getMainEventParallelMatchesUpdate(e.getMainEventId(), slot, startTime,
+						new Timestamp(startTime.getTime() + 1000 * 60 * 60));
+			if (0 == getMainEventParallelMatches) {
+
 				if (17 == startTime.getHours()) {// evening 6pm advance to next
 													// day
 
@@ -311,7 +338,7 @@ public class ScheduleGeneration {
 					slot++;
 				}
 				// resetMainEventParallelMatches(e.getMainEventId());
-				e.setCounter(e.getCounter() + 1);
+				// e.setCounter(e.getCounter() + 1);
 			}
 		}
 		// System.out.println("MainDB | getSchedule ends");
@@ -343,7 +370,7 @@ public class ScheduleGeneration {
 
 	public static List<Event> getAllEvents() {
 
-		System.out.println("MainDB | getAllEvents start");
+		// System.out.println("MainDB | getAllEvents start");
 		Connection c = null;
 		Statement stmt = null;
 		List<Event> sportList = new ArrayList<>();
@@ -372,7 +399,7 @@ public class ScheduleGeneration {
 
 		}
 
-		System.out.println("MainDB | getAllEvents ends");
+		// System.out.println("MainDB | getAllEvents ends");
 		return sportList;
 	}
 
@@ -441,7 +468,8 @@ public class ScheduleGeneration {
 		return playerList;
 	}
 
-	private static void saveGames(List<Team> teams, int eventId, Timestamp st, Timestamp et, long schedule_index) {
+	private static void saveGames(List<Team> teams, int eventId, Timestamp st, Timestamp et, long scheduleIndex,
+			String round) {
 		System.out.println("MainDB | saveGames start");
 		// schdeule true
 		// game save
@@ -451,10 +479,11 @@ public class ScheduleGeneration {
 		int gameId = 0;
 		try {
 			c = getConnection();
-			stmt = c.prepareStatement("INSERT INTO game( start_ts, end_ts, event_id) VALUES (?, ?, ?)");
+			stmt = c.prepareStatement("INSERT INTO game( start_ts, end_ts, event_id,schedule_id) VALUES (?, ?, ?,?)");
 			stmt.setTimestamp(1, st);
 			stmt.setTimestamp(2, et);
 			stmt.setInt(3, eventId);
+			stmt.setLong(4, scheduleIndex);
 
 			stmt.executeUpdate();
 
@@ -475,7 +504,7 @@ public class ScheduleGeneration {
 						"INSERT INTO gameteammapping(game_id, team_id,schedule_id)   VALUES (?,?, ?)");
 				stmt.setLong(1, gameId);
 				stmt.setInt(2, t.getTeamId());
-				stmt.setLong(3, schedule_index);
+				stmt.setLong(3, scheduleIndex);
 				stmt.executeUpdate();
 				///
 
@@ -486,10 +515,11 @@ public class ScheduleGeneration {
 
 			}
 
-			stmt = c.prepareStatement("INSERT INTO schedule(schedule_id, game_id,seed)   VALUES (?, ?,?)");
-			stmt.setLong(1, schedule_index);
+			stmt = c.prepareStatement("INSERT INTO schedule(schedule_id, game_id,seed,round)   VALUES (?, ?,?,?)");
+			stmt.setLong(1, scheduleIndex);
 			stmt.setInt(2, gameId);
 			stmt.setInt(3, seed);
+			stmt.setString(4, round);
 
 			stmt.executeUpdate();
 
@@ -542,39 +572,33 @@ public class ScheduleGeneration {
 
 	}
 
-	public static void getScheduleCost() {
-		System.out.println("MainDB | geScheduleCost start");
+	public static boolean updateGlobalCost(long scheduleIndex) {
+		// System.out.println("MainDB | geScheduleCost start");
 
 		Connection c = null;
 		PreparedStatement stmt = null;
-		// List<Player> playerList = new ArrayList<>();
-		long minSchCost = Long.MAX_VALUE;
-		long minSchId = 0;
+		boolean updateFlag = false;
 		try {
 			c = getConnection();
 
 			stmt = c.prepareStatement(
-					"SELECT distinct e.schedule_id, MAX(g.end_ts) - MIN(g.start_ts)   FROM schedule e, game g   group by e.schedule_id;");
-
+					"SELECT MAX(g.end_ts) , MIN(g.start_ts)   FROM  game g  where g.schedule_id = ?");
+			stmt.setLong(1, scheduleIndex);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				System.out.println(rs.getTime(2));
-				if (rs.getTimestamp(2).getTime() < minSchCost) {
-					minSchId = rs.getLong(1);
-					minSchCost = rs.getTimestamp(2).getTime();
+				Timestamp endTS = rs.getTimestamp(1);
+				Timestamp startTS = rs.getTimestamp(2);
+				if (null != startTS && null != endTS) {
+					long timeTaken = endTS.getTime() - startTS.getTime();
+					if (timeTaken < globalCost) {
+						globalCost = timeTaken;
+						updateFlag = true;
+						System.out.println("update flag" + updateFlag);
+
+					}
 
 				}
-
 			}
-
-			stmt = c.prepareStatement("delete  FROM schedule e where e.schedule_id != ? ");
-			stmt.setLong(1, minSchId);
-			stmt.executeUpdate();
-
-			stmt = c.prepareStatement(
-					" delete from game g where g.game_id  NOT IN  (select e.game_id FROM schedule e where e.schedule_id = ?)");
-			stmt.setLong(1, minSchId);
-			stmt.executeUpdate();
 
 			rs.close();
 			stmt.close();
@@ -583,12 +607,78 @@ public class ScheduleGeneration {
 			e.printStackTrace();
 
 		}
-		System.out.println("Min Sch id and cost" + minSchCost + " : " + minSchId);
-
-		System.out.println("MainDB | geScheduleCost ends");
+		return updateFlag;
+		// System.out.println("MainDB | geScheduleCost ends");
 	}
 
-	public static void clearDB() {
+	public static boolean checkIfEligibleForPruning(long scheduleIndex) {
+		// System.out.println("MainDB | geScheduleCost start");
+
+		Connection c = null;
+		PreparedStatement stmt = null;
+		boolean pruneFlag = false;
+		try {
+			c = getConnection();
+
+			stmt = c.prepareStatement(
+					"SELECT MAX(g.end_ts) , MIN(g.start_ts)   FROM  game g  where g.schedule_id = ?");
+			stmt.setLong(1, scheduleIndex);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Timestamp endTS = rs.getTimestamp(1);
+				Timestamp startTS = rs.getTimestamp(2);
+				if (null != startTS && null != endTS) {
+
+					long timeTaken = endTS.getTime() - startTS.getTime();
+					if (timeTaken >= globalCost) {
+						pruneFlag = true;
+						System.out.println("pruning.....");
+					}
+				}
+			}
+
+			rs.close();
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return pruneFlag;
+		// System.out.println("MainDB | geScheduleCost ends");
+	}
+
+	public static void deleteScheduleData(long scheduleIndex) {
+		// System.out.println("MainDB | geScheduleCost start");
+
+		Connection c = null;
+		PreparedStatement stmt = null;
+		try {
+			c = getConnection();
+
+			stmt = c.prepareStatement("delete FROM schedule where schedule_id = ?");
+			stmt.setLong(1, scheduleIndex);
+			stmt.executeUpdate();
+
+			stmt = c.prepareStatement("delete  FROM gameteammapping where schedule_id = ?");
+			stmt.setLong(1, scheduleIndex);
+			stmt.executeUpdate();
+
+			stmt = c.prepareStatement(
+					" delete from game  where game_id  IN  (select game_id FROM schedule where schedule_id = ?)");
+			stmt.setLong(1, scheduleIndex);
+			stmt.executeUpdate();
+
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+
+	}
+
+	public static void clearDB(String round) {
 		System.out.println("MainDB | clearDB start");
 
 		Connection c = null;
@@ -596,10 +686,21 @@ public class ScheduleGeneration {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement("delete  FROM schedule ");
+			long scheduleId = 0L;
+			stmt = c.prepareStatement("SELECT schedule_id  FROM schedule where round = ?");
+			stmt.setString(1, round);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				scheduleId = rs.getLong(1);
+				break;
+			}
+
+			stmt = c.prepareStatement("delete  FROM schedule where schedule_id = ?");
+			stmt.setLong(1, scheduleId);
 			stmt.executeUpdate();
 
-			stmt = c.prepareStatement("delete  FROM gameteammapping");
+			stmt = c.prepareStatement("delete  FROM gameteammapping where schedule_id = ?");
+			stmt.setLong(1, scheduleId);
 			stmt.executeUpdate();
 
 			stmt = c.prepareStatement("delete  FROM game ");
@@ -615,8 +716,28 @@ public class ScheduleGeneration {
 		System.out.println("MainDB | clearDB ends");
 	}
 
-	static int getMainEventParallelMatches(Event e, int slot, Timestamp st, Timestamp et) {
-		System.out.println("MainDB | getMainEventParallelMatches start");
+	public static void clearMainEventDB() {
+		System.out.println("MainDB | clearDB start");
+
+		Connection c = null;
+		PreparedStatement stmt = null;
+		try {
+			c = getConnection();
+
+			stmt = c.prepareStatement("delete FROM `mainevent` WHERE start_ts != '0000-00-00 00:00:00'");
+			stmt.executeUpdate();
+
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+
+	}
+
+	static int getMainEventParallelMatches(double mainEventId, int slot, Timestamp st, Timestamp et) {
+		// System.out.println("MainDB | getMainEventParallelMatches start");
 		int parallelMatches = 0;
 		Connection c = null;
 		PreparedStatement stmt = null;
@@ -626,7 +747,7 @@ public class ScheduleGeneration {
 			c = getConnection();
 			stmt = c.prepareStatement(
 					"SELECT count(1) FROM mainevent WHERE main_event_id = ? and slot = ? and start_ts = ? and end_ts= ?");
-			stmt.setDouble(1, e.getMainEventId());
+			stmt.setDouble(1, mainEventId);
 			stmt.setInt(2, slot);
 			stmt.setTimestamp(3, st);
 			stmt.setTimestamp(4, et);
@@ -643,43 +764,36 @@ public class ScheduleGeneration {
 				MainEvent me = null;
 				stmt = c.prepareStatement(
 						"SELECT `main_event_name`, `main_event_parallel_matches` FROM `mainevent` where `main_event_id` = ? ");
-				stmt.setDouble(1, e.getMainEventId());
+				stmt.setDouble(1, mainEventId);
 				rs = stmt.executeQuery();
 				while (rs.next()) {
-					me = new MainEvent(e.getMainEventId(), rs.getString(1), rs.getInt(2));
+					me = new MainEvent(mainEventId, rs.getString(1), rs.getInt(2));
 					break;
 
 				}
 				stmt = c.prepareStatement(
 						"INSERT INTO `mainevent`(`main_event_id`,`main_event_name`, `main_event_parallel_matches`,`temp_counter`,`slot`,`start_ts`,`end_ts`) VALUES (?,?,?,?,?,?,?)");
-				stmt.setDouble(1, e.getMainEventId());
+				stmt.setDouble(1, mainEventId);
 				stmt.setString(2, me.getMainEventName());
 				stmt.setInt(3, me.getMainEventParallelMatches());
 				stmt.setInt(4, me.getMainEventParallelMatches());
 				stmt.setInt(5, slot);
 				stmt.setTimestamp(6, st);
-				stmt.setTimestamp(7, st);
+				stmt.setTimestamp(7, et);
 				stmt.executeUpdate();
 			}
+
 			stmt = c.prepareStatement(
 					"SELECT  temp_counter FROM mainevent WHERE main_event_id = ?  and slot =? and start_ts = ? and end_ts= ?");
-			stmt.setDouble(1, e.getMainEventId());
+			stmt.setDouble(1, mainEventId);
 			stmt.setInt(2, slot);
 			stmt.setTimestamp(3, st);
-			stmt.setTimestamp(4, st);
+			stmt.setTimestamp(4, et);
 			rs = stmt.executeQuery();
 			while (rs.next()) {
 				parallelMatches = rs.getInt(1);
 				break;
 			}
-
-			stmt = c.prepareStatement(
-					"UPDATE mainevent SET temp_counter=temp_counter -1 WHERE main_event_id = ? and slot =?  and start_ts = ? and end_ts= ?");
-			stmt.setDouble(1, e.getMainEventId());
-			stmt.setInt(2, slot);
-			stmt.setTimestamp(3, st);
-			stmt.setTimestamp(4, st);
-			stmt.executeUpdate();
 
 			stmt.close();
 			rs.close();
@@ -689,27 +803,38 @@ public class ScheduleGeneration {
 			ex.printStackTrace();
 
 		}
-		System.out.println("MainDB | getMainEventParallelMatches ends");
+		// System.out.println("MainDB | getMainEventParallelMatches ends");
 		return parallelMatches;
 	}
 
-	/*
-	 * static void resetMainEventParallelMatches(double mainEventId) {
-	 * Connection c = null; PreparedStatement stmt = null;
-	 * 
-	 * try { c = getConnection();
-	 * 
-	 * stmt = c.prepareStatement(
-	 * "UPDATE mainevent SET temp_counter=main_event_parallel_matches WHERE main_event_id = ? and slot =?"
-	 * ); stmt.setDouble(1, mainEventId); stmt.setInt(2, slot);
-	 * stmt.executeUpdate();
-	 * 
-	 * stmt.close(); c.close();
-	 * 
-	 * } catch (Exception e) { e.printStackTrace();
-	 * 
-	 * } }
-	 */
+	static int getMainEventParallelMatchesUpdate(double mainEventId, int slot, Timestamp st, Timestamp et) {
+		// System.out.println("MainDB | getMainEventParallelMatches start");
+		int parallelMatches = 0;
+		Connection c = null;
+		PreparedStatement stmt = null;
+
+		try {
+			c = getConnection();
+
+			stmt = c.prepareStatement(
+					"UPDATE mainevent SET temp_counter=temp_counter -1 WHERE main_event_id = ? and slot =?  and start_ts = ? and end_ts= ?");
+			stmt.setDouble(1, mainEventId);
+			stmt.setInt(2, slot);
+			stmt.setTimestamp(3, st);
+			stmt.setTimestamp(4, et);
+			stmt.executeUpdate();
+
+			stmt.close();
+			c.close();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+
+		}
+		// System.out.println("MainDB | getMainEventParallelMatches ends");
+		return parallelMatches;
+	}
+
 	public static List<PublicHoliday> getPublicHolidays() {
 
 		Connection c = null;
