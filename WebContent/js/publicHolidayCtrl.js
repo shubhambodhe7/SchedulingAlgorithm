@@ -1,6 +1,6 @@
 app
 		.controller(
-				'DatepickerCtrl',
+				'publicHolidayCtrl',
 				function($scope, $http) {			
 			
 			$scope.currDate = new Date();
