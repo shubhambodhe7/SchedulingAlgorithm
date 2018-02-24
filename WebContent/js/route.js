@@ -40,7 +40,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 
 			},
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfUser()) {
+				if (!accessFac.checkIfAdmin()) {
 					$location.path('/login');
 				}
 			}
@@ -105,7 +105,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 
 			},
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfUser()) {
+				if (!accessFac.checkIfAdmin()) {
 					$location.path('/login');
 				}
 			}
@@ -131,7 +131,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 
 			},
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfUser()) {
+				if (!accessFac.checkIfAdmin()) {
 					$location.path('/login');
 				}
 			}
@@ -144,7 +144,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 
 			},
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfUser()) {
+				if (!accessFac.checkIfAdmin()) {
 					$location.path('/login');
 				}
 			}
@@ -157,7 +157,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 
 			},
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfUser()) {
+				if (!accessFac.checkIfAdmin()) {
 					$location.path('/login');
 				}
 			}
@@ -185,7 +185,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 
 			},
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfUser()) {
+				if (!accessFac.checkIfAdmin()) {
 					$location.path('/login');
 				}
 			}
@@ -200,7 +200,7 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 
 			},
 			check : function(accessFac, $location) {
-				if (!accessFac.checkIfUser()) {
+				if (!accessFac.checkIfAdmin()) {
 					$location.path('/login');
 				}
 			}
@@ -263,23 +263,3 @@ app
 					}
 
 				});
-
-app.factory('$localstorage', [ '$window', function($window) {
-	return {
-		set : function(key, value) {
-			$window.localStorage[key] = value;
-		},
-
-		get : function(key, defaultValue) {
-			return $window.localStorage[key] || defaultValue;
-		},
-
-		setObject : function(key, value) {
-			$window.localStorage[key] = JSON.stringify(value);
-		},
-
-		getObject : function(key) {
-			return JSON.parse($window.localStorage[key] || '{}');
-		}
-	}
-} ]);

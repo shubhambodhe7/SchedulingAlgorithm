@@ -12,19 +12,44 @@ app
 					 * "$sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1",
 					 * $sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1);
 					 */
-					$scope.sessionActive = accessFac.checkIfAdmin();
+					$scope.sessionActive = accessFac.checkIfUser();
+					$scope.adminsessionActive = accessFac.checkIfAdmin();
+					logout();
+					function logout() {
+						$http
+								.post('project/logout', $sessionStorage.userId)
+								.then(
+										function(response) {
+											console.log(response.data);
+											$sessionStorage.userId = "";
+											$sessionStorage.userName = "";
+											$sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 = "";
+											// $sessionStorage.clear();
+											$location.path("/login");
+											// $window.localStorage.clear();
+
+										},
+										function error(response) {
+											console.log(response);
+
+											console
+													.log("User logged out failed");
+
+										});
+						console.log("logout");
+
+					}
 					$scope.$watch(function() {
 						return $sessionStorage.userId;
 					}, function(newVal, oldVal) {
 						if (oldVal !== newVal && newVal === undefined) {
 							console.log('It is undefined');
 						}
-						console.log('chnged');
 						console.log($sessionStorage.userId);
 						$scope.sessionActive = accessFac.checkIfUser();
+						$scope.adminsessionActive = accessFac.checkIfAdmin();
 						$scope.userId = $sessionStorage.userId;
-						console.log("$scope.sessionActive",
-								$scope.sessionActive)
+
 					});
 					$scope.$watch(function() {
 						return $sessionStorage.userName;
@@ -137,7 +162,7 @@ app
 											$sessionStorage._f7c2e09ca07304e85f9563435e6ca31534ee2ca1 = "";
 											// $sessionStorage.clear();
 											$location.path("/login");
-											//$window.localStorage.clear();
+											// $window.localStorage.clear();
 
 										},
 										function error(response) {
@@ -148,39 +173,6 @@ app
 
 										});
 						console.log("logout");
-
-					};
-
-					$scope.changePass = function(change) {
-						debugger;
-						console.log(change);
-						change.userId = $sessionStorage.userId;
-						$http
-								.post('project/changePass', change)
-								.then(
-										function(changed) {
-
-											console.log(changed);
-											$scope.checkStatus = false;
-											if (changed.data == 0) {
-												bootbox
-														.alert("Current Password is wrong!");
-
-											}
-
-											else {
-												bootbox
-														.alert("Password Changed Successfully.");
-
-											}
-
-										},
-										function error() {
-											// console.log(response);
-											bootbox
-													.alert("Error occured while changing password!");
-
-										});
 
 					};
 

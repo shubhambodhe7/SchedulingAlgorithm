@@ -198,11 +198,11 @@
 					</a>
 						<ul class="sidenav-second-level collapse" id="collapseEventPages">
 
-							<li><a href="#!register">Add Events</a></li>
+							<li ng-show="adminsessionActive"><a href="#!register">Add Events</a></li>
 							<li><a href="#!displayEvents">View Events</a></li>
 							<li><a href="#!myRegistrations">My Registrations</a></li>
-							<li><a href="#!deleteEvents">Delete Events</a></li>
-							<li><a href="#!assignReferee">Assign Event Heads</a></li>
+							<li ng-show="adminsessionActive"><a href="#!deleteEvents">Delete Events</a></li>
+							<li ng-show="adminsessionActive"><a href="#!assignReferee">Assign Event Heads</a></li>
 
 						</ul></li>
 
@@ -217,13 +217,13 @@
 							id="collapseSchedulePages">
 
 							<li><a href="#!viewSchedule">View Schedule</a></li>
-							<li><a href="#!generateSchedule">Generate Schedule</a></li>
-							<li><a href="#!datePicker">Public Holiday</a></li>
+							<li  ng-show="adminsessionActive"><a href="#!generateSchedule">Generate Schedule</a></li>
+							<li  ng-show="adminsessionActive"><a href="#!datePicker">Public Holiday</a></li>
 						</ul></li>
 
 
 
-					<li class="nav-item" data-toggle="tooltip" data-placement="right"
+					<li  ng-show="adminsessionActive" class="nav-item" data-toggle="tooltip" data-placement="right"
 						title="Advance Teams"><a class="nav-link" href="#!advTeams">
 							<i class="fa fa-fw fa-sitemap"></i> <span class="nav-link-text">Advance
 								Teams</span>

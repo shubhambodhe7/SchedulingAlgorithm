@@ -714,5 +714,37 @@ app
 											$scope.loading = false;
 										});
 					}
+					$scope.changePass = function(change) {
+						debugger;
+						console.log(change);
+						change.userId = $sessionStorage.userId;
+						$http
+								.post('project/changePass', change)
+								.then(
+										function(changed) {
+
+											console.log(changed);
+											$scope.checkStatus = false;
+											if (changed.data == 0) {
+												bootbox
+														.alert("Current Password is wrong!");
+
+											}
+
+											else {
+												bootbox
+														.alert("Password Changed Successfully.");
+
+											}
+
+										},
+										function error() {
+											// console.log(response);
+											bootbox
+													.alert("Error occured while changing password!");
+
+										});
+
+					};
 
 				});
