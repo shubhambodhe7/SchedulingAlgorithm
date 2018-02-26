@@ -1,12 +1,12 @@
 <div ng-controller="eventCtrl">
-<h2 style="text-align:center;margin-bottom:10px;">
+	<h2 style="text-align: center; margin-bottom: 10px;">
 		<p>ADVANCE TEAMS</p>
 	</h2>
-	<form 	style="margin: 5px auto; text-align: center; width: 350px;">
+	<form style="margin: 5px auto; text-align: center; width: 350px;">
 		<div class="form-group">
-
+			<label for="event">Event</label>
 			<multiselect class="input-xlarge multiselect"
-				ng-model="data.allEventId"
+				ng-model="data.allEventId" name="event"
 				options="p.key as p.value for p in allEventList"
 				header="Select Event" selected-header="options selected"
 				multiple="false" required enable-filter="true"
@@ -16,10 +16,11 @@
 		</div>
 
 		<div class="form-group">
+			<label for="team">Team</label>
 			<multiselect class="input-xlarge multiselect" ng-model="data.teams"
 				options="p.key as p.value for p in teamList" header="Select Teams"
 				selected-header="options selected" multiple="true" required
-				complex-models="true" enable-filter="true"
+				complex-models="true" enable-filter="true" name="team"
 				filter-placeholder="Filter Teams..."> </multiselect>
 		</div>
 
@@ -27,35 +28,15 @@
 
 
 		<div class="form-group">
+			<label for="round">Round</label>
 			<multiselect class="input-xlarge multiselect" ng-model="data.round"
-				options="p as p for p in rounds " header="Select Round"
-				multiple="false" required> </multiselect>
+				options="p as p for p in rounds " header="Select Round" enable-filter="true"
+				multiple="false" filter-placeholder="Filter rounds..." required name="round"> </multiselect>
 		</div>
 
-	
-		<button class="btn btn-primary btn-block" ng-click="advanceTeam(data)">Advance
-			teams to next round</button>
 
-		<!-- <div class="form-group">
-			data.eventId
-			<pre ng-bind="data.eventId | json"></pre>
-		</div>
-		<div class="form-group">
-			selected option
-			<pre ng-bind="eventHeads | json"></pre>
-		</div>
-		<div class="form-group">
-			selected option
-			<pre ng-bind="eventList | json"></pre>
-		</div> -->
+		<button class="btn btn-primary btn-block" style="height: 32px;"
+			ng-click="advanceTeam(data)">Advance teams to next round</button>
 
-		<!-- <div class="form-group">
-			selected option
-			<pre ng-bind="payload | json"></pre>
-		</div>
-		<div class="form-group">
-			selected option
-			<pre ng-bind="data.option | json"></pre>
-		</div> -->
 	</form>
 </div>

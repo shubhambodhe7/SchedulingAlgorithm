@@ -2,7 +2,7 @@
 
 
 <div ng-controller="eventCtrl">
-<h2 style="text-align:center;margin-bottom:10px;">
+	<h2 style="text-align: center; margin-bottom: 10px;">
 		<p>DELETE EVENTS</p>
 	</h2>
 
@@ -17,8 +17,9 @@
 				for Girls</p>
 			<p>{{e.details}}</p>
 
-			<button class="btn btn-danger" ng-click="deleteEvent(e.eventId)">Delete
-				Event</button>
+			<button class="btn btn-danger" ng-click="deleteEvent(e.eventId)">
+				<span class="glyphicon glyphicon-trash"></span> &nbsp; Delete
+			</button>
 		</div>
 	</div>
 	</uib-accordion>

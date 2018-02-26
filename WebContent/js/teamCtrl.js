@@ -81,12 +81,12 @@ app
 												$modalInstance
 														.dismiss('cancel');
 												bootbox
-														.alert("Registration failed!");
+														.alert("Team Registration failed!");
 											} else {
 												$modalInstance
 														.dismiss('cancel');
 												bootbox
-														.alert("Registration successful!");
+														.alert("Team Registered successfully.");
 											}
 
 										},
@@ -94,7 +94,7 @@ app
 											console.log(response);
 											$modalInstance.dismiss('cancel');
 											bootbox
-													.alert("Registration failed!");
+													.alert("Error occured while registering team!");
 
 										});
 					}

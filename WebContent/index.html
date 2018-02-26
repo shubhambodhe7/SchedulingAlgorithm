@@ -31,11 +31,12 @@
 <script type='text/javascript' src="externalJs/inc/angular-ui-router.js"></script>
 <script type='text/javascript' src="externalJs/inc/angular-ui-ieshiv.js"></script>
 <script type='text/javascript' src="externalJs/inc/angular-ui.js"></script>
+<script type='text/javascript' src="externalJs/inc/multiselect.js"></script>
 <script src="externalJs/inc/angular-messages.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="externalJs/inc/bootstrap.css">
 
-<script type='text/javascript' src="externalJs/inc/multiselect.js"></script>
+
 
 
 <!-- 
@@ -134,7 +135,45 @@
 <style>
 .modal-content {
 	position: absolute;
-	background : #cce6ff;
+}
+multiselect .btn {
+        width: 100%;
+        border-color: grey;
+    }
+    
+    multiselect > .btn-group > button > .caret {
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid black;
+            right: 5px;
+            top: 45%;
+            position: absolute;
+        }
+
+multiselect .dropdown-menu .filter .glyphicon {
+            cursor: pointer;
+            pointer-events: all;
+        }
+        
+ multiselect .dropdown-menu {
+        max-height: 300px;
+        min-width: 200px;
+        overflow-y: auto;
+    }
+    
+multiselect .dropdown-menu .filter > input {
+            width: 99%;
+        }
+.dropdown-toggle::after {
+display: none;
+}
+        
+.btn {
+font-size: 1.5rem;	
+}
+
+.form-control{
+font-size: 1.5rem;
 }
 </style>
 

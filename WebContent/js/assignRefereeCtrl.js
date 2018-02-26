@@ -27,6 +27,10 @@ app.controller('assignRefereeCtrl', function(assignRefereeData, $scope, $http,
 	}
 	;
 
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	};
+	
 	$scope.assignReferee = function(data) {
 		console.log(data);
 
@@ -37,16 +41,16 @@ app.controller('assignRefereeCtrl', function(assignRefereeData, $scope, $http,
 				function(response) {
 					console.log(response.data);
 					if (response.data > 0) {
-						bootbox.alert("Assignment successful");
+						bootbox.alert("Event head assigned successfully.");
 					} else {
-						bootbox.alert("Assignment failed");
+						bootbox.alert("Event head assignment failed!");
 					}
 					$modalInstance.dismiss('cancel');
 
 				}, function error(response) {
 					console.log(response);
 
-					bootbox.alert("Assignment failed");
+					bootbox.alert("Error occured while assigning eventhead!");
 					$modalInstance.dismiss('cancel');
 				});
 

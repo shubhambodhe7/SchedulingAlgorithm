@@ -125,7 +125,7 @@ app
 											console.log(response.data);
 											if (response.data.userId == null) {
 												bootbox
-														.alert("Incorrect credentails.");
+														.alert("Incorrect Credentials!!");
 											} else {
 												console.log("Hello User");
 												/*

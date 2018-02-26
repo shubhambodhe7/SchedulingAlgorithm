@@ -183,15 +183,21 @@ app
 					;
 
 					$scope.addEvent = function(event) {
-						$http.post('project/addEvent', event).then(
-								function(response) {
-									console.log(response.data);
-									bootbox.alert("Event added successfully.");
-									$location.path('/displayEvents');
-								}, function error(response) {
-									console.log(response);
+						$http
+								.post('project/addEvent', event)
+								.then(
+										function(response) {
+											console.log(response.data);
+											bootbox
+													.alert("Event added successfully.");
+											$location.path('/displayEvents');
+										},
+										function error(response) {
+											console.log(response);
+											bootbox
+													.alert("Error occured while adding event!");
 
-								});
+										});
 
 					};
 					$scope.registerForEvent = function(eventId) {
@@ -210,7 +216,7 @@ app
 												console.log(response.data);
 												if (response.data == -3) {
 													bootbox
-															.alert("You have already registered for this event in other seed");
+															.alert("You have already registered for this event in other seed.");
 												} else if (response.data == -2) {
 													bootbox
 															.alert("Someone from your class has already participated in this seed. Try your luck with other seed!");
@@ -219,7 +225,7 @@ app
 															.alert("You have already registered for this event!");
 												} else {
 													bootbox
-															.alert("Registration successfully");
+															.alert("Registered successfully.");
 
 												}
 											},
@@ -227,7 +233,7 @@ app
 												console.log(response);
 
 												bootbox
-														.alert("Registration failed");
+														.alert("Error occured while registering for Individual event!");
 
 											});
 						} else {
@@ -296,8 +302,11 @@ app
 															.alert("Team from your class has already registered of this event!");
 												}
 
-											}, function error(response) {
+											},
+											function error(response) {
 												console.log(response);
+												bootbox
+														.alert("Error occured while registering for team event!")
 
 											}
 
@@ -333,7 +342,7 @@ app
 							}
 
 						});
-						//check here
+						// check here
 						getAllEvents();
 
 					}
@@ -353,16 +362,18 @@ app
 														.alert("You have already registered as participant for this event hence you cannot become a refree!");
 											} else if (response.data == -1) {
 												bootbox
-														.alert("You have already registered");
+														.alert("You have already applied for this event.");
 											} else {
 												bootbox
-														.alert("Registered successfully");
+														.alert("Applied for Event head successfully.");
 											}
 
-										}, function error(response) {
+										},
+										function error(response) {
 											console.log(response);
 
-											bootbox.alert("registered failed");
+											bootbox
+													.alert("Error occured while applying as event head!");
 
 										});
 
@@ -416,7 +427,7 @@ app
 										},
 										function myError(response) {
 											bootbox
-													.alert("Error occurred while fetching events list!");
+													.alert("Error occurred while fetching pending events for Eventhead assignment!");
 										});
 
 					}
@@ -486,14 +497,14 @@ app
 														.alert("Registration failed!");
 											} else {
 												bootbox
-														.alert("Registration successful!");
+														.alert("Registered successfully.");
 											}
 
 										},
 										function error(response) {
 											console.log(response);
 											bootbox
-													.alert("Registration failed!");
+													.alert("Error occured while registering team!");
 
 										});
 					}
@@ -522,20 +533,22 @@ app
 											console.log(response.data);
 											if (response.data == -1) {
 												bootbox
-														.alert("Operation failed");
+														.alert("Advancing teams to next round failed !");
 
 											} else {
 												bootbox
 														.alert("Teams have been advanced to round "
 																+ data.round
-																+ " successfully");
+																+ " successfully.");
 											}
 											getPendingEvents();
 
-										}, function error(response) {
+										},
+										function error(response) {
 											console.log(response);
 
-											bootbox.alert("Assignment failed");
+											bootbox
+													.alert("Error occured while advancing teams to next round!");
 
 										});
 
@@ -560,7 +573,7 @@ app
 										},
 										function myError(response) {
 											bootbox
-													.alert("Error occurred while fetching events list!");
+													.alert("Error occurred while fetching main events list!");
 										});
 
 					}
@@ -569,7 +582,7 @@ app
 					$scope.deleteEvent = function(eventId) {
 						bootbox
 								.confirm(
-										"Are you sure?",
+										"Are you sure you want to delete this event?",
 										function(result) {
 											if (result) {
 												$http
@@ -584,7 +597,7 @@ app
 
 																	if (response.data == 1) {
 																		bootbox
-																				.alert("Event deleted succesfully!");
+																				.alert("Event deleted succesfully.");
 																	} else {
 																		bootbox
 																				.alert("Event deletion failed!");
@@ -599,7 +612,7 @@ app
 																			.log(response);
 
 																	bootbox
-																			.alert("Event deletion failed!");
+																			.alert("Error occured while deleting event!");
 
 																}
 
@@ -626,7 +639,7 @@ app
 						// bootbox.alert(eventId);
 						bootbox
 								.confirm(
-										"Are you sure?",
+										"Are you sure you want to unregister for this event?",
 										function(result) {
 											if (result) {
 												$http
@@ -643,11 +656,11 @@ app
 
 																	if (response.data >= 0) {
 																		bootbox
-																				.alert("Unregistration successful!");
+																				.alert("Unregistered successfully.");
 
 																	} else {
 																		bootbox
-																				.alert("Unregistration failed");
+																				.alert("Unregistration failed!");
 
 																	}
 																	$route
@@ -659,7 +672,7 @@ app
 																			.log(response);
 
 																	bootbox
-																			.alert("Unregistration failed");
+																			.alert("Error occured while unregistering for event!");
 
 																});
 
@@ -683,7 +696,7 @@ app
 											$scope.currEventWinners = response.data;
 											if (response.data > 0) {
 												bootbox
-														.alert("Schedule generated.");
+														.alert("Schedule generated successfully.");
 												getSchedule();
 
 											} else if (response.data == 0) {
@@ -720,7 +733,7 @@ app
 
 											else {
 												bootbox
-														.alert("Password Changed Successfully.");
+														.alert("Password changed successfully.");
 
 											}
 

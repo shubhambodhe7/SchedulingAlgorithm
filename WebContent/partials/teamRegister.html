@@ -20,23 +20,26 @@
 		</div>
 
 		<div class="form-group">
-			<label for="participants"> Participants</label>
-			<multiselect class="input-xlarge multiselect" ng-model="data.selectedPlayers"
-				name="participants" options="p.key as p.value for p in options"
-				select-limit="{{maxPlayers}}" header="--Select Participants--"
-				selected-header="participants selected" multiple="true"
-				complex-models="true" required enable-filter="true"
-				filter-placeholder="Filter stuff.." required> </multiselect>
-		</div>
-
-		<div class="form-group">
 			<label for="numParticipants">No. of participants required</label> <input
 				type="number" class="form-control" readonly ng-model="maxPlayers"
 				name="numParticipants">
 		</div>
 
-		<table  ng-show="!data.selectedPlayers.length==0" class="table table-hover"
-			style="margin: 10px auto; width: 100%;">
+		<div class="form-group">
+			<label for="participants"> Participants</label>
+			<multiselect class="input-xlarge multiselect"
+				ng-model="data.selectedPlayers" name="participants"
+				 options="p.key as p.value for p in options"
+				select-limit="{{maxPlayers}}" header="--Select Participants--"
+				selected-header="participants selected" multiple="true"
+				complex-models="true" required enable-filter="true" filter-placeholder="Filter participants.."
+				required> </multiselect>
+		</div>
+
+		
+
+		<table ng-show="!data.selectedPlayers.length==0"
+			class="table table-hover" style="margin: 10px auto; width: 100%;">
 			<thead>
 				<tr>
 					<th colspan="2">Selected Participants</th>
@@ -52,9 +55,9 @@
 
 		<div class="form-group">
 			<button class="btn btn-primary btn-block" style="height: 32px;"
-				ng-click="registerTeam(data)">REGISTER TEAM</button>
-			<button class="btn btn-warning btn-block" style="height: 32px;"
-				ng-click="cancel()">Cancel</button>
+				ng-click="registerTeam(data)"><span class="glyphicon glyphicon-check"></span> &nbsp;Register Team</button>
+			<button class="btn btn-warning btn-block" style="height: 32px; color: white;"
+				ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span> &nbsp;Cancel</button>
 		</div>
 
 	</form>

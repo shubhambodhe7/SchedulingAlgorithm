@@ -25,7 +25,9 @@
 
 
 		<button class="btn btn-primary btn-block" style="height: 32px;"
-			ng-click="assignReferee(data)">Assign as Event Head</button>
+			ng-click="assignReferee(data)"><span class="glyphicon glyphicon-check"></span> &nbsp; Assign as Event Head</button>
+			<button class="btn btn-warning btn-block" style="height: 32px; color: white;"
+				ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span> &nbsp; Cancel</button>
 
 		<!-- <div class="form-group">
 			data.eventId

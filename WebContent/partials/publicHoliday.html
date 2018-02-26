@@ -14,13 +14,13 @@
 				min="{{currDate | date:'yyyy-MM-dd'}}" class="form-control" />
 		</div>
 		<div class="form-group">
-			<button type="button" class="btn btn-info"
+			<button class="btn btn-primary btn-block" style="height: 32px;"
 				ng-click="addPublicHoliday(holiday)">Submit</button>
 		</div>
 
 	</div>
 	<hr />
-	<h2 style="text-align:center;text-decoration: underline;">Holiday List</h2>
+	<h2 style="text-align:center;">Holiday List</h2>
 	<table class="table table-hover "
 		style="margin: 10px auto; width: 750px; text-align: center;">
 		<thead>
@@ -34,7 +34,9 @@
 				<td>{{ph.occasion}}</td>
 				<td>{{ph.date}}</td>
 				<td><button type="submit" ng-click="deleteHoliday(ph)"
-						class="btn btn-danger">Delete</td>
+						class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span></button></td>
+    
+			
 			</tr>
 		</tbody>
 	</table>

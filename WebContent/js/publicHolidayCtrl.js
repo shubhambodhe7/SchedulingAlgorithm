@@ -50,7 +50,7 @@ app
 																			.log(response);
 
 																	bootbox
-																			.alert("Error in deleting holiday!");
+																			.alert("Error occured while deleting holiday!");
 
 																});
 											}
@@ -79,12 +79,12 @@ app
 												console.log(response.data);
 												if (response.data > 0) {
 													bootbox
-															.alert("Public holiday added successfully");
+															.alert("Public holiday added successfully.");
 													getAllPublicHoliday();
 													resetHoliday();
 												} else {
 													bootbox
-															.alert("Public holiday addition failed");
+															.alert("Adding public holiday failed!");
 												}
 
 											},
@@ -92,7 +92,7 @@ app
 												console.log(response);
 
 												bootbox
-														.alert("Public holiday addition failed");
+														.alert(" Error occured while adding public holiday!");
 
 											});
 						}
@@ -121,7 +121,7 @@ app
 											console.log(response);
 
 											bootbox
-													.alert("Error in fetching holidays list!");
+													.alert("Error occured while fetching holidays list!");
 
 										});
 					}
