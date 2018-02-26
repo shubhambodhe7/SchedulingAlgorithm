@@ -1,90 +1,61 @@
-<div class="top-content">
+<div style="text-align: center; margin: 30px auto;">
+	<h2 style="text-align: center; margin: 5px auto;">
+		<p>
+			TEAM UP &nbsp;&nbsp;&nbsp;&nbsp; <i class="fa fa-pencil"></i>
+		</p>
 
-	<div class="inner-bg">
-		<div class="container">
-
-			<div class="row">
-
-				<div class="col-sm-5">
-
-					<div class="form-box">
-						<div class="form-top">
-							<div class="form-top-left">
-								<h3>Team Up!</h3>
-							</div>
-							<div class="form-top-right">
-								<i class="fa fa-pencil"></i>
-							</div>
-						</div>
-
-
-						<div class="form-bottom">
-							<form role="form" class="registration-form" name="teamRegForm" style="width: 468px;">
-								
-								<div class="form-group">
-									<label class="sr-only" for="form-first-name"></label> Event
-									Name :<input ng-model="eventName" type="text"
-										name="form-first-name" placeholder="Event name..." readonly
-										class="form-first-name form-control" id="form-first-name">
-								</div>
-								<div class="form-group">
-									<label class="sr-only" for="form-first-name"></label> Team Name
-									:<input ng-model="classroom" type="text"
-										name="form-first-name"  readonly
-										class="form-first-name form-control" id="form-first-name">
-								</div>
-
-								<div class="form-group">
-									<multiselect class="input-xlarge multiselect"
-										ng-model="data.selectedPlayers"
-										options="p.key as p.value for p in options"
-										select-limit="{{maxPlayers}}" header="--Select Participants--"
-										selected-header="participants selected" multiple="true"
-										complex-models="true" required enable-filter="true"
-										filter-placeholder="Filter stuff.." required> </multiselect>
-								</div>
-
-								<div class="form-group">
-									<p>No. of participants required: {{maxPlayers}}</p>
-								</div>
-								<div class="form-group">
-									Selected Participants :
-									<ul>
-										<li ng-repeat="x in data.selectedPlayers">{{x.value}}</li>
-									</ul>
-								</div>
-
-
-								<div class="modal-footer">
-									<button class="btn" ng-click="registerTeam(data)">Register
-										Team!</button>
-									<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-								</div>
-
-
-								<!--
+	</h2>
+	<form class="form"
+		style="margin: 5px auto; text-align: center; width: 350px;">
 		<div class="form-group">
-			selected option
-			<pre ng-bind="team | json"></pre>
+			<label for="eventName"> Event Name </label> <input
+				ng-model="eventName" type="text" name="eventName"
+				placeholder="Event name..." readonly class="form-control"
+				id="eventName">
 		</div>
 		<div class="form-group">
-			selected option
-			<pre ng-bind="payload | json"></pre>
+			<label for="teamName"> Team Name</label> <input ng-model="classroom"
+				type="text" name="teamName" readonly class="form-control"
+				id="teamName">
 		</div>
+
 		<div class="form-group">
-			selected option
-			<pre ng-bind="data.option | json"></pre>
-		</div> -->
-							</form>
-						</div>
-					</div>
-
-				</div>
-
-
-			</div>
-
+			<label for="participants"> Participants</label>
+			<multiselect class="input-xlarge multiselect" ng-model="data.selectedPlayers"
+				name="participants" options="p.key as p.value for p in options"
+				select-limit="{{maxPlayers}}" header="--Select Participants--"
+				selected-header="participants selected" multiple="true"
+				complex-models="true" required enable-filter="true"
+				filter-placeholder="Filter stuff.." required> </multiselect>
 		</div>
-	</div>
 
+		<div class="form-group">
+			<label for="numParticipants">No. of participants required</label> <input
+				type="number" class="form-control" readonly ng-model="maxPlayers"
+				name="numParticipants">
+		</div>
+
+		<table  ng-show="!data.selectedPlayers.length==0" class="table table-hover"
+			style="margin: 10px auto; width: 100%;">
+			<thead>
+				<tr>
+					<th colspan="2">Selected Participants</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="x in data.selectedPlayers">
+					<td>{{$index+1}}</td>
+					<td style="text-align: justify;">{{x.value}}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="form-group">
+			<button class="btn btn-primary btn-block" style="height: 32px;"
+				ng-click="registerTeam(data)">REGISTER TEAM</button>
+			<button class="btn btn-warning btn-block" style="height: 32px;"
+				ng-click="cancel()">Cancel</button>
+		</div>
+
+	</form>
 </div>
