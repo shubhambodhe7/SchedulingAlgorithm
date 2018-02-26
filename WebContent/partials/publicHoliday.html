@@ -1,25 +1,43 @@
 <div ng-controller="publicHolidayCtrl">
-	<h4>HOLIDAYS</h4>
+<h2 style="text-align:center;margin-bottom:10px;">
+		<p>PUBLIC HOLIDAYS</p>
+	</h2>
+	<div style="margin: 5px auto; text-align: center; width: 350px;">
+		<div class="form-group">
+			<label for="Occasion">Occasion </label> <input id="Occasion"
+				name="Occasion" type="text" ng-model="holiday.occasion"
+				class="form-control">
+		</div>
+		<div class="form-group">
+		<label for="Date">Date </label>
+			 <input type="date" name="Date" id="Date" ng-model="holiday.dt"
+				min="{{currDate | date:'yyyy-MM-dd'}}" class="form-control" />
+		</div>
+		<div class="form-group">
+			<button type="button" class="btn btn-info"
+				ng-click="addPublicHoliday(holiday)">Submit</button>
+		</div>
 
-	<div>
-		Occasion: <input type="text" ng-model="holiday.occasion">
-		Select Date: <input type="date" ng-model="holiday.dt" min="{{currDate | date:'yyyy-MM-dd'}}"
-			 class="" />
 	</div>
-	<div><button type="button" class=""
-		ng-click="addPublicHoliday(holiday)">Submit</button></div>
-		
-		
-	<pre><table class="table table-striped table-responsive">
-    <tr>
-        <th>OCCASION</th><th>DAY</th><th></th>
-    </tr>
-    <tr ng-repeat="ph in publicHolidays">
-        <td>{{ph.occasion}}</td><td>{{ph.date}}</td>        
-        <td><button type="submit" ng-click="deleteHoliday(ph)">Delete</td>
-    </tr>
-</table>
-	</pre>
-	
-	
+	<hr />
+	<h2 style="text-align:center;text-decoration: underline;">Holiday List</h2>
+	<table class="table table-hover "
+		style="margin: 10px auto; width: 750px; text-align: center;">
+		<thead>
+			<tr>
+				<th>Occasion</th>
+				<th>Day</th>
+				<th>Delete</th>
+			</tr>
+		<tbody>
+			<tr ng-repeat="ph in publicHolidays">
+				<td>{{ph.occasion}}</td>
+				<td>{{ph.date}}</td>
+				<td><button type="submit" ng-click="deleteHoliday(ph)"
+						class="btn btn-danger">Delete</td>
+			</tr>
+		</tbody>
+	</table>
+
+
 </div>

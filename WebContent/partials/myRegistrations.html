@@ -1,5 +1,7 @@
 <div ng-controller="eventCtrl">
-
+	<h2 style="text-align: center; margin-bottom: 10px;">
+		<p>MY REGISTRATIONS</p>
+	</h2>
 	<uib-accordion>
 	<div ng-repeat="e in myRegistration">
 		<div uib-accordion-group class="panel-info" heading="{{e.eventName}}">
@@ -7,7 +9,8 @@
 			<p>{{e.gender}}</p>
 			<p>{{e.details}}</p>
 
-			<button class="btn btn-danger" ng-click="unregisterForEvent(e.eventId)">Unregister for
+			<button class="btn btn-danger"
+				ng-click="unregisterForEvent(e.eventId)">Unregister for
 				Event</button>
 		</div>
 	</div>

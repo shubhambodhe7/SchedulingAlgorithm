@@ -1,30 +1,31 @@
-<div ng-controller="eventCtrl">
-	<form>
+<div style="text-align: center; margin: 30px auto;">
+	<h2 style="text-align: center; margin: 5px auto;">
+		<p>ASSIGN EVENT HEADS</p>
+	</h2>
+	<form class="form"
+		style="margin: 5px auto; text-align: center; width: 350px;">
 		<div class="form-group">
-
-			<multiselect class="input-xlarge multiselect" ng-model="data.eventId"
-				options="p.key as p.value for p in eventList" header="Select Event"
-				selected-header="options selected" multiple="false" required
-				enable-filter="true" filter-placeholder="Filter events...">
-			</multiselect>
-			<!-- getEligibleEventHeads(data.eventId);
- -->
+			<label for="eventName">Event Name</label> <input type="text"
+				name="eventName" readonly class="form-control"
+				ng-model="assignRefereeModalData.eventName" />
 		</div>
 
+
 		<div class="form-group">
+			<label for="eventHead">Event Head</label>
+
 			<multiselect class="input-xlarge multiselect"
-				ng-model="data.eventHeadId"
+				ng-model="data.eventHeadId" name="eventHead"
 				options="p.key as p.value for p in eventHeads"
-				header="Select Referee" selected-header="options selected"
+				header="Select Event head" selected-header="options selected"
 				multiple="false" required enable-filter="true"
 				filter-placeholder="Filter applicants..."> </multiselect>
 		</div>
 
 
-		
-		<p>{{maxPlayers}}</p>
-		<button class="btn" ng-click="assignReferee(data)">Assign as
-			Referee</button>
+
+		<button class="btn btn-primary btn-block" style="height: 32px;"
+			ng-click="assignReferee(data)">Assign as Event Head</button>
 
 		<!-- <div class="form-group">
 			data.eventId

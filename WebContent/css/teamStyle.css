@@ -34,7 +34,7 @@ multiselect {
     multiselect .dropdown-menu {
         width: 100%;
         box-sizing: border-box;
-        padding: 2px;
+        padding: 12px;
     }
 
     multiselect > .btn-group > button {

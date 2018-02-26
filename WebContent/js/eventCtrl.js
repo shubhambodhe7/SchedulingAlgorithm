@@ -5,18 +5,21 @@ app
 						$log, $route) {
 
 					var userId = 'chayan.agrawal@ves.ac.in';
-					$scope.$watch('data.eventId', function() {
-						$scope.eventHeads = [];
-						getEligibleEventHeads($scope.data.eventId);
 
-					});
+					$scope.nextDate = new Date();
+					$scope.nextDate = $scope.nextDate.setDate($scope.nextDate
+							.getDate() + 1);
+					$scope.user = {
+						userId : $sessionStorage.userId
+					}
 
 					$scope.allRounds = [ 'Final Winner', 'Finalists',
 							'Semi Finalists', 'Quarter Finalists',
 							'Pre quarter finalists ', 'Participated',
 							'Seed Final Winner', 'Seed Finalists',
 							'Seed Semi Finalists', 'Seed Quarter Finalists',
-							'Seed Pre quarter finalists ', 'Seed Participated' ];
+							'Seed Pre quarter finalists ', 'Seed Participated',
+							'Registered' ];
 
 					$scope
 							.$watch(
@@ -105,17 +108,25 @@ app
 
 					function getClassPoints() {
 
-						$http.get(
-								'project/getClassPoints/'
-										+ $sessionStorage.userId).then(
-								function(response) {
-									// debugger;
-									console.log(response.data);
-									$scope.classScore = response.data;
+						$http
+								.get(
+										'project/getClassPoints/'
+												+ $sessionStorage.userId)
+								.then(
+										function(response) {
+											// debugger;
+											console.log(response.data);
+											$scope.classScore = response.data;
+											$scope.classScore.totalPoints = 0;
+											// debugger;
+											for (var i = 0; i < $scope.classScore.length; ++i) {
+												$scope.classScore.totalPoints += parseInt($scope.classScore[i].points);
+											}
 
-								}, function myError(response) {
-									$scope.myWelcome = response.statusText;
-								});
+										},
+										function myError(response) {
+											$scope.myWelcome = response.statusText;
+										});
 					}
 					;
 					function getMyRegistrations() {
@@ -303,6 +314,29 @@ app
 						}
 
 					};
+
+					$scope.openAssignRefereeModal = function(s) {
+						// debugger;
+						console.log(s.eventId, s.eventName, s.gameId);
+						$scope.assignRefereeModalData = {
+							eventId : s.eventId,
+							eventName : s.eventName,
+							gameId : s.gameId
+						};
+						var modalInstance = $modal.open({
+							templateUrl : 'partials/assignReferee.html',
+							controller : 'assignRefereeCtrl',
+							resolve : {
+								assignRefereeData : function() {
+									return $scope.assignRefereeModalData;
+								}
+							}
+
+						});
+						//check here
+						getAllEvents();
+
+					}
 					$scope.applyAsReferee = function(eventId) {
 						console.log(eventId);
 
@@ -388,28 +422,6 @@ app
 					}
 					;
 
-					function getEligibleEventHeads(eventId) {
-						console.log(eventId);
-						$http
-								.get('project/getEligibleEventHeads/' + eventId)
-								.then(
-										function(response) {
-											console.log(response.data);
-											$scope.eventHeads = [];
-											for (var i = 0; i < response.data.length; i++) { //
-												$scope.eventHeads
-														.push({
-															key : response.data[i].userId,
-															value : response.data[i].userName
-														});
-											}
-
-										}, function myError(response) {
-
-										});
-
-					}
-					;
 					function getTeamsForEvent(eventId) {
 						console.log(eventId);
 						$http
@@ -486,31 +498,6 @@ app
 										});
 					}
 
-					$scope.assignReferee = function(data) {
-						console.log(data);
-
-						$http
-								.get(
-										'project/assignRefereeForEvent/'
-												+ data.eventHeadId + '/'
-												+ data.eventId)
-								.then(function(response) {
-									console.log(response.data);
-									if (response.data > 0) {
-										bootbox.alert("Assignment successful");
-									} else {
-										bootbox.alert("Assignment failed");
-									}
-									getPendingEvents();
-
-								}, function error(response) {
-									console.log(response);
-
-									bootbox.alert("Assignment failed");
-
-								});
-
-					};
 					$scope.advanceTeam = function(data) {
 						console.log(data);
 						// $scope.data = data;

@@ -19,7 +19,7 @@ public class EventRowMapper implements RowMapper<Event> {
 		e.setGender(rs.getString("gender"));
 		e.setDetails(rs.getString("details"));
 		e.setMaxPlayers(rs.getInt("max_participate"));
-
+		e.setEventType(rs.getString("event_type"));
 		e.setTeamsInOneMatch(rs.getInt("teams_in_one_match"));
 		e.setEventHead(rs.getString("eventhead"));
 		e.setMainEventId(rs.getDouble("main_event_id"));

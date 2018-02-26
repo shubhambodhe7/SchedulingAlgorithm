@@ -8,6 +8,7 @@ public class Schedule {
 	private int gameId;
 	private int eventId;
 	private String eventName;
+	private String round;
 	private String eventHead;
 	private Timestamp startTimeStamp;
 	private Timestamp endTimeStamp;
@@ -29,6 +30,15 @@ public class Schedule {
 		this.startTimeStamp = startTimeStamp;
 		this.endTimeStamp = endTimeStamp;
 		this.eventHead = eventHead;
+	}
+	
+
+	public String getRound() {
+		return round;
+	}
+
+	public void setRound(String round) {
+		this.round = round;
 	}
 
 	public String getEventName() {

@@ -133,10 +133,10 @@ public class EventController {
 		return es.getTeamsForEvent(eventId);
 	}
 
-	@RequestMapping(value = "/assignRefereeForEvent/{userId:.+}/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody int assignReferee(@PathVariable String userId, @PathVariable String eventId)
-			throws NoSuchAlgorithmException {
-		return es.assignReferee(Integer.parseInt(eventId), userId);
+	@RequestMapping(value = "/assignRefereeForEvent/{userId:.+}/{eventId:.+}/{gameId:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody int assignReferee(@PathVariable String userId, @PathVariable String eventId,
+			@PathVariable String gameId) throws NoSuchAlgorithmException {
+		return es.assignReferee(Integer.parseInt(eventId), userId, Integer.parseInt(gameId));
 	}
 
 	@RequestMapping(value = "/advanceTeam/{round:.+}/{eventId:.+}/{json:.+}", method = RequestMethod.GET, produces = "application/json")

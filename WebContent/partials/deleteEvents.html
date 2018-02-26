@@ -2,14 +2,19 @@
 
 
 <div ng-controller="eventCtrl">
-
+<h2 style="text-align:center;margin-bottom:10px;">
+		<p>DELETE EVENTS</p>
+	</h2>
 
 
 	<uib-accordion>
 	<div ng-repeat="e in eventListForDel">
 		<div uib-accordion-group class="panel-info" heading="{{e.eventName}}">
-			<p>{{e.eventType}}</p>
-			<p>{{e.gender}}</p>
+			<p style="font-weight: bold;">{{e.eventType}} Event</p>
+			<p ng-show="e.gender=='M'" style="color: blue; font-weight: bold;">Event
+				for Boys</p>
+			<p ng-show="e.gender=='F'" style="color: #eb2d53; font-weight: bold;">Event
+				for Girls</p>
 			<p>{{e.details}}</p>
 
 			<button class="btn btn-danger" ng-click="deleteEvent(e.eventId)">Delete

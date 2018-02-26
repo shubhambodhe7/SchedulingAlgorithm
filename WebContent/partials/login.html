@@ -5,18 +5,18 @@
 			<div class="form-bottom">
 				<form>
 					<div class="form-group">
-						<label class="sr-only" for="form-username">Username</label> <input
+						<label for="form-username">Username</label> <input
 							ng-model="user.userId" type="text" name="form-username"
-							placeholder="Username..." class="form-username form-control"
+							placeholder="Username..." class="form-control"
 							id="form-username">
 					</div>
 					<div class="form-group">
-						<label class="sr-only" for="form-password">Password</label> <input
+						<label for="form-password">Password</label> <input
 							ng-model="user.userPassword" type="password" name="form-password"
-							placeholder="Password..." class="form-password form-control"
+							placeholder="Password..." class="form-control"
 							id="form-password">
 					</div>
-
+					
 					<a class="btn btn-primary btn-block" ng-click="login(user)"
 						ng-disabled="myForm.$invalid ">Login</a>
 				</form>

@@ -134,8 +134,8 @@ public class EventService {
 		// return 1;
 	}
 
-	public int assignReferee(int eventId, String userId) {
-		return ed.assignReferee(eventId, userId);
+	public int assignReferee(int eventId, String userId,int gameId) {
+		return ed.assignReferee(eventId, userId,gameId);
 	}
 
 	public int advanceTeam(String round, String eventId, String json) {

@@ -3,28 +3,32 @@
 
 <div ng-controller="eventCtrl">
 
-	<h2>
-		<p>Winners</p>
+	<h2 style="text-align: center; margin-bottom: 10px;">
+		<p>WINNERS</p>
 	</h2>
 	<uib-accordion>
 	<div ng-repeat="e in eventListDisplay">
 		<div uib-accordion-group class="panel-info" heading="{{e.eventName}}"
 			ng-click="getClickedEventWinners(e.eventId)">
 
-			<table>
-				<tr>
-					<td>TeamName</td>
-					<td>Classroom</td>
-					<td>Round</td>
-					<td>Points</td>
-				</tr>
-				<tr ng-repeat="c in currEventWinners">
-					<td>{{c.teamName}}</td>
-					<td>{{c.classroom}}</td>
-					<td ng-show="c.round != null">{{c.round}}</td>
-					<td ng-show="c.round == null">Registered</td>
-					<td>{{c.points}}</td>
-				</tr>
+			<table class="table table-hover "
+				style="margin: 10px auto; width: 100%; text-align: center;">
+				<thead>
+					<tr>
+						<th>TeamName</th>
+						<th>Classroom</th>
+						<th>Round</th>
+						<th>Points</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="c in currEventWinners">
+						<td>{{c.teamName}}</td>
+						<td>{{c.classroom}}</td>
+						<td>{{c.round}}</td>
+						<td>{{c.points}}</td>
+					</tr>
+				</tbody>
 			</table>
 
 

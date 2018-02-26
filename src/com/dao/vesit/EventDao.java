@@ -57,7 +57,7 @@ public class EventDao {
 
 	public List<Schedule> getSchedule() {
 		List<Schedule> list = jdbcTemplate.query(
-				"SELECT distinct  s.schedule_id , gt.game_id ,g.start_ts,g.end_ts  , g.event_head_id,e.event_id, e.event_name FROM schedule s,gameteammapping gt,game g,event e where s.game_id = gt.game_id and gt.game_id = g.game_id and e.event_id = g.event_id ",
+				"SELECT distinct  s.schedule_id, s.round , g.game_id ,g.start_ts,g.end_ts  , g.event_head_id,e.event_id, e.event_name FROM schedule s,game g,event e where s.game_id =  g.game_id and e.event_id = g.event_id order by g.start_ts",
 				new ScheduleRowMapper());
 		// fetch teams and event had name.
 
@@ -374,10 +374,9 @@ public class EventDao {
 
 	}
 
-	public int assignReferee(int eventId, String userId) {
-
-		return jdbcTemplate.update("UPDATE game  SET event_head_id= ? WHERE  event_id = ?",
-				new Object[] { userId, eventId });
+	public int assignReferee(int eventId, String userId, int gameId) {
+		return jdbcTemplate.update("UPDATE game  SET event_head_id= ? WHERE  event_id = ? and game_id = ?",
+				new Object[] { userId, eventId, gameId });
 
 	}
 
@@ -432,7 +431,6 @@ public class EventDao {
 	public int generateSchedule(String date, String round) {
 
 		return ScheduleGeneration.runMain(new Timestamp(new Date(date).getTime()), round);
-		
 
 	}
 }

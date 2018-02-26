@@ -14,7 +14,9 @@ app
 					 */
 					$scope.sessionActive = accessFac.checkIfUser();
 					$scope.adminsessionActive = accessFac.checkIfAdmin();
-					logout();
+					$scope.currDate = new Date();
+
+					// logout();
 					function logout() {
 						$http
 								.post('project/logout', $sessionStorage.userId)

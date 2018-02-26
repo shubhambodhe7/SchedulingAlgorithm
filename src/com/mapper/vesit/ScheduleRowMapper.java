@@ -20,6 +20,7 @@ public class ScheduleRowMapper implements RowMapper<Schedule> {
 		s.setEventHead(rs.getString("event_head_id"));
 		s.setEventId(rs.getInt("event_id"));
 		s.setEventName(rs.getString("event_name"));
+		s.setRound(rs.getString("round"));
 
 		return s;
 	}

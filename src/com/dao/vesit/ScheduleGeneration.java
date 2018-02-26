@@ -25,7 +25,7 @@ import com.dto.vesit.Team;
 
 public class ScheduleGeneration {
 
-	public static final int NO_OF_ITERATION = 5;
+	public static final int NO_OF_ITERATION = 2;
 	static int seed = 0;
 	static int slot = 1;
 	static Timestamp startTime = new Timestamp(new DateTime().toDateMidnight().toDateTime().plusDays(1).getMillis());
@@ -581,8 +581,7 @@ public class ScheduleGeneration {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement(
-					"SELECT MAX(g.end_ts) , MIN(g.start_ts)   FROM  game g  where g.schedule_id = ?");
+			stmt = c.prepareStatement("SELECT MAX(g.end_ts) , MIN(g.start_ts)   FROM  game g  where g.schedule_id = ?");
 			stmt.setLong(1, scheduleIndex);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -620,8 +619,7 @@ public class ScheduleGeneration {
 		try {
 			c = getConnection();
 
-			stmt = c.prepareStatement(
-					"SELECT MAX(g.end_ts) , MIN(g.start_ts)   FROM  game g  where g.schedule_id = ?");
+			stmt = c.prepareStatement("SELECT MAX(g.end_ts) , MIN(g.start_ts)   FROM  game g  where g.schedule_id = ?");
 			stmt.setLong(1, scheduleIndex);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -630,7 +628,7 @@ public class ScheduleGeneration {
 				if (null != startTS && null != endTS) {
 
 					long timeTaken = endTS.getTime() - startTS.getTime();
-					if (timeTaken >= globalCost) {
+					if (timeTaken > globalCost) {
 						pruneFlag = true;
 						System.out.println("pruning.....");
 					}
@@ -657,10 +655,6 @@ public class ScheduleGeneration {
 			c = getConnection();
 
 			stmt = c.prepareStatement("delete FROM schedule where schedule_id = ?");
-			stmt.setLong(1, scheduleIndex);
-			stmt.executeUpdate();
-
-			stmt = c.prepareStatement("delete  FROM gameteammapping where schedule_id = ?");
 			stmt.setLong(1, scheduleIndex);
 			stmt.executeUpdate();
 
@@ -703,7 +697,8 @@ public class ScheduleGeneration {
 			stmt.setLong(1, scheduleId);
 			stmt.executeUpdate();
 
-			stmt = c.prepareStatement("delete  FROM game ");
+			stmt = c.prepareStatement("delete  FROM game  where schedule_id = ?");
+			stmt.setLong(1, scheduleId);
 			stmt.executeUpdate();
 
 			stmt.close();

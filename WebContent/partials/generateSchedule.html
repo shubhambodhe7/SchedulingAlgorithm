@@ -2,25 +2,35 @@
 
 
 <div ng-controller="eventCtrl">
-	<div ng-show="loading"
-		style="width: 100%; height: 100%; z-index: 1000; background: grey;">
+<h2 style="text-align:center;margin-bottom:10px;">
+		<p>GENERATE SCHEDULE</p>
+	</h2>
+	<div ng-show="loading" style="text-align: center; margin: 10px auto;">
 		<div>
-			<p style="width: 100%; height: 100%">Loading..</p>
+			<p>
+				<img ng-src="images/loading.gif" />
+			</p>
 		</div>
 	</div>
 
-	<div ng-show="!loading">
-
-		Select Date: <input type="date" ng-model="genSch.date" />
-
+	<div ng-show="!loading"
+		style="margin: 5px auto; text-align: center; width: 350px;">
 		<div class="form-group">
-			Round:
-			<multiselect class="input-xlarge multiselect" ng-model="genSch.round"
+			<label for="start">Schedule Start Date </label> <input
+				class="form-control" name="start" type="date" ng-model="genSch.date"
+				min="{{nextDate | date:'yyyy-MM-dd'}}" />
+		</div>
+		<div class="form-group">
+			<label for="round">Round</label>
+
+			<multiselect class="multiselect" name="round" ng-model="genSch.round"
 				options="p as p for p in allRounds " header="Select Round"
 				multiple="false" required> </multiselect>
 		</div>
+		<div class="form-group">
 
-
-		<button ng-click="generateSchedule(genSch)">Generate</button>
+			<button ng-click="generateSchedule(genSch)"
+				class="btn btn-primary btn-block">Generate</button>
+		</div>
 	</div>
 </div>

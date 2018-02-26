@@ -586,12 +586,12 @@
     // IE11 doesn't enable the filter box when parent changes is using disabled attribute - so, use ng-disabled in your own HTML!
     angular.module("long2know").run(["$templateCache", function ($templateCache) {
         $templateCache.put("template/multiselect/multiselectPopup.html",
-            "<div class=\"btn-group\" ng-class=\"{ dropup: dropup, single: !multiple }\">" +
-                "<button type=\"button\" class=\"btn btn-default dropdown-toggle\" ng-click=\"toggleSelect()\" ng-disabled=\"disabled\" ng-class=\"{'has-error': !valid()}\">" +
+            "<div class=\"btn-group\" ng-class=\"{ dropup: dropup, single: !multiple }\" >" +
+                "<button style=\"width:350px;height:32px;\" type=\"button\" class=\"btn btn-default dropdown-toggle\" ng-click=\"toggleSelect()\" ng-disabled=\"disabled\" ng-class=\"{'has-error': !valid()}\">" +
                     "<span class=\"pull-left\" ng-bind=\"header\"></span>" +
                     "<span class=\"caret pull-right\"></span>" +
                 "</button>" +
-                "<ul class=\"dropdown-menu multi-select-popup\" ng-show=\"isOpen && !moveInProgress\" ng-style=\"{ true: {top: position.top +'px', left: position.left +'px'}, false: {} }[appendToBody]\" style=\"display: block;\" role=\"listbox\" aria-hidden=\"{{!isOpen}}\">" +
+                "<ul style=\"width:350px;font-size:14px;\" class=\"dropdown-menu multi-select-popup\" ng-show=\"isOpen && !moveInProgress\" ng-style=\"{ true: {top: position.top +'px', left: position.left +'px'}, false: {} }[appendToBody]\" style=\"display: block;\" role=\"listbox\" aria-hidden=\"{{!isOpen}}\">" +
                     "<li ng-if=\"enableFilter\" class=\"filter-container\">" +
                         "<div class=\"form-group has-feedback filter\">" +
                             "<input class=\"form-control\" type=\"text\" ng-model=\"searchText.label\" placeholder=\"{{ filterPlaceholder }}\" />" +
