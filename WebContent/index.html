@@ -136,44 +136,46 @@
 .modal-content {
 	position: absolute;
 }
+
 multiselect .btn {
-        width: 100%;
-        border-color: grey;
-    }
-    
-    multiselect > .btn-group > button > .caret {
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-top: 4px solid black;
-            right: 5px;
-            top: 45%;
-            position: absolute;
-        }
+	width: 100%;
+	border-color: grey;
+}
+
+multiselect>.btn-group>button>.caret {
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 4px solid black;
+	right: 5px;
+	top: 45%;
+	position: absolute;
+}
 
 multiselect .dropdown-menu .filter .glyphicon {
-            cursor: pointer;
-            pointer-events: all;
-        }
-        
- multiselect .dropdown-menu {
-        max-height: 300px;
-        min-width: 200px;
-        overflow-y: auto;
-    }
-    
-multiselect .dropdown-menu .filter > input {
-            width: 99%;
-        }
-.dropdown-toggle::after {
-display: none;
-}
-        
-.btn {
-font-size: 1.5rem;	
+	cursor: pointer;
+	pointer-events: all;
 }
 
-.form-control{
-font-size: 1.5rem;
+multiselect .dropdown-menu {
+	max-height: 300px;
+	min-width: 200px;
+	overflow-y: auto;
+}
+
+multiselect .dropdown-menu .filter>input {
+	width: 99%;
+}
+
+.dropdown-toggle::after {
+	display: none;
+}
+
+.btn {
+	font-size: 1.5rem;
+}
+
+.form-control {
+	font-size: 1.5rem;
 }
 </style>
 
@@ -269,8 +271,13 @@ font-size: 1.5rem;
 							<li><a href="#!changePassword">Change Password</a></li>
 						</ul></li>
 					<li class="nav-item" data-toggle="tooltip" data-placement="right"
+						title="Link"><a class="nav-link" href="#!allClassScore">
+							<i class="fa fa-fw fa-line-chart"></i> <span
+							class="nav-link-text">All Class Score</span>
+					</a></li>
+					<li class="nav-item" data-toggle="tooltip" data-placement="right"
 						title="Link"><a class="nav-link" href="#!classScore"> <i
-							class="fa fa-fw fa-line-chart"></i> <span class="nav-link-text">Class
+							class="fa fa-fw fa-line-chart"></i> <span class="nav-link-text">My Class
 								Score</span>
 					</a></li>
 				</ul>
@@ -297,9 +304,8 @@ font-size: 1.5rem;
 
 	</div>
 	<div class="content-wrapper" style="background: #D0D0D0;">
-		<div class="container-fluid"
-			style="padding-top: 30px;">
-			<div ng-view ></div>
+		<div class="container-fluid" style="padding-top: 30px;">
+			<div ng-view></div>
 		</div>
 		<!-- /.container-fluid-->
 		<!-- /.content-wrapper-->

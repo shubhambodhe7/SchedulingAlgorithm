@@ -2,6 +2,7 @@ package com.services.vesit;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -134,8 +135,8 @@ public class EventService {
 		// return 1;
 	}
 
-	public int assignReferee(int eventId, String userId,int gameId) {
-		return ed.assignReferee(eventId, userId,gameId);
+	public int assignReferee(int eventId, String userId, int gameId) {
+		return ed.assignReferee(eventId, userId, gameId);
 	}
 
 	public int advanceTeam(String round, String eventId, String json) {
@@ -165,9 +166,17 @@ public class EventService {
 		// TODO Auto-generated method stub
 		return ed.deletePublicHoliday(rowId);
 	}
-	public int generateSchedule(String date,String round) {
+
+	public int generateSchedule(String date, String round) {
 		// TODO Auto-generated method stub
-		return ed.generateSchedule(date,round);
+		return ed.generateSchedule(date, round);
+	}
+
+	public List<Map<String, Object>> getAllClassScore() {
+
+		List<Map<String, Object>> list = ed.getAllClassScore();
+		return list;
+
 	}
 
 }

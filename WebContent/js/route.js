@@ -97,6 +97,19 @@ app.config(function($routeProvider, $httpProvider, $locationProvider) {
 				}
 			}
 		}
+	}).when("/allClassScore", {
+		templateUrl : "partials/allClassScore.html",
+		resolve : {
+			sessionActive : function(accessFac) {
+				return accessFac.checkIfUser();
+
+			},
+			check : function(accessFac, $location) {
+				if (!accessFac.checkIfUser()) {
+					$location.path('/login');
+				}
+			}
+		}
 	}).when("/deleteEvents", {
 		templateUrl : "partials/deleteEvents.html",
 		resolve : {

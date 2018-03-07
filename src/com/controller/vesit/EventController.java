@@ -186,5 +186,12 @@ public class EventController {
 
 		return es.generateSchedule(date, round);
 	}
+	
+	@RequestMapping(value = "/getAllClassScore", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<Map<String, Object>> getAllClassScore() {
+
+		return es.getAllClassScore();
+
+	}
 
 }

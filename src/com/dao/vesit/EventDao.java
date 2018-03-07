@@ -433,4 +433,11 @@ public class EventDao {
 		return ScheduleGeneration.runMain(new Timestamp(new Date(date).getTime()), round);
 
 	}
+
+	public List<Map<String, Object>> getAllClassScore() {
+
+		return jdbcTemplate.queryForList(
+				"SELECT  `classroom`, sum(`points`) as points FROM `team` group by `classroom` order by sum(`points`) desc");
+
+	}
 }

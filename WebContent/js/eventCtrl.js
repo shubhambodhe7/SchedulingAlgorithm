@@ -73,6 +73,7 @@ app
 						getEventList();
 						getMainEvents();
 						getClassPoints();
+						getAllClassPoints();
 						getMyRegistrations();
 						getSchedule();
 						// getEligibleEventHeads(1);
@@ -127,6 +128,19 @@ app
 										function myError(response) {
 											$scope.myWelcome = response.statusText;
 										});
+					}
+					;
+					function getAllClassPoints() {
+
+						$http.get('project/getAllClassScore').then(
+								function(response) {
+									debugger;
+									console.log(response.data);
+									$scope.allClassScore = response.data;
+
+								}, function myError(response) {
+									$scope.myWelcome = response.statusText;
+								});
 					}
 					;
 					function getMyRegistrations() {
