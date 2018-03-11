@@ -76,6 +76,7 @@ app
 						getAllClassPoints();
 						getMyRegistrations();
 						getSchedule();
+						getMySchedule();
 						// getEligibleEventHeads(1);
 
 						console.log("view method");
@@ -100,13 +101,34 @@ app
 						$http.get('project/getSchedule').then(
 								function(response) {
 									console.log("getSchedule" + response.data);
+									debugger;
 									$scope.schedule = response.data;
+									if (response.data.length == 0) {
+										$scope.scheduleGenerated = false;
+									} else {
+										$scope.scheduleGenerated = true;
+
+									}
 
 								}, function myError(response) {
 									$scope.myWelcome = response.statusText;
 								});
 					}
 
+					function getMySchedule() {
+
+						$http.get(
+								'project/getMySchedule/'
+										+ $sessionStorage.userId).then(
+								function(response) {
+									console.log("getSchedule" + response.data);
+									debugger;
+									$scope.mySchedule = response.data;
+
+								}, function myError(response) {
+									$scope.myWelcome = response.statusText;
+								});
+					}
 					function getClassPoints() {
 
 						$http
@@ -134,7 +156,7 @@ app
 
 						$http.get('project/getAllClassScore').then(
 								function(response) {
-									debugger;
+									// debugger;
 									console.log(response.data);
 									$scope.allClassScore = response.data;
 
@@ -729,7 +751,7 @@ app
 										});
 					}
 					$scope.changePass = function(change) {
-						debugger;
+						// debugger;
 						console.log(change);
 						change.userId = $sessionStorage.userId;
 						$http

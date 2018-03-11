@@ -25,7 +25,7 @@ import com.dto.vesit.Team;
 
 public class ScheduleGeneration {
 
-	public static final int NO_OF_ITERATION = 2;
+	public static final int NO_OF_ITERATION = 1;
 	static int seed = 0;
 	static int slot = 1;// 3slots 3-4, 4-5 ,5-6
 	// schedule start time
@@ -74,16 +74,26 @@ public class ScheduleGeneration {
 			while (i.hasNext()) {
 				// fetching one event at a time
 				Event e = i.next();
-				// reseting start time
+				/*if (!e.getEventName().contains("Carrom")) {
+					continue;
+				}
+				*/// reseting start time
 				resetStartTime(date);
 				// first slot 3-4pm
 				slot = 1;
+				// imp added
+				getSchedule(e, true);
+
 				// shuffling order of teams
 				Collections.shuffle(e.getTeams());
 
 				System.out.println("Event Name : " + e.getEventName());
 				// to keep a check on no of conflicts
 				int numConflicts = 0;
+				int totalTeams = e.getTeams().size();
+				System.out.println("totalTeams : " + totalTeams);
+				System.out.println("highestPowerof2 : " + highestPowerof2(totalTeams));
+				int noOfByes = totalTeams - highestPowerof2(totalTeams);
 
 				// This loop will continue to run until all the teams have been
 				// considered for scheduling and the remaining teams are greater
@@ -96,6 +106,11 @@ public class ScheduleGeneration {
 					List<Team> selectedTeams = new ArrayList<Team>();
 					// loop will continue till all teams are checked
 					while (itr.hasNext()) {
+						Team t = itr.next();
+						/*
+						 * while (noOfByes-- > 0) { setTeamFlag(t);
+						 * t.setScheduled(true); }
+						 */
 						// if remaining teams are less than the number of teams
 						// required in one game then break
 						if (remainingTeams(e, round) < e.getTeamsInOneMatch()) {
@@ -111,7 +126,7 @@ public class ScheduleGeneration {
 						}
 
 						boolean conflict = false;
-						Team t = itr.next();
+
 						// if the team is already selected for this game then
 						// skip the conflict check part
 						if (selectedTeams.contains(t)) {
@@ -216,9 +231,10 @@ public class ScheduleGeneration {
 	// to advance the clock to 3pm of the selected date
 	public static void resetStartTime(Timestamp date) {
 
-		// startTime = new Timestamp(date.getTime() + 1000 * 60 * 60 * 15);
-		startTime = new Timestamp(date.getTime() + 1000 * 60 * 60 * 16); // for
-																			// test
+		startTime = new Timestamp(date.getTime() + 1000 * 60 * 60 * 15);
+		// startTime = new Timestamp(date.getTime() + 1000 * 60 * 60 * 16); //
+		// for
+		// test
 
 	}
 
@@ -382,6 +398,10 @@ public class ScheduleGeneration {
 					startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60);
 					slot++;
 				}
+				while (0 == getMainEventParallelMatches(e.getMainEventId(), slot, startTime,
+						new Timestamp(startTime.getTime() + 1000 * 60 * 60))) {
+					getSchedule(e, true);
+				}
 
 			}
 		}
@@ -510,6 +530,26 @@ public class ScheduleGeneration {
 
 		// System.out.println("MainDB | getPlayers ends");
 		return playerList;
+	}
+
+	private static void setTeamFlag(Team team) {
+		Connection c = null;
+		PreparedStatement stmt = null;
+		try {
+			c = getConnection();
+
+			// making the schedule flag true
+			stmt = c.prepareStatement("UPDATE team  SET  scheduled = true WHERE team_id =?");
+			stmt.setLong(1, team.getTeamId());
+			stmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+
+		System.out.println("MainDB | saveGames ends");
+
 	}
 
 	private static void saveGames(List<Team> teams, int eventId, Timestamp st, Timestamp et, long scheduleIndex,
@@ -905,5 +945,17 @@ public class ScheduleGeneration {
 
 		// System.out.println("MainDB | getPlayers ends");
 		return list;
+	}
+
+	static int highestPowerof2(int n) {
+		int res = 0;
+		for (int i = n; i >= 1; i--) {
+			// If i is a power of 2
+			if ((i & (i - 1)) == 0) {
+				res = i;
+				break;
+			}
+		}
+		return res;
 	}
 }

@@ -4,13 +4,14 @@ app.controller('assignRefereeCtrl', function(assignRefereeData, $scope, $http,
 	$scope.assignRefereeModalData = assignRefereeData;
 
 	$scope.eventHeads = [];
-	getEligibleEventHeads($scope.assignRefereeModalData.eventId);
+	getEligibleEventHeads($scope.assignRefereeModalData.eventId,
+			$scope.assignRefereeModalData.gameId);
 
-	function getEligibleEventHeads(eventId) {
+	function getEligibleEventHeads(eventId, gameId) {
 		debugger;
 		console.log(eventId);
-		$http.get('project/getEligibleEventHeads/' + eventId).then(
-				function(response) {
+		$http.get('project/getEligibleEventHeads/' + eventId + '/' + gameId)
+				.then(function(response) {
 					console.log(response.data);
 					$scope.eventHeads = [];
 					for (var i = 0; i < response.data.length; i++) { //
@@ -30,7 +31,7 @@ app.controller('assignRefereeCtrl', function(assignRefereeData, $scope, $http,
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
 	};
-	
+
 	$scope.assignReferee = function(data) {
 		console.log(data);
 

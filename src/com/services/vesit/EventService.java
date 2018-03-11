@@ -55,6 +55,9 @@ public class EventService {
 	public List<Schedule> getSchedule() {
 		return ed.getSchedule();
 	}
+	public List<Schedule> getMySchedule(String userId) {
+		return ed.getMySchedule(userId);
+	}
 
 	public List<EventWinner> getClickedEventWinners(String eventId) {
 		return ed.getClickedEventWinners(eventId);
@@ -80,8 +83,8 @@ public class EventService {
 		return ed.getEventDetailsAsPerUser(userId);
 	}
 
-	public List<Login> getEligibleEventHeads(int eventId) {
-		return ed.getEligibleEventHeads(eventId);
+	public List<Login> getEligibleEventHeads(int eventId, int gameId) {
+		return ed.getEligibleEventHeads(eventId,gameId);
 	}
 
 	public List<Team> getTeamsForEvent(int eventId) {

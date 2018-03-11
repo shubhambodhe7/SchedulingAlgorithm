@@ -48,6 +48,11 @@ public class EventController {
 		return es.getSchedule();
 	}
 
+	@RequestMapping(value = "/getMySchedule/{userId:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<Schedule> getMySchedule(@PathVariable String userId) throws NoSuchAlgorithmException {
+		return es.getMySchedule(userId);
+	}
+
 	@RequestMapping(value = "/getWinners/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<EventWinner> getClickedEventWinners(@PathVariable String eventId)
 			throws NoSuchAlgorithmException {
@@ -123,9 +128,9 @@ public class EventController {
 		// return 1;
 	}
 
-	@RequestMapping(value = "/getEligibleEventHeads/{eventId:.+}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody List<Login> getEligibleEventHeads(@PathVariable int eventId) throws NoSuchAlgorithmException {
-		return es.getEligibleEventHeads(eventId);
+	@RequestMapping(value = "/getEligibleEventHeads/{eventId:.+}/{gameId:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<Login> getEligibleEventHeads(@PathVariable int eventId,@PathVariable  int gameId) throws NoSuchAlgorithmException {
+		return es.getEligibleEventHeads(eventId,gameId);
 	}
 
 	@RequestMapping(value = "/getTeamsForEvent", method = RequestMethod.POST, produces = "application/json")
@@ -186,7 +191,7 @@ public class EventController {
 
 		return es.generateSchedule(date, round);
 	}
-	
+
 	@RequestMapping(value = "/getAllClassScore", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Map<String, Object>> getAllClassScore() {
 

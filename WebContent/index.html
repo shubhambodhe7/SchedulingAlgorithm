@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>VESIT Event Management</title>
+<title>SportsBuzz</title>
 
 <!--  -->
 
@@ -194,8 +194,8 @@ multiselect .dropdown-menu .filter>input {
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
 			style="margin-left: -1px;" id="mainNav">
 			<a class="navbar-brand" href="#!/home"
-				style="font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'; font-size: 26px;">VESIT
-				Event Management</a>
+				style="font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'; font-size: 26px;">
+				SportsBuzz</a>
 			<button class="navbar-toggler navbar-toggler-right" type="button"
 				data-toggle="collapse" data-target="#navbarResponsive"
 				aria-controls="navbarResponsive" aria-expanded="false"
@@ -205,13 +205,13 @@ multiselect .dropdown-menu .filter>input {
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 					<li class="nav-item" data-toggle="tooltip" data-placement="right"
-						title="Dashboard"><a class="nav-link" href="#!home"> <i
+						title="Home Page"><a class="nav-link" href="#!home"> <i
 							class="fa fa-fw fa-home"></i> <span class="nav-link-text">Home
 								Page</span>
 					</a></li>
 
 					<li class="nav-item" data-toggle="tooltip" data-placement="right"
-						title="Tables"><a class="nav-link" href="#!winners"> <i
+						title="Winners"><a class="nav-link" href="#!winners"> <i
 							class="fa fa-fw fa-trophy"></i> <span class="nav-link-text">Winners</span>
 					</a></li>
 
@@ -245,6 +245,7 @@ multiselect .dropdown-menu .filter>input {
 							id="collapseSchedulePages">
 
 							<li><a href="#!viewSchedule">View Schedule</a></li>
+							<li><a href="#!viewMySchedule">View My Schedule</a></li>
 							<li ng-show="adminsessionActive"><a
 								href="#!generateSchedule">Generate Schedule</a></li>
 							<li ng-show="adminsessionActive"><a href="#!publicHoliday">Public
@@ -270,16 +271,25 @@ multiselect .dropdown-menu .filter>input {
 							id="collapseExamplePages">
 							<li><a href="#!changePassword">Change Password</a></li>
 						</ul></li>
+
+
+
 					<li class="nav-item" data-toggle="tooltip" data-placement="right"
-						title="Link"><a class="nav-link" href="#!allClassScore">
-							<i class="fa fa-fw fa-line-chart"></i> <span
-							class="nav-link-text">All Class Score</span>
-					</a></li>
-					<li class="nav-item" data-toggle="tooltip" data-placement="right"
-						title="Link"><a class="nav-link" href="#!classScore"> <i
-							class="fa fa-fw fa-line-chart"></i> <span class="nav-link-text">My Class
+						title="Class Score"><a
+						class="nav-link nav-link-collapse collapsed"
+						data-toggle="collapse" href="#collapseClassScore"
+						data-parent="#exampleAccordion"> <i
+							class="fa fa-fw fa-line-chart"></i> <span class="nav-link-text">Class
 								Score</span>
-					</a></li>
+					</a>
+						<ul class="sidenav-second-level collapse" id="collapseClassScore">
+
+							<li><a class="nav-link" href="#!allClassScore"> All
+									Class Score</a></li>
+							<li ng-show="adminsessionActive"><a href="#!classScore">
+									My Class Score </a></li>
+
+						</ul></li>
 				</ul>
 				<ul class="navbar-nav sidenav-toggler"
 					style="position: fixed; bottom: 0px;">
@@ -312,7 +322,7 @@ multiselect .dropdown-menu .filter>input {
 		<footer class="sticky-footer" style="position: fixed; bottom: 0px;">
 			<div class="container">
 				<div class="text-center">
-					<small>Copyright © VESIT Event Management 2018</small>
+					<small>Copyright © SportsBuzz 2018</small>
 				</div>
 			</div>
 		</footer>
@@ -337,7 +347,7 @@ multiselect .dropdown-menu .filter>input {
 		ng-show="!sessionActive">
 		<div class="container">
 			<div class="text-center">
-				<small>Copyright © VESIT Event Management 2018</small>
+				<small>Copyright © SportsBuzz 2018</small>
 			</div>
 		</div>
 	</footer>

@@ -3,13 +3,8 @@
 	<h2 style="text-align: center; margin-bottom: 10px;">
 		<p>SCHEDULE</p>
 	</h2>
-	
-	
-	
-	
-	
 	<uib-accordion>
-	<div ng-repeat="s in schedule">
+	<div ng-repeat="s in mySchedule">
 		<div uib-accordion-group class="panel-info"
 			heading="{{s.round}} | {{s.eventName}} on {{s.startTimeStamp | date : 'dd-MMM-yyyy'}}">
 
@@ -19,9 +14,11 @@
 			<p style="color: red; font-weight: bold;"
 				ng-show=" s.eventHead == null ">
 				Event Head yet to be assigned &nbsp;&nbsp;
-				<button ng-show="adminsessionActive" class="btn btn-warning" style="color: white;"
-					ng-click="openAssignRefereeModal(s)"><span class="glyphicon glyphicon-pencil"></span> &nbsp; Click
-					to Assign</button>
+				<button ng-show="adminsessionActive" class="btn btn-warning"
+					style="color: white;" ng-click="openAssignRefereeModal(s)">
+					<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+					Assign
+				</button>
 			</p>
 			<p style="color: black; font-weight: bold;">{{s.startTimeStamp |
 				date : 'dd-MMM-yyyy hh:mm a'}} - {{s.endTimeStamp | date : 'hh:mm

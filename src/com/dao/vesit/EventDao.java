@@ -82,6 +82,40 @@ public class EventDao {
 		return list;
 	}
 
+	public List<Schedule> getMySchedule(String userId) {
+		List<Integer> gameIds = jdbcTemplate.queryForList(
+				"SELECT distinct gt.game_id FROM gameteammapping gt,team t,player p  where t.team_id = gt.team_id and gt.team_id = t.team_id and t.team_id = p.team_id and p.player_id = ? ORDER BY t.team_name",
+				new Object[] { userId }, Integer.class);
+
+		System.out.println(" gameIds.toString()" + gameIds.toString().replace('[', ' ').replace(']', ' '));
+		String str = gameIds.toString().replace('[', ' ').replace(']', ' ');
+		List<Schedule> list = jdbcTemplate
+				.query("SELECT distinct  s.schedule_id, s.round , g.game_id ,g.start_ts,g.end_ts  , g.event_head_id,e.event_id, e.event_name FROM schedule s,game g,event e where s.game_id =  g.game_id and e.event_id = g.event_id  and g.game_id IN ("
+						+ str + ") order by g.start_ts", new ScheduleRowMapper());
+
+		// fetch teams and event had name.
+
+		for (Schedule s : list) {
+			List<Map<String, Object>> qList = jdbcTemplate.queryForList(
+					"SELECT distinct gt.team_id,t.team_name FROM gameteammapping gt,team t where t.team_id = gt.team_id and gt.game_id = ? ORDER BY t.team_name",
+					new Object[] { s.getGameId() });
+
+			List<Team> teamList = new ArrayList<>();
+			for (Map<String, Object> m : qList) {
+				Team t = new Team((int) m.get("team_id"), (String) m.get("team_name"));
+				teamList.add(t);
+
+			}
+			s.setTeams(teamList);
+			if (null != s.getEventHead()) {
+				LoginDao ld = new LoginDao(jdbcTemplate);
+				s.setEventHead(ld.getUser(s.getEventHead()).get(0).getUserName());
+			}
+		}
+
+		return list;
+	}
+
 	public List<EventWinner> getClickedEventWinners(String eventId) {
 		return jdbcTemplate.query(
 				"select distinct e.event_id, event_name, t.team_name, t.classroom,round,points from event e, team t,logindetails l where t.event_id = e.event_id and l.classroom = t.classroom and e.event_id = ? order by event_name asc, points desc",
@@ -125,10 +159,10 @@ public class EventDao {
 
 	}
 
-	public List<Login> getEligibleEventHeads(int eventId) {
+	public List<Login> getEligibleEventHeads(int eventId, int gameId) {
 		return jdbcTemplate.query(
-				"SELECT l.user_id, username, userpassword, rolename, gender, contact,classroom  FROM logindetails l, event_head eh where l.user_id = eh.user_id and event_id = ? order by l.username desc",
-				new Object[] { eventId }, new LoginRowMapper());
+				"SELECT l.user_id, username, userpassword, rolename, gender, contact,classroom  FROM logindetails l, event_head eh where l.user_id = eh.user_id and event_id = ? and eh.user_id not IN (SELECT distinct p.player_id FROM gameteammapping gt,player p  where gt.team_id = p.team_id and gt.game_id = ? ) order by l.username desc",
+				new Object[] { eventId, gameId }, new LoginRowMapper());
 
 	}
 
