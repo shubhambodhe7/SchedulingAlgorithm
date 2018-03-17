@@ -88,6 +88,12 @@ public class EventController {
 			throws NoSuchAlgorithmException {
 		return es.getEventDetailsAsPerUser(userId);
 	}
+	
+	@RequestMapping(value = "/getEventDetailsAsPerGender/{gender:.+}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody List<Event> getEventDetailsAsPerGender(@PathVariable String gender)
+			throws NoSuchAlgorithmException {
+		return es.getEventDetailsAsPerGender(gender);
+	}
 
 	@RequestMapping(value = "/getPendingEventsForRefreeAssignment", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody List<Event> getPendingEventsForRefreeAssignment() throws NoSuchAlgorithmException {

@@ -159,6 +159,16 @@ public class EventDao {
 
 	}
 
+	public List<Event> getEventDetailsAsPerGender(String gender) {
+		/*
+		 * LoginDao ld = new LoginDao(jdbcTemplate); String gender =
+		 * ld.getUser(userId).get(0).getGender();
+		 */
+		return jdbcTemplate.query("Select * from event where gender = ?", new Object[] { gender },
+				new EventRowMapper());
+
+	}
+
 	public List<Login> getEligibleEventHeads(int eventId, int gameId) {
 		return jdbcTemplate.query(
 				"SELECT l.user_id, username, userpassword, rolename, gender, contact,classroom  FROM logindetails l, event_head eh where l.user_id = eh.user_id and event_id = ? and eh.user_id not IN (SELECT distinct p.player_id FROM gameteammapping gt,player p  where gt.team_id = p.team_id and gt.game_id = ? ) order by l.username desc",

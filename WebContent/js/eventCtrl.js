@@ -96,23 +96,24 @@ app
 									$scope.myWelcome = response.statusText;
 								});
 					}
-					function getSchedule() {
+					$scope.getSchedule = function(eventId) {
 
-						$http.get('project/getSchedule').then(
-								function(response) {
-									console.log("getSchedule" + response.data);
-									debugger;
-									$scope.schedule = response.data;
-									if (response.data.length == 0) {
-										$scope.scheduleGenerated = false;
-									} else {
-										$scope.scheduleGenerated = true;
+						$http.get('project/getSchedule/' + eventId).then(
 
-									}
+						function(response) {
+							console.log("getSchedule" + response.data);
+							debugger;
+							$scope.schedule = response.data;
+							if (response.data.length == 0) {
+								$scope.scheduleGenerated = false;
+							} else {
+								$scope.scheduleGenerated = true;
 
-								}, function myError(response) {
-									$scope.myWelcome = response.statusText;
-								});
+							}
+
+						}, function myError(response) {
+							$scope.myWelcome = response.statusText;
+						});
 					}
 
 					function getMySchedule() {
@@ -733,7 +734,7 @@ app
 											if (response.data > 0) {
 												bootbox
 														.alert("Schedule generated successfully.");
-												getSchedule();
+												// getSchedule();
 
 											} else if (response.data == 0) {
 												bootbox
@@ -782,5 +783,24 @@ app
 										});
 
 					};
+
+					$scope.filterEventsOnGender = function(gender) {
+
+						$http
+								.get(
+										'project/getEventDetailsAsPerGender/'
+												+ gender)
+								.then(
+										function(response) {
+											console.log(response.data);
+											debugger;
+											$scope.filteredEvents = response.data
+													.reverse();
+
+										},
+										function myError(response) {
+											$scope.myWelcome = response.statusText;
+										});
+					}
 
 				});
