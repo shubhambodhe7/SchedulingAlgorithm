@@ -52,9 +52,10 @@ public class EventService {
 		return ed.getAllEvents();
 	}
 
-	public List<Schedule> getSchedule() {
-		return ed.getSchedule();
+	public List<Schedule> getSchedule(int eventId) {
+		return ed.getSchedule(eventId);
 	}
+
 	public List<Schedule> getMySchedule(String userId) {
 		return ed.getMySchedule(userId);
 	}
@@ -82,12 +83,13 @@ public class EventService {
 	public List<Event> getEventDetailsAsPerUser(String userId) {
 		return ed.getEventDetailsAsPerUser(userId);
 	}
+
 	public List<Event> getEventDetailsAsPerGender(String gender) {
 		return ed.getEventDetailsAsPerGender(gender);
 	}
 
 	public List<Login> getEligibleEventHeads(int eventId, int gameId) {
-		return ed.getEligibleEventHeads(eventId,gameId);
+		return ed.getEligibleEventHeads(eventId, gameId);
 	}
 
 	public List<Team> getTeamsForEvent(int eventId) {

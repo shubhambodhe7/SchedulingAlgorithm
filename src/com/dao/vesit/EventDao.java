@@ -55,10 +55,10 @@ public class EventDao {
 
 	}
 
-	public List<Schedule> getSchedule() {
+	public List<Schedule> getSchedule(int eventId) {
 		List<Schedule> list = jdbcTemplate.query(
-				"SELECT distinct  s.schedule_id, s.round , g.game_id ,g.start_ts,g.end_ts  , g.event_head_id,e.event_id, e.event_name FROM schedule s,game g,event e where s.game_id =  g.game_id and e.event_id = g.event_id order by g.start_ts",
-				new ScheduleRowMapper());
+				"SELECT distinct  s.schedule_id, s.round , g.game_id ,g.start_ts,g.end_ts  , g.event_head_id,e.event_id, e.event_name FROM schedule s,game g,event e where s.game_id =  g.game_id and e.event_id = g.event_id  and e.event_id = ? order by g.start_ts",
+				new Object[] { eventId }, new ScheduleRowMapper());
 		// fetch teams and event had name.
 
 		for (Schedule s : list) {
