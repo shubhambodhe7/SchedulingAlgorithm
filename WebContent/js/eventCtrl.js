@@ -75,7 +75,7 @@ app
 						getClassPoints();
 						getAllClassPoints();
 						getMyRegistrations();
-						getSchedule();
+						//getSchedule();
 						getMySchedule();
 						// getEligibleEventHeads(1);
 
@@ -97,7 +97,7 @@ app
 								});
 					}
 					$scope.getSchedule = function(eventId) {
-
+						debugger;
 						$http.get('project/getSchedule/' + eventId).then(
 
 						function(response) {
@@ -785,7 +785,7 @@ app
 					};
 
 					$scope.filterEventsOnGender = function(gender) {
-
+						debugger;
 						$http
 								.get(
 										'project/getEventDetailsAsPerGender/'

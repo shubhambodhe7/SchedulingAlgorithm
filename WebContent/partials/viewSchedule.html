@@ -19,19 +19,14 @@
 
 		<div class="form-group">
 			<label for="event">Event</label> <select name="event"
-				ng-model="selectedEvent"
-				ng-options="item for item in filteredEvents"></select>
+				ng-model="selectedEvent" class="formform-control" style="width: 100%;"
+				ng-options="item.eventName for item in filteredEvents"></select>
 		</div>
 
 		<button class="btn btn-primary btn-block" style="height: 32px;"
-			ng-click="selectedEvent"
+			ng-click="getSchedule(selectedEvent.eventId)"
 			ng-disabled="selectedEvent == '' || selectedEvent == null">View
 			Schedule Event</button>
-
-
-	</form>
-
-
 
 
 	<uib-accordion>
