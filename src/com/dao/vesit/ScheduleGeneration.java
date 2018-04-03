@@ -30,14 +30,14 @@ public class ScheduleGeneration {
 	static int slot = 1;// 3slots 3-4, 4-5 ,5-6
 	// schedule start time
 	static Timestamp startTime = new Timestamp(new DateTime().toDateMidnight().toDateTime().plusDays(1).getMillis());
-	static String round = "registered";
+	static String round = "Registered";
 	static List<PublicHoliday> holidays = getPublicHolidays();
 
 	// minimum cost among all iterations
 	static long globalCost = Long.MAX_VALUE;
 
 	public static void main(String args[]) {
-		round = "registered";
+		round = "Registered";
 		runMain(startTime, round);
 	}
 
@@ -74,10 +74,9 @@ public class ScheduleGeneration {
 			while (i.hasNext()) {
 				// fetching one event at a time
 				Event e = i.next();
-				/*if (!e.getEventName().contains("Carrom")) {
-					continue;
-				}
-				*/// reseting start time
+				/*
+				 * if (!e.getEventName().contains("Carrom")) { continue; }
+				 */// reseting start time
 				resetStartTime(date);
 				// first slot 3-4pm
 				slot = 1;
@@ -92,9 +91,13 @@ public class ScheduleGeneration {
 				int numConflicts = 0;
 				int totalTeams = e.getTeams().size();
 				System.out.println("totalTeams : " + totalTeams);
-				System.out.println("highestPowerof2 : " + highestPowerof2(totalTeams));
-				int noOfByes = totalTeams - highestPowerof2(totalTeams);
-
+				// System.out.println("highestPowerof2 : " +
+				// highestPowerof2(totalTeams));
+				int noOfByes = 0;
+				while (!isPowerOfTwo(noOfByes + (totalTeams - noOfByes) / 2)) {
+					++noOfByes;
+				}
+				System.out.println("noOfByes : " + noOfByes);
 				// This loop will continue to run until all the teams have been
 				// considered for scheduling and the remaining teams are greater
 				// than the number of teams required in one game
@@ -107,6 +110,7 @@ public class ScheduleGeneration {
 					// loop will continue till all teams are checked
 					while (itr.hasNext()) {
 						Team t = itr.next();
+
 						/*
 						 * while (noOfByes-- > 0) { setTeamFlag(t);
 						 * t.setScheduled(true); }
@@ -192,6 +196,7 @@ public class ScheduleGeneration {
 							}
 							// once game is fixed ,fetching the next suitable
 							// time for next game
+
 							getSchedule(e, true);
 
 						} // to break from conflict check loop
@@ -207,7 +212,12 @@ public class ScheduleGeneration {
 						break;
 					}
 				}
-
+				// for final - one event per day
+				if (round.equalsIgnoreCase("Finalists")) {
+					// final condition - only one match per day
+					startTime = new Timestamp(startTime.getTime() + 1000 * 60 * 60 * 24);
+					slot = 1;
+				}
 			}
 			// checking if this schedule is better than the global solution
 			if (!updateGlobalCost(scheduleIndex)) {
@@ -947,15 +957,15 @@ public class ScheduleGeneration {
 		return list;
 	}
 
-	static int highestPowerof2(int n) {
-		int res = 0;
-		for (int i = n; i >= 1; i--) {
-			// If i is a power of 2
-			if ((i & (i - 1)) == 0) {
-				res = i;
-				break;
-			}
+	static boolean isPowerOfTwo(int n) {
+		if (n == 0)
+			return false;
+
+		while (n != 1) {
+			if (n % 2 != 0)
+				return false;
+			n = n / 2;
 		}
-		return res;
+		return true;
 	}
 }

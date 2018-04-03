@@ -1,9 +1,7 @@
-
 <div ng-controller="eventCtrl">
 	<h2 style="text-align: center; margin-bottom: 10px;">
 		<p>SCHEDULE</p>
 	</h2>
-
 	<form class="form"
 		style="margin: 5px auto; text-align: center; width: 350px;">
 		<div class="form-group">
@@ -15,50 +13,364 @@
 				<option value="F" class="formform-control">Girls</option>
 			</select>
 		</div>
-
-
 		<div class="form-group">
 			<label for="event">Event</label> <select name="event"
-				ng-model="selectedEvent" class="formform-control" style="width: 100%;"
+				ng-model="selectedEvent" class="formform-control"
+				style="width: 100%;"
 				ng-options="item.eventName for item in filteredEvents"></select>
 		</div>
-
 		<button class="btn btn-primary btn-block" style="height: 32px;"
 			ng-click="getSchedule(selectedEvent.eventId)"
 			ng-disabled="selectedEvent == '' || selectedEvent == null">View
 			Schedule Event</button>
-
-
-	<uib-accordion>
-	<div ng-repeat="s in schedule">
-		<div uib-accordion-group class="panel-info"
-			heading="{{s.round}} | {{s.eventName}} on {{s.startTimeStamp | date : 'dd-MMM-yyyy'}}">
-
-			<p
-				style="color: green; font-weight: bold; text-transform: uppercase;"
-				ng-show=" s.eventHead != null ">Event Head : {{s.eventHead}}</p>
-			<p style="color: red; font-weight: bold;"
-				ng-show=" s.eventHead == null ">
-				Event Head yet to be assigned &nbsp;&nbsp;
-				<button ng-show="adminsessionActive" class="btn btn-warning"
-					style="color: white;" ng-click="openAssignRefereeModal(s)">
-					<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
-					Assign
-				</button>
-			</p>
-			<p style="color: black; font-weight: bold;">{{s.startTimeStamp |
-				date : 'dd-MMM-yyyy hh:mm a'}} - {{s.endTimeStamp | date : 'hh:mm
-				a'}}</p>
-			<p style="color: red; font-weight: bold;">Teams</p>
-			<table>
-				<tr ng-repeat="t in s.teams">
-					<td
-						style="text-transform: uppercase; font-size: 13px; color: purple;">{{t.teamName}}</td>
+	</form>
+	<hr />
+	<div>
+		<table class="table table-hover "
+			style="text-align: center; margin: 20px auto;">
+			<thead>
+				<tr style="font-weight: bold;">
+					<td>Round</td>
+					<td>Teams</td>
+					<td>Date & Time</td>
+					<td>Event Head</td>
 				</tr>
-			</table>
-
-		</div>
+			</thead>
+			<tbody>
+				<tr ng-repeat="s in schedule" ng-show="s.round == 'Finalists'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule" ng-show="s.round == 'Semi Finalists'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule"
+					ng-show="s.round == 'Quarter Finalists'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule"
+					ng-show="s.round == 'Pre quarter finalists'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule" ng-show="s.round == 'Participated'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule"
+					ng-show="s.round == 'Seed Final Winner'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule" ng-show="s.round == 'Seed Finalists'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule"
+					ng-show="s.round == 'Seed Semi Finalists'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule"
+					ng-show="s.round == 'Seed Quarter Finalists'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule"
+					ng-show="s.round == 'Seed Pre quarter finalists'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule"
+					ng-show="s.round == 'Seed Participated'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule" ng-show="s.round == 'registered'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+				<tr ng-repeat="s in schedule" ng-show="s.round == 'Registered'">
+					<td>{{s.round}}</td>
+					<td><table style="border: 0px; padding: 0px; text-align:center;">
+							<tr style="border: 0px; padding: 0px; text-align:center;">
+								<td style="border: 0px; padding: 0px; text-align:center;" ng-repeat="t in s.teams"><span
+									ng-show="$index == 0">{{t.teamName}} vs </span> <span
+									ng-show="$index != 0">  {{t.teamName}}</span></td>
+							</tr>
+						</table></td>
+					<td>{{s.startTimeStamp | date : 'dd-MMM-yyyy hh:mm a'}} -
+						{{s.endTimeStamp | date : 'hh:mm a'}}</td>
+					<td><p style="color: red; font-weight: bold;"
+							ng-show=" s.eventHead == null ">Event Head yet to be assigned
+						</p>
+						<p
+							style="color: green; font-weight: bold; text-transform: uppercase;"
+							ng-show=" s.eventHead != null ">{{s.eventHead}}</p>
+						<p>
+							<button ng-show="adminsessionActive" class="btn btn-warning"
+								style="color: white;" ng-click="openAssignRefereeModal(s)">
+								<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to
+								Assign
+							</button>
+						</p></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
-	</uib-accordion>
-	<!-- <pre ng-bind="schedule|json"></pre> -->
+	<!-- <pre ng-bind="schedule|json"></pre> 	<uib-accordion>		<div ng-repeat="s in schedule">			<div uib-accordion-group class="panel-info"				heading="{{s.round}} | {{s.eventName}} on {{s.startTimeStamp | date : 'dd-MMM-yyyy'}}">				<p					style="color: green; font-weight: bold; text-transform: uppercase;"					ng-show=" s.eventHead != null ">Event Head : {{s.eventHead}}</p>				<p style="color: red; font-weight: bold;"					ng-show=" s.eventHead == null ">					Event Head yet to be assigned &nbsp;&nbsp;					<button ng-show="adminsessionActive" class="btn btn-warning"						style="color: white;" ng-click="openAssignRefereeModal(s)">						<span class="glyphicon glyphicon-pencil"></span> &nbsp; Click to						Assign					</button>				</p>				<p style="color: black; font-weight: bold;">{{s.startTimeStamp |					date : 'dd-MMM-yyyy hh:mm a'}} - {{s.endTimeStamp | date : 'hh:mm					a'}}</p>				<p style="color: red; font-weight: bold;">Teams</p>				<table>					<tr ng-repeat="t in s.teams">						<td							style="text-transform: uppercase; font-size: 13px; color: purple;">{{t.teamName}}</td>					</tr>				</table>			</div>		</div>		</uib-accordion>		-->
 </div>

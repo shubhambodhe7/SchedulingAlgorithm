@@ -30,6 +30,8 @@ app.controller('assignRefereeCtrl', function(assignRefereeData, $scope, $http,
 
 	$scope.cancel = function() {
 		$modalInstance.dismiss('cancel');
+		//$route.reload();
+
 	};
 
 	$scope.assignReferee = function(data) {
@@ -47,6 +49,7 @@ app.controller('assignRefereeCtrl', function(assignRefereeData, $scope, $http,
 						bootbox.alert("Event head assignment failed!");
 					}
 					$modalInstance.dismiss('cancel');
+					$sessionStorage.reload = true;
 
 				}, function error(response) {
 					console.log(response);

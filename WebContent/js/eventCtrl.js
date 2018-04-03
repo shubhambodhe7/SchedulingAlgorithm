@@ -32,7 +32,7 @@ app
 													'Finalists',
 													'Semi Finalists',
 													'Quarter Finalists',
-													'Pre quarter finalists ',
+													'Pre quarter finalists',
 													'Participated' ];
 										} else {
 											$scope.rounds = [
@@ -41,7 +41,7 @@ app
 													'Seed Finalists',
 													'Seed Semi Finalists',
 													'Seed Quarter Finalists',
-													'Seed Pre quarter finalists ',
+													'Seed Pre quarter finalists',
 													'Seed Participated' ];
 										}
 									});
@@ -75,7 +75,7 @@ app
 						getClassPoints();
 						getAllClassPoints();
 						getMyRegistrations();
-						//getSchedule();
+						// getSchedule();
 						getMySchedule();
 						// getEligibleEventHeads(1);
 
@@ -96,20 +96,16 @@ app
 									$scope.myWelcome = response.statusText;
 								});
 					}
+					
 					$scope.getSchedule = function(eventId) {
-						debugger;
+						//debugger;
 						$http.get('project/getSchedule/' + eventId).then(
 
 						function(response) {
 							console.log("getSchedule" + response.data);
 							debugger;
 							$scope.schedule = response.data;
-							if (response.data.length == 0) {
-								$scope.scheduleGenerated = false;
-							} else {
-								$scope.scheduleGenerated = true;
-
-							}
+							
 
 						}, function myError(response) {
 							$scope.myWelcome = response.statusText;
@@ -123,8 +119,14 @@ app
 										+ $sessionStorage.userId).then(
 								function(response) {
 									console.log("getSchedule" + response.data);
-									debugger;
+									//debugger;
 									$scope.mySchedule = response.data;
+									if (response.data.length == 0) {
+										$scope.scheduleGenerated = false;
+									} else {
+										$scope.scheduleGenerated = true;
+
+									}
 
 								}, function myError(response) {
 									$scope.myWelcome = response.statusText;
@@ -380,7 +382,12 @@ app
 
 						});
 						// check here
-						getAllEvents();
+						if ($sessionStorage.reload) {
+							$scope.getSchedule(s.eventId);
+							//$sessionStorage.reload = false;
+							$route.reload();
+						}
+						//getAllEvents();
 
 					}
 					$scope.applyAsReferee = function(eventId) {

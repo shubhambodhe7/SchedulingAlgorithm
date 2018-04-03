@@ -89,31 +89,34 @@ public class EventDao {
 
 		System.out.println(" gameIds.toString()" + gameIds.toString().replace('[', ' ').replace(']', ' '));
 		String str = gameIds.toString().replace('[', ' ').replace(']', ' ');
-		List<Schedule> list = jdbcTemplate
-				.query("SELECT distinct  s.schedule_id, s.round , g.game_id ,g.start_ts,g.end_ts  , g.event_head_id,e.event_id, e.event_name FROM schedule s,game g,event e where s.game_id =  g.game_id and e.event_id = g.event_id  and g.game_id IN ("
-						+ str + ") order by g.start_ts", new ScheduleRowMapper());
+		if (gameIds.size() != 0) {
+			List<Schedule> list = jdbcTemplate
+					.query("SELECT distinct  s.schedule_id, s.round , g.game_id ,g.start_ts,g.end_ts  , g.event_head_id,e.event_id, e.event_name FROM schedule s,game g,event e where s.game_id =  g.game_id and e.event_id = g.event_id  and g.game_id IN ("
+							+ str + ") order by g.start_ts", new ScheduleRowMapper());
 
-		// fetch teams and event had name.
+			// fetch teams and event had name.
 
-		for (Schedule s : list) {
-			List<Map<String, Object>> qList = jdbcTemplate.queryForList(
-					"SELECT distinct gt.team_id,t.team_name FROM gameteammapping gt,team t where t.team_id = gt.team_id and gt.game_id = ? ORDER BY t.team_name",
-					new Object[] { s.getGameId() });
+			for (Schedule s : list) {
+				List<Map<String, Object>> qList = jdbcTemplate.queryForList(
+						"SELECT distinct gt.team_id,t.team_name FROM gameteammapping gt,team t where t.team_id = gt.team_id and gt.game_id = ? ORDER BY t.team_name",
+						new Object[] { s.getGameId() });
 
-			List<Team> teamList = new ArrayList<>();
-			for (Map<String, Object> m : qList) {
-				Team t = new Team((int) m.get("team_id"), (String) m.get("team_name"));
-				teamList.add(t);
+				List<Team> teamList = new ArrayList<>();
+				for (Map<String, Object> m : qList) {
+					Team t = new Team((int) m.get("team_id"), (String) m.get("team_name"));
+					teamList.add(t);
 
+				}
+				s.setTeams(teamList);
+				if (null != s.getEventHead()) {
+					LoginDao ld = new LoginDao(jdbcTemplate);
+					s.setEventHead(ld.getUser(s.getEventHead()).get(0).getUserName());
+				}
 			}
-			s.setTeams(teamList);
-			if (null != s.getEventHead()) {
-				LoginDao ld = new LoginDao(jdbcTemplate);
-				s.setEventHead(ld.getUser(s.getEventHead()).get(0).getUserName());
-			}
+
+			return list;
 		}
-
-		return list;
+		return null;
 	}
 
 	public List<EventWinner> getClickedEventWinners(String eventId) {
@@ -445,6 +448,18 @@ public class EventDao {
 			points = 2;
 		} else if (round.equalsIgnoreCase("Participated")) {
 			points = 1;
+		} else if (round.equalsIgnoreCase("Seed Final Winner")) {
+			points = 8;
+		} else if (round.equalsIgnoreCase("Seed Finalists")) {
+			points = 6;
+		} else if (round.equalsIgnoreCase("Seed Semi Finalists")) {
+			points = 4;
+		} else if (round.equalsIgnoreCase("Seed Quarter Finalists")) {
+			points = 2;
+		} else if (round.equalsIgnoreCase("Seed Pre quarter finalists")) {
+			points = 1;
+		} else if (round.equalsIgnoreCase("Seed Participated")) {
+			points = 0;
 		}
 		System.out.println("points : " + points);
 		for (Team t : teams) {
