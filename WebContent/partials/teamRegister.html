@@ -54,7 +54,7 @@
 		</table>
 
 		<div class="form-group">
-			<button class="btn btn-primary btn-block" style="height: 32px;"
+			<button class="btn btn-primary btn-block" style="height: 32px;" ng-disabled="data.selectedPlayers.length != maxPlayers"
 				ng-click="registerTeam(data)"><span class="glyphicon glyphicon-check"></span> &nbsp;Register Team</button>
 			<button class="btn btn-warning btn-block" style="height: 32px; color: white;"
 				ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span> &nbsp;Cancel</button>
